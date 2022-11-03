@@ -32,8 +32,14 @@ class _LoungePageState extends State<LoungePage> {
   }
   @override
   Widget build(BuildContext context) {
+    String? temp;
+    if(loggedUser != null){
+      temp = loggedUser?.email;
+    }
     return Scaffold(
-      appBar: null,
+      appBar: AppBar(
+        title: Text(temp!),
+      ),
       body: null,
     );
   }
