@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  final _authentication = FirebaseAuth.instance;
   String userName = '';
   String userEmail = '';
   String userPassword = '';
@@ -62,6 +64,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             onSaved: ((value) {
                               userName = value!;
                             }),
+                            onChanged: (value){
+                              userName = value;
+                            },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               labelText: "User name",
@@ -77,6 +82,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             onSaved: ((value) {
                               userEmail = value!;
                             }),
+                            onChanged: (value){
+                              userEmail = value;
+                            },
                             validator: ((value) {
                               if(value!.isEmpty || !value.contains('@')){
                                 return "Enter a valid email address";
@@ -104,6 +112,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             onSaved: ((value) {
                               userPassword = value!;
                             }),
+                            onChanged: (value){
+                              userPassword = value;
+                            },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               labelText: "Password",
@@ -140,11 +151,25 @@ class _SignUpPageState extends State<SignUpPage> {
                                 fontSize: 14,
                               ),
                             ),
-                            onPressed: (){
+                            onPressed: () async{
                               _tryValidation();
-                              if(_formKey.currentState!.validate()){
-                                //Navigator.of(context).pushNamed("/toHome_page");
-                              };
+
+                              try{
+                                final newUser = await _authentication.createUserWithEmailAndPassword(
+                                    email: userEmail,
+                                    password: userPassword);
+                                if(newUser.user != null){
+                                  Navigator.of(context).pushNamed("/toLoungePage");
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                      Text("Please check your email and password"),
+                                    backgroundColor: Colors.lightBlueAccent,
+                                  )
+                                );
+                              }
                             }
                         )
                       ],
