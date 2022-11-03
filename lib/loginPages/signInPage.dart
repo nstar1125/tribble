@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
+  final _authentication = FirebaseAuth.instance;
   String userEmail = '';
   String userPassword = '';
   void _tryValidation(){
@@ -62,6 +64,9 @@ class _SignInPageState extends State<SignInPage> {
                             onSaved: ((value) {
                               userEmail = value!;
                             }),
+                            onChanged: (value){
+                              userEmail = value;
+                            },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               labelText: "Email address",
@@ -83,6 +88,9 @@ class _SignInPageState extends State<SignInPage> {
                             onSaved: ((value) {
                               userPassword = value!;
                             }),
+                            onChanged: (value){
+                              userPassword = value;
+                            },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               labelText: "Password",
@@ -107,10 +115,28 @@ class _SignInPageState extends State<SignInPage> {
                               fontSize: 14,
                             ),
                           ),
-                          onPressed: (){
+                          onPressed: () async{
                             _tryValidation();
-                            if(_formKey.currentState!.validate()){
-                              //Navigator.of(context).pushNamed("/toHome_page");
+                            try{
+                              final newUser = await _authentication.signInWithEmailAndPassword(
+                                  email: userEmail,
+                                  password: userPassword);
+                              if(newUser.user != null){
+                                Navigator.of(context).pushNamed("/toLoungePage");
+                              }
+                            }catch(e){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                    Text("Please check your email and password",
+                                      style: TextStyle(
+                                        fontFamily: "GmarketSansTTF",
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    backgroundColor: Colors.lightBlueAccent,
+                                  )
+                              );
                             }
                           },
                         )

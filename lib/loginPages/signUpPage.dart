@@ -156,6 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                               try{
                                 final newUser = await _authentication.createUserWithEmailAndPassword(
+
                                     email: userEmail,
                                     password: userPassword);
                                 if(newUser.user != null){
@@ -165,7 +166,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
-                                      Text("Please check your email and password"),
+                                      Text("Please check your email and password",
+                                      style: TextStyle(
+                                        fontFamily: "GmarketSansTTF",
+                                        fontSize: 14,
+                                      ),
+                                      ),
                                     backgroundColor: Colors.lightBlueAccent,
                                   )
                                 );
