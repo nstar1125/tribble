@@ -29,7 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
           iconTheme: IconThemeData(
               color: Colors.black87
           ),
-          title: Text("Sign up",
+          title: Text("회원가입",
             style: TextStyle(
                 color: Colors.black87,
                 fontFamily: "GmarketSansTTF",
@@ -57,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         TextFormField(
                             validator: ((value) {
                               if(value!.isEmpty || value.length<3){
-                                return "Enter at least 3 characters";
+                                return "3글자 이상 입력하세요";
                               }
                               return null;
                             }),
@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              labelText: "User name",
+                              labelText: "닉네임",
                               labelStyle: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 16,
@@ -87,13 +87,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                             validator: ((value) {
                               if(value!.isEmpty || !value.contains('@')){
-                                return "Enter a valid email address";
+                                return "올바른 이메일 형식으로 입력하세요";
                               }
                               return null;
                             }),
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              labelText: "Email address",
+                              labelText: "이메일",
                               labelStyle: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 16,
@@ -105,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             obscureText: true,
                             validator: ((value) {
                               if(value!.isEmpty || value.length<8){
-                                return "Password must be at least 8 characters long";
+                                return "패스워드는 8자 이상 입력해야 합니다";
                               }
                               return null;
                             }),
@@ -117,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              labelText: "Password",
+                              labelText: "패스워드",
                               labelStyle: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 16,
@@ -129,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             obscureText: true,
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              labelText: "Password confirmation",
+                              labelText: "패스워드 확인",
                               labelStyle: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 16,
@@ -145,7 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 backgroundColor: Colors.lightBlueAccent,
                                 minimumSize: const Size.fromHeight(40)
                             ),
-                            child: Text("Sign in",
+                            child: Text("회원가입",
                               style: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 14,
@@ -166,7 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
-                                      Text("Please check your email and password",
+                                      Text("이미 있거나 잘못된 이메일과 패스워드 입니다",
                                       style: TextStyle(
                                         fontFamily: "GmarketSansTTF",
                                         fontSize: 14,

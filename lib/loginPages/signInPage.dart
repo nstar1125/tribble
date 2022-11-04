@@ -28,7 +28,7 @@ class _SignInPageState extends State<SignInPage> {
           iconTheme: IconThemeData(
               color: Colors.black87
           ),
-          title: Text("Sign in",
+          title: Text("로그인",
             style: TextStyle(
                 color: Colors.black87,
                 fontFamily: "GmarketSansTTF",
@@ -57,7 +57,7 @@ class _SignInPageState extends State<SignInPage> {
                             keyboardType: TextInputType.emailAddress,
                             validator: ((value) {
                               if(value!.isEmpty || !value.contains('@')){
-                                return "Enter a valid email address";
+                                return "올바른 이메일 형식으로 입력하세요";
                               }
                               return null;
                             }),
@@ -69,7 +69,7 @@ class _SignInPageState extends State<SignInPage> {
                             },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              labelText: "Email address",
+                              labelText: "이메일",
                               labelStyle: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 16,
@@ -81,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                             obscureText: true,
                             validator: ((value) {
                               if(value!.isEmpty){
-                                return "Type in password";
+                                return "패스워드를 입력하세요";
                               }
                               return null;
                             }),
@@ -93,7 +93,7 @@ class _SignInPageState extends State<SignInPage> {
                             },
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              labelText: "Password",
+                              labelText: "패스워드",
                               labelStyle: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 16,
@@ -109,7 +109,7 @@ class _SignInPageState extends State<SignInPage> {
                               backgroundColor: Colors.lightBlueAccent,
                               minimumSize: const Size.fromHeight(40)
                           ),
-                          child: Text("Sign in",
+                          child: Text("로그인",
                             style: TextStyle(
                               fontFamily: "GmarketSansTTF",
                               fontSize: 14,
@@ -128,7 +128,7 @@ class _SignInPageState extends State<SignInPage> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content:
-                                    Text("Please check your email and password",
+                                    Text("잘못된 이메일이나 패스워드입니다",
                                       style: TextStyle(
                                         fontFamily: "GmarketSansTTF",
                                         fontSize: 14,
