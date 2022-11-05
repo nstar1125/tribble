@@ -8,7 +8,7 @@ class InitialPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text("Tribble",
+          title: const Text("트리블",
             style: TextStyle(
                 color: Colors.black87,
                 fontFamily: "GmarketSansTTF",
@@ -24,16 +24,16 @@ class InitialPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 0, left: 20, right: 20),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
                   child: Image(image: AssetImage("assets/images/lobby_illust.png")),
                 )
                 ,
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child:
                   RichText(
                     text: TextSpan(
-                        text: "Best way to make \n",
+                        text: "지금 트리블과 함께 \n",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -41,11 +41,19 @@ class InitialPage extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                              text: "Local friends",
+                              text: "외국어 회화",
                               style: TextStyle(
                                   color: Colors.black87,
                                   fontFamily: "GmarketSansTTF",
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                              )
+                          ),
+                          TextSpan(
+                              text: "를 연습하세요!",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
                                   fontSize: 20
                               )
                           ),
@@ -72,7 +80,7 @@ class InitialPage extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              const Text("Sign in with Email",
+                              const Text("이메일로 로그인",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: "GmarketSansTTF",
@@ -100,7 +108,7 @@ class InitialPage extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              const Text("Create account",
+                              const Text("회원가입",
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontFamily: "GmarketSansTTF",
