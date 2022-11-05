@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tribble_guide/createEventPages/eventLocationPage.dart';
 import 'package:tribble_guide/loginPages/initialPage.dart';
 import 'package:tribble_guide/loginPages/signInPage.dart';
 import 'package:tribble_guide/loginPages/signUpPage.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           '/toSignInPage':(context) => const SignInPage(),
           '/toSignUpPage':(context) => const SignUpPage(),
           '/toLoungePage':(context) => const LoungePage(),
+          '/toEventLocationPage':(context) => const EventLocationPage(),
         }
 
     );

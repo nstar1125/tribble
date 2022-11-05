@@ -73,6 +73,9 @@ class _LoungePageState extends State<LoungePage> {
         onTap:(int index) {
           setState(() {
             _selectedIndex = index;
+            if (index == 1){
+              Navigator.pushNamed(context, '/toEventLocationPage');
+            }
           });
         },
         items: const[
