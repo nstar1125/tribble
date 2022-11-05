@@ -21,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _formKey.currentState!.save();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
