@@ -91,7 +91,7 @@ class InitialPage extends StatelessWidget {
                           ),
 
                           onPressed: () {
-                            Navigator.of(context).pushNamed("/toSignInPage");
+                            Navigator.of(context).pushNamed("/toSignInPage"); // for test
                           },
 
                         ),

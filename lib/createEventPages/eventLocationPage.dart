@@ -19,12 +19,14 @@ class EventLocationPage extends StatefulWidget {
 class _EventLocationPageState extends State<EventLocationPage> {
 
   // related google map
+  // 현재 위치?
   static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.42796, -122.08574), zoom: 14.0);
-  final Set<Marker> _markers = {};
+  final Set<Marker> _marker = {};
   late GoogleMapController _controller;
 
   // related google place
   final Mode _mode = Mode.overlay;
+  late PlacesDetailsResponse detail;
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +40,33 @@ class _EventLocationPageState extends State<EventLocationPage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        actions: [
+          IconButton(onPressed: _handlePressButton, icon: Icon(Icons.search))
+        ],
 
       ),
       body: Stack(
         children: [
           GoogleMap(
             initialCameraPosition: _initialCameraPosition,
-            markers: _markers,
+            markers: _marker,
             onMapCreated: (GoogleMapController controller) {
               _controller = controller;
             },
           ),
-          ElevatedButton(
-            child: Text("검색"),
-            onPressed: _handlePressButton,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: ElevatedButton(
+                  child: Text("이 장소로 결정!"),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/toEventDetailPage", arguments: detail.result);
+                  },
+                ),
+              ),
+              SizedBox(height: 100,),
+            ],
           )
         ],
       ),
@@ -66,11 +81,11 @@ class _EventLocationPageState extends State<EventLocationPage> {
       apiKey: kGoogleApiKey,
       onError: onError,
       mode: _mode,
-      language: "ko",
+      language: "kr",
       strictbounds: false,
       types: [""],
       decoration: InputDecoration(
-        hintText: 'Search',
+        hintText: '장소를 입력하세요',
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
@@ -84,8 +99,7 @@ class _EventLocationPageState extends State<EventLocationPage> {
     displayPrediction(p!, homeScaffoldKey.currentState);
   }
 
-  void onError(PlacesAutocompleteResponse response) {
-  }
+  void onError(PlacesAutocompleteResponse response) {}
 
   Future<void> displayPrediction(Prediction p, ScaffoldState? currentState) async {
     GoogleMapsPlaces places = GoogleMapsPlaces(
@@ -93,19 +107,17 @@ class _EventLocationPageState extends State<EventLocationPage> {
       apiHeaders: await const GoogleApiHeaders().getHeaders()
     );
 
-    PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
+    detail = await places.getDetailsByPlaceId(p.placeId!);
 
     final lat = detail.result.geometry!.location.lat;
     final lng = detail.result.geometry!.location.lng;
 
-    _markers.clear();
-    _markers.add(Marker(markerId: const MarkerId("0"), position: LatLng(lat, lng), infoWindow: InfoWindow(title: detail.result.name)));
+    _marker.clear();
+    _marker.add(Marker(markerId: const MarkerId("0"), position: LatLng(lat, lng), infoWindow: InfoWindow(title: detail.result.name)));
 
-    setState(() {
+    setState(() {});
 
-    });
-
-    _controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
+    _controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 19.0));
 
   }
 }
