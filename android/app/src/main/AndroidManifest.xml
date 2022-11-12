@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tribble_guide">
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
    <application
         android:label="tribble_guide"
         android:name="${applicationName}"
@@ -36,3 +38,4 @@
             android:value="AIzaSyDJtGaKCd-UALmx7Qnoxb6LwKmUXZpk-78"/>
     </application>
 </manifest>
+
