@@ -19,7 +19,6 @@ class EventLocationPage extends StatefulWidget {
 class _EventLocationPageState extends State<EventLocationPage> {
 
   // related google map
-  // 현재 위치?
   static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.5052, 126.9571), zoom: 14.0);
   final Set<Marker> _marker = {};
   late GoogleMapController _controller;
@@ -58,7 +57,7 @@ class _EventLocationPageState extends State<EventLocationPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Center(
+              _marker.isEmpty? const Center() : Center(
                 child: ElevatedButton(
                   child: const Text("이 장소로 결정!"),
                   onPressed: () {
@@ -89,7 +88,7 @@ class _EventLocationPageState extends State<EventLocationPage> {
         hintText: '장소를 입력하세요',
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.white,
           ),
         ),
