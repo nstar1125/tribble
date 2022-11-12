@@ -61,7 +61,7 @@ class _EventLocationPageState extends State<EventLocationPage> {
                 child: ElevatedButton(
                   child: const Text("이 장소로 결정!"),
                   onPressed: () {
-                    Navigator.of(context).pushNamed("/toEventDetailPage", arguments: detail.result);
+                    Navigator.of(context).pushNamed("/toEventDetailWritingPage", arguments: detail.result);
                   },
                 ),
               ),
@@ -94,6 +94,7 @@ class _EventLocationPageState extends State<EventLocationPage> {
         ),
       ),
       components: [Component(Component.country, "kr")],
+
     );
 
     displayPrediction(p!, homeScaffoldKey.currentState);

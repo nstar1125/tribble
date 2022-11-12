@@ -6,14 +6,14 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/createEventPages/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EventDetailPage extends StatefulWidget {
-  const EventDetailPage({Key? key}) : super(key: key);
+class EventDetailWritingPage extends StatefulWidget {
+  const EventDetailWritingPage({Key? key}) : super(key: key);
 
   @override
-  State<EventDetailPage> createState() => _EventDetailPageState();
+  State<EventDetailWritingPage> createState() => _EventDetailWritingPageState();
 }
 
-class _EventDetailPageState extends State<EventDetailPage> {
+class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   List<String> eType1List = [
     "스포츠",
     "익스트림",
@@ -23,7 +23,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
     "쇼핑"
   ];  //이벤트 유형1 -> 추후 추가할 예정
 
-
+  final currentUser = FirebaseAuth.instance;
   String _title = '';   //이벤트 제목
   TextEditingController tagCtrl = TextEditingController();
   String _date1 = "날짜 선택";  //일정 날짜 시작 (2022 년 11 월 11 일) 이런형식
@@ -33,12 +33,32 @@ class _EventDetailPageState extends State<EventDetailPage> {
   List<String> _selectedChoices = [];  //선택한 유형
   List<Asset> _imageList = <Asset>[];  //업로드한 이미지 리스트
   List<String> _tagList = <String>[];  //주제 해쉬태그 리스트
-  Event event = new Event();  //생성할 이벤트
+  Event event = Event.fromJson({  //이벤트 객체를 초기화하는 방법입니다~~ event.dart 파일의 fromJson메소드랑 같이 보시면 이해될듯!
+    'guideId': "",
+    'title': "",
+    'location': "",
+    'lat': 0.0,
+    'lng': 0.0,
+    'date1': "",
+    'time1': "",
+    'date2': "",
+    'time2': "",
+    'selectedChoices': <String>[],
+    'imageList': <Asset>[],
+    'tagList': <String>[]}
+  );  //생성할 이벤트
 
-  _setEvent(PlaceDetails detailResult){  //이벤트 생성, *위치정보 추가해야함
+  // collection, document reference
+  final collectionRef = FirebaseFirestore.instance.collection('events');
+  final eventDocumentRef = FirebaseFirestore.instance.collection('events').doc();
+
+  _setEvent(PlaceDetails detailResult){  //이벤트 생성, *위치정보 추가해야함=>추가했음
+    event.setGuideId(currentUser.currentUser!.uid);
     event.setTitle(_title);
+    //위치정보시작
     event.setLocation(detailResult.formattedAddress);
     event.setLatlng(detailResult.geometry!.location.lat, detailResult.geometry!.location.lng);
+    //위치정보끝
     event.setSTime(_date1, _time1);
     event.setFTime(_date2, _time2);
     event.setChoices(_selectedChoices);
@@ -46,12 +66,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
     event.setTags(_tagList);
   }
 
+  //collection reference의 add함수를 이용해서 파이어베이스에 이벤트를 업로드
   Future _uploadEvent() async {
-    final eventDocumentRef = FirebaseFirestore.instance.collection('events').doc();
+    Map<String, dynamic> eventMap = event.toMap(); //이벤트객체에 저장된 각종 변수들을 Map타입으로 변환, 변환하는 이유는 add함수가 Map타입만 알아먹어서...
 
-    final json = event.toJson();
-
-    await eventDocumentRef.set(json);
+    await collectionRef.add(eventMap);
   }
 
 
@@ -166,6 +185,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   decoration: const InputDecoration(
                     hintText: "이벤트 제목을 영어로 입력하세요!",
                   ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
               SizedBox(height:30),
@@ -603,7 +623,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
               ),
 
               SizedBox(height: 50),
-              ElevatedButton.icon(                      //업로드 버튼 -> 홈화면으로 복귀
+              ElevatedButton.icon(                      //업로드 버튼 -> 홈화면으로 복귀XXXXXX------> event의 상세 내용을 체크하는 페이지로 이동
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -620,10 +640,12 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     }else if (_selectedChoices.isEmpty){
                       showMsg("유형을 선택해주세요.");
                     }else{
-                      _setEvent(detailResult);
-                      _uploadEvent();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      _setEvent(detailResult);  //입력받은 내용을 event 객체에 저장
+
+                      _uploadEvent(); //파이어베이스에 event를 add
+
+                      Navigator.of(context).pushNamed('/toEventDetailCheckPage'); //작성한 event의 상세 내용을 체크하는 페이지로 라우팅
+
                     }
                   },
                   icon: Icon(Icons.upload,
