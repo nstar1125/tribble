@@ -20,7 +20,7 @@ class _EventLocationPageState extends State<EventLocationPage> {
 
   // related google map
   // 현재 위치?
-  static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.42796, -122.08574), zoom: 14.0);
+  static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.5052, 126.9571), zoom: 14.0);
   final Set<Marker> _marker = {};
   late GoogleMapController _controller;
 
@@ -35,13 +35,13 @@ class _EventLocationPageState extends State<EventLocationPage> {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
             color: Colors.black87
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          IconButton(onPressed: _handlePressButton, icon: Icon(Icons.search))
+          IconButton(onPressed: _handlePressButton, icon: const Icon(Icons.search))
         ],
 
       ),
@@ -53,19 +53,20 @@ class _EventLocationPageState extends State<EventLocationPage> {
             onMapCreated: (GoogleMapController controller) {
               _controller = controller;
             },
+
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Center(
                 child: ElevatedButton(
-                  child: Text("이 장소로 결정!"),
+                  child: const Text("이 장소로 결정!"),
                   onPressed: () {
                     Navigator.of(context).pushNamed("/toEventDetailPage", arguments: detail.result);
                   },
                 ),
               ),
-              SizedBox(height: 100,),
+              const SizedBox(height: 100,),
             ],
           )
         ],
