@@ -59,7 +59,13 @@ class _EventLocationPageState extends State<EventLocationPage> {
             children: [
               _marker.isEmpty? const Center() : Center(
                 child: ElevatedButton(
-                  child: const Text("이 장소로 결정!"),
+                  child: const Text("이 장소로 결정!",
+                    style: TextStyle(
+                      fontFamily: "GmarketSansTTF",
+                    ),),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlueAccent,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pushNamed("/toEventDetailWritingPage", arguments: detail.result);
                   },

@@ -8,6 +8,7 @@ import 'package:tribble_guide/loginPages/initialPage.dart';
 import 'package:tribble_guide/loginPages/signInPage.dart';
 import 'package:tribble_guide/loginPages/signUpPage.dart';
 import 'package:tribble_guide/loungePage.dart';
+import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
 
 
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           '/toEventDetailWritingPage':(context) => const EventDetailWritingPage(),
           '/toEventDetailCheckPage':(context) => const EventDetailCheckPage(),
           '/toMyEventPage':(context) => const MyEventPage(),
+          '/toPlanLocationPage':(context) => const PlanLocationPage(),
         }
 
     );
