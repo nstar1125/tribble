@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tribble_guide/chatloungePage.dart';
-import 'package:tribble_guide/createEventPages/eventDetailCheckPage.dart';
+import 'package:tribble_guide/chatPages/chatloungePage.dart';
+import 'package:tribble_guide/myEventPages/eventDetailCheckPage.dart';
 import 'package:tribble_guide/createEventPages/eventDetailWritingPage.dart';
 import 'package:tribble_guide/createEventPages/eventLocationPage.dart';
-import 'package:tribble_guide/createEventPages/myEventPage.dart';
+import 'package:tribble_guide/myEventPages/myEventPage.dart';
 import 'package:tribble_guide/loginPages/initialPage.dart';
 import 'package:tribble_guide/loginPages/signInPage.dart';
 import 'package:tribble_guide/loginPages/signUpPage.dart';
 import 'package:tribble_guide/loungePage.dart';
-import 'package:tribble_guide/chatPage.dart';
+import 'package:tribble_guide/chatPages/chatPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
               const EventDetailWritingPage(),
           '/toChatloungPage': (context) => const Chatloungepage(),
           '/toChatPage': (context) => const Chatpage(),
-          '/toEventDetailCheckPage': (context) => const EventDetailCheckPage(),
           '/toMyEventPage': (context) => const MyEventPage(),
         });
   }
