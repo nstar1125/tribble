@@ -1,17 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tribble_guide/myEventPages/myEventPage.dart';
-import 'package:tribble_guide/homePage.dart';
-import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
+import 'package:tribble_guide/traveler/homePageT.dart';
 
-class LoungePage extends StatefulWidget {
-  const LoungePage({Key? key}) : super(key: key);
+class LoungePageT extends StatefulWidget {
+  const LoungePageT({Key? key}) : super(key: key);
 
   @override
-  State<LoungePage> createState() => _LoungePageState();
+  State<LoungePageT> createState() => _LoungePageTState();
 }
 
-class _LoungePageState extends State<LoungePage> {
+class _LoungePageTState extends State<LoungePageT> {
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
   int _selectedIndex = 0;
@@ -25,11 +23,11 @@ class _LoungePageState extends State<LoungePage> {
 
 
   final List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    HomePage(),//toEventLocationPage
-    MyEventPage(),
-    HomePage(),
-    HomePage(),
+    HomePageT(),
+    HomePageT(),//toEventLocationPage
+    HomePageT(),
+    HomePageT(),
+    HomePageT(),
   ];
 
   void getCurrentUser(){
@@ -76,8 +74,6 @@ class _LoungePageState extends State<LoungePage> {
           setState(() {
             _selectedIndex = index;
             if (index == 1){
-              Navigator.pushNamed(context, '/toEventLocationPage');
-            } else if (index == 3){
               Navigator.pushNamed(context, '/toPlanLocationPage');
             }
           });
@@ -85,23 +81,23 @@ class _LoungePageState extends State<LoungePage> {
         items: const[
           BottomNavigationBarItem(
               icon: Icon(Icons.home_filled),
-              label: "홈"
+              label: "Home"
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.edit_location_alt),
-              label: "이벤트 작성"
+              icon: Icon(Icons.edit),
+              label: "Plan tour"
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book),
-              label: "나의 이벤트"
+              icon: Icon(Icons.luggage),
+              label: "My tour"
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart_outlined),
-              label: "트렌드 분석"
+              icon: Icon(Icons.search),
+              label: "Other tour"
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.chat_bubble),
-              label: "채팅"
+              label: "Chat"
           )
 
         ],

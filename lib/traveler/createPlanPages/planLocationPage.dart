@@ -8,6 +8,7 @@ import 'package:tribble_guide/createEventPages/event.dart';
 const kGoogleApiKey = "AIzaSyDJtGaKCd-UALmx7Qnoxb6LwKmUXZpk-78";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
+//Plan tour 버튼을 누르면 나오는 페이지입니다.
 class PlanLocationPage extends StatefulWidget {
   const PlanLocationPage({Key? key}) : super(key: key);
 
@@ -104,7 +105,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                           ),
                           onPressed: () {
                             // pop으로 전달한 arguments를 e가 받음
-                            Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: detail.result).then((e) {
+                            Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: detail.result).then((e) {  //장소+키워드+시간
                               if (e != null) {
                                 markers.removeWhere((marker) => marker.markerId.value == "0");
 
@@ -125,7 +126,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.of(context).pushNamed('/toShowNomisPage');  // 현재위치+지금까지이벤트
+                            Navigator.of(context).pushNamed('/toShowNomiPage');  // 현재위치+지금까지이벤트
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.lightBlueAccent,
