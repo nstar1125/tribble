@@ -277,6 +277,21 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                       );
                     }),
               ),
+              SizedBox(height:20),
+              Center(
+                child: ElevatedButton(
+                  child: Text("Add To My Tour",
+                    style: TextStyle(
+                      fontFamily: "GmarketSansTTF",
+                    ),),
+                  onPressed: () {
+                    Navigator.of(context).pop(e);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlueAccent,
+                  ),
+                ),
+              )
             ],
           ),
         )

@@ -74,6 +74,7 @@ class _MyEventPageState extends State<MyEventPage> {
                     selectedEvent.setTags(documentSnapshot['tagList'].cast<String>());
 
                     Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: selectedEvent); // 클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서
+
                   },
                   child: Card(
                     margin: EdgeInsets.all(10.0),

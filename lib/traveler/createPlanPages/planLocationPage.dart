@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -29,12 +32,23 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
 
   List<Event> events = [];
 
-  void addMarker(coordinate) {
+  // 마커 이미지
+  List<String> images = ['assets/images/marker1.jpg','assets/images/marker2.jpg', 'assets/images/marker3.jpg'];
+
+  Future<Uint8List> getImages(String path, int width) async{
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetHeight: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return(await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  }
+
+  void addMarker(coordinate) async {
+    final Uint8List markIcons = await getImages(images[markerId-1], 100);
     setState(() {
       markers.add(Marker(
           position: coordinate,
           markerId: MarkerId(markerId.toString()),
-          //icon
+          icon: BitmapDescriptor.fromBytes(markIcons),
       ));
     });
     markerId++;
@@ -70,7 +84,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
           ),
           Column(
             children: [
-              const SizedBox(height: 70,),
+              const SizedBox(height: 100,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -110,8 +124,10 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 markers.removeWhere((marker) => marker.markerId.value == "0");
 
                                 Event myEvent = e as Event;
+                                print(myEvent);
                                 events.add(myEvent);
                                 addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                print(markers);
                                 _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
                               }
                             });

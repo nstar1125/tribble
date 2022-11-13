@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tribble_guide/myEventPages/myEventPage.dart';
 import 'package:tribble_guide/homePage.dart';
-import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
 
 class LoungePage extends StatefulWidget {
   const LoungePage({Key? key}) : super(key: key);
@@ -77,8 +76,6 @@ class _LoungePageState extends State<LoungePage> {
             _selectedIndex = index;
             if (index == 1){
               Navigator.pushNamed(context, '/toEventLocationPage');
-            } else if (index == 3){
-              Navigator.pushNamed(context, '/toPlanLocationPage');
             }
           });
         },
@@ -105,7 +102,6 @@ class _LoungePageState extends State<LoungePage> {
           )
 
         ],
-
       ),
     );
   }
