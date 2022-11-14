@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tribble_guide/guide/chatPages/chatloungePage.dart';
+import 'package:tribble_guide/chatPages/chatloungePage.dart';
 import 'package:tribble_guide/guide/myEventPages/eventDetailCheckPage.dart';
 import 'package:tribble_guide/guide/createEventPages/eventDetailWritingPage.dart';
 import 'package:tribble_guide/guide/createEventPages/eventLocationPage.dart';
@@ -20,11 +20,9 @@ import 'package:tribble_guide/traveler/loginPages/signInPageT.dart';
 import 'package:tribble_guide/traveler/loginPages/signUpPageT.dart';
 import 'package:tribble_guide/traveler/loungePageT.dart';
 
-import 'package:tribble_guide/guide/chatPages/chatPage.dart';
+import 'package:tribble_guide/chatPages/chatPage.dart';
 
-
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -39,33 +37,32 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/':(context) => const SuperInitialPage(),
+          '/': (context) => const SuperInitialPage(),
 
           //guide
-          '/toInitialPage':(context) => const InitialPage(),
-          '/toSignInPage':(context) => const SignInPage(),
-          '/toSignUpPage':(context) => const SignUpPage(),
-          '/toLoungePage':(context) => const LoungePage(),
-          '/toEventLocationPage':(context) => const EventLocationPage(),
-          '/toEventDetailWritingPage':(context) => const EventDetailWritingPage(),
-          '/toEventDetailCheckPage':(context) => const EventDetailCheckPage(),
-          '/toMyEventPage':(context) => const MyEventPage(),
+          '/toInitialPage': (context) => const InitialPage(),
+          '/toSignInPage': (context) => const SignInPage(),
+          '/toSignUpPage': (context) => const SignUpPage(),
+          '/toLoungePage': (context) => const LoungePage(),
+          '/toEventLocationPage': (context) => const EventLocationPage(),
+          '/toEventDetailWritingPage': (context) =>
+              const EventDetailWritingPage(),
+          '/toEventDetailCheckPage': (context) => const EventDetailCheckPage(),
+          '/toMyEventPage': (context) => const MyEventPage(),
           '/toChatloungPage': (context) => const Chatloungepage(),
           '/toChatPage': (context) => const Chatpage(),
           '/toMyEventPage': (context) => const MyEventPage(),
 
-
           //traveler
-          '/toInitialPageT':(context) => const InitialPageT(),
-          '/toSignInPageT':(context) => const SignInPageT(),
-          '/toSignUpPageT':(context) => const SignUpPageT(),
-          '/toLoungePageT':(context) => const LoungePageT(),
-          '/toPlanLocationPage':(context) => const PlanLocationPage(),
-          '/toShowNomiPage':(context) => const ShowNomiPage(),
-          '/toEventSearchListPage':(context) => const EventSearchListPage(),
-          '/toEventDetailCheckPageT':(context) => const EventDetailCheckPageT(),
-        }
-
-    );
+          '/toInitialPageT': (context) => const InitialPageT(),
+          '/toSignInPageT': (context) => const SignInPageT(),
+          '/toSignUpPageT': (context) => const SignUpPageT(),
+          '/toLoungePageT': (context) => const LoungePageT(),
+          '/toPlanLocationPage': (context) => const PlanLocationPage(),
+          '/toShowNomiPage': (context) => const ShowNomiPage(),
+          '/toEventSearchListPage': (context) => const EventSearchListPage(),
+          '/toEventDetailCheckPageT': (context) =>
+              const EventDetailCheckPageT(),
+        });
   }
 }
