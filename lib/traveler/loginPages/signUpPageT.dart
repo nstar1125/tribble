@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tribble_guide/chatPages/chatDB/db_service.dart';
+import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 
 class SignUpPageT extends StatefulWidget {
   const SignUpPageT({Key? key}) : super(key: key);
@@ -155,8 +155,8 @@ class _SignUpPageTState extends State<SignUpPageT> {
                             final newUser = await _authentication
                                 .createUserWithEmailAndPassword(
                                     email: userEmail, password: userPassword);
-                            await DB(uid: newUser.user!.uid)
-                                .updateUserDate(userName, userEmail);
+                            await DatabaseService(uid: newUser.user!.uid)
+                                .savingUserData(userName, userEmail);
 
                             if (newUser.user != null) {
                               Navigator.of(context).pushNamed("/toLoungePageT");

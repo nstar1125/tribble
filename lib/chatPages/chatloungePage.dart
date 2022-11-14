@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 import 'package:tribble_guide/guide/homePage.dart';
 import 'package:tribble_guide/helper/helper_function.dart';
 import 'package:tribble_guide/chatPages/widgets/group_tile.dart';
+import 'package:tribble_guide/chatPages/widgets/widgets.dart';
 
 class Chatloungepage extends StatefulWidget {
   const Chatloungepage({Key? key}) : super(key: key);
@@ -19,25 +21,16 @@ class _Chatloungestate extends State<Chatloungepage> {
   String userName = "";
   String email = "";
   Stream? groups;
+  bool _isLoading = false;
+  String groupName = "";
+
   @override
   void initState() {
     super.initState();
-    gettingUserDate();
+    gettingUserData();
   }
 
-  gettingUserDate() async {
-    await HelperFunctions.getUserEmailFromSF().then((value) {
-      setState(() {
-        email = value!;
-      });
-    });
-    await HelperFunctions.getUserNameFromSF().then((value) {
-      setState(() {
-        userName = value!;
-      });
-    });
-  }
-
+  // string manipulation
   String getId(String res) {
     return res.substring(0, res.indexOf("_"));
   }
@@ -46,16 +39,38 @@ class _Chatloungestate extends State<Chatloungepage> {
     return res.substring(res.indexOf("_") + 1);
   }
 
+  gettingUserData() async {
+    await HelperFunctions.getUserEmailFromSF().then((value) {
+      setState(() {
+        email = value!;
+      });
+    });
+    await HelperFunctions.getUserNameFromSF().then((val) {
+      setState(() {
+        userName = val!;
+      });
+    });
+    // getting the list of snapshots in our stream
+    await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getUserGroups()
+        .then((snapshot) {
+      setState(() {
+        groups = snapshot;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         elevation: 0,
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
           "Groups",
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 27),
         ),
         actions: [
           IconButton(
@@ -105,7 +120,7 @@ class _Chatloungestate extends State<Chatloungepage> {
           ),
           ListTile(
             onTap: () {
-              // //nextScreenReplace(
+              // nextScreenReplace(
               //     context,
               //     ProfilePage(
               //       userName: userName,
@@ -120,12 +135,50 @@ class _Chatloungestate extends State<Chatloungepage> {
               style: TextStyle(color: Colors.black),
             ),
           ),
+          ListTile(
+            onTap: () async {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Logout"),
+                      content: const Text("Are you sure you want to logout?"),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {},
+                          icon: const Icon(
+                            Icons.done,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.black),
+            ),
+          )
         ],
       )),
       body: groupList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //popUpDialog(context);
+          popUpDialog(context);
         },
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
@@ -136,6 +189,85 @@ class _Chatloungestate extends State<Chatloungepage> {
         ),
       ),
     );
+  }
+
+  popUpDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: ((context, setState) {
+            return AlertDialog(
+              title: const Text(
+                "Create a group",
+                textAlign: TextAlign.left,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _isLoading == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                              color: Theme.of(context).primaryColor),
+                        )
+                      : TextField(
+                          onChanged: (val) {
+                            setState(() {
+                              groupName = val;
+                            });
+                          },
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor),
+                                  borderRadius: BorderRadius.circular(20)),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.red),
+                                  borderRadius: BorderRadius.circular(20)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor),
+                                  borderRadius: BorderRadius.circular(20))),
+                        ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                  child: const Text("CANCEL"),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (groupName != "") {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      DatabaseService(
+                              uid: FirebaseAuth.instance.currentUser!.uid)
+                          .createGroup(userName,
+                              FirebaseAuth.instance.currentUser!.uid, groupName)
+                          .whenComplete(() {
+                        _isLoading = false;
+                      });
+                      Navigator.of(context).pop();
+                      showSnackbar(
+                          context, Colors.green, "Group created successfully.");
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                  child: const Text("CREATE"),
+                )
+              ],
+            );
+          }));
+        });
   }
 
   groupList() {
@@ -181,7 +313,7 @@ class _Chatloungestate extends State<Chatloungepage> {
         children: [
           GestureDetector(
             onTap: () {
-              //popUpDialog(context);
+              popUpDialog(context);
             },
             child: Icon(
               Icons.add_circle,
