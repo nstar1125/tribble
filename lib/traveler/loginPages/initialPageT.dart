@@ -25,7 +25,7 @@ class InitialPageT extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
-                  child: Image(image: AssetImage("assets/images/lobby_illust.png")),
+                  child: Image(image: AssetImage("assets/images/lobby_illust_t.png")),
                 )
                 ,
                 Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 
@@ -11,10 +12,22 @@ class EventDetailCheckPage extends StatefulWidget {
 
 // 이벤트 상세 내용 확인 페이지
 class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
+  late GoogleMapController _controller;
+  final Set<Marker> markers = {};
 
+  void addMarker(coordinate) {
+    setState(() {
+      markers.add(Marker(
+        position: coordinate,
+        markerId: MarkerId("0"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+      ));
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Event e = ModalRoute.of(context)!.settings.arguments as Event;
+    addMarker(LatLng(e.getLat(), e.getLng()));
 
     return Scaffold(
         appBar: AppBar(
@@ -41,6 +54,21 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: 200,
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(e.getLat(), e.getLng()),
+                    zoom: 15.0,
+                  ),
+                  markers: markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    setState(() {
+                      _controller = controller;
+                    });
+                  },
+                ),
+              ),
               Row(                                                  //제목
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
