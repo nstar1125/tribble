@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:tribble_guide/createEventPages/event.dart';
+import 'package:tribble_guide/guide/createEventPages/event.dart';
 
 //자동 추천된 경로 리스트를 보여주는 페이지입니다 = 후보라는 뜻의 nominate에서 따옴
 // 1. 다른 사람들이 많이 선택하는 인기있는 경로

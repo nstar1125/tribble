@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:tribble_guide/createEventPages/event.dart';
+import 'package:tribble_guide/guide/createEventPages/event.dart';
 
 class EventDetailCheckPage extends StatefulWidget {
   const EventDetailCheckPage({Key? key}) : super(key: key);

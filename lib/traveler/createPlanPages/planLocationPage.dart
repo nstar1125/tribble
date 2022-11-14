@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-import 'package:tribble_guide/createEventPages/event.dart';
+import 'package:tribble_guide/guide/createEventPages/event.dart';
 
 const kGoogleApiKey = "AIzaSyDJtGaKCd-UALmx7Qnoxb6LwKmUXZpk-78";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();

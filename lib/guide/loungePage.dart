@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tribble_guide/myEventPages/myEventPage.dart';
-import 'package:tribble_guide/homePage.dart';
+import 'package:tribble_guide/guide/myEventPages/myEventPage.dart';
+import 'package:tribble_guide/guide/homePage.dart';
 
 class LoungePage extends StatefulWidget {
   const LoungePage({Key? key}) : super(key: key);

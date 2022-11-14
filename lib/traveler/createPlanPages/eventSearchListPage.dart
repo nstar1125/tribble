@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:tribble_guide/createEventPages/event.dart';
+import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:geolocator/geolocator.dart';
 
 //지도에서 장소 하나를 검색하고 Search Event! 버튼을 누르면 나오는

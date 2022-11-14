@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tribble_guide/chatPages/chatloungePage.dart';
-import 'package:tribble_guide/myEventPages/eventDetailCheckPage.dart';
-import 'package:tribble_guide/createEventPages/eventDetailWritingPage.dart';
-import 'package:tribble_guide/createEventPages/eventLocationPage.dart';
-import 'package:tribble_guide/myEventPages/myEventPage.dart';
-import 'package:tribble_guide/loginPages/initialPage.dart';
-import 'package:tribble_guide/loginPages/signInPage.dart';
-import 'package:tribble_guide/loginPages/signUpPage.dart';
-import 'package:tribble_guide/loungePage.dart';
+import 'package:tribble_guide/guide/chatPages/chatloungePage.dart';
+import 'package:tribble_guide/guide/myEventPages/eventDetailCheckPage.dart';
+import 'package:tribble_guide/guide/createEventPages/eventDetailWritingPage.dart';
+import 'package:tribble_guide/guide/createEventPages/eventLocationPage.dart';
+import 'package:tribble_guide/guide/myEventPages/myEventPage.dart';
+import 'package:tribble_guide/guide/loginPages/initialPage.dart';
+import 'package:tribble_guide/guide/loginPages/signInPage.dart';
+import 'package:tribble_guide/guide/loginPages/signUpPage.dart';
+import 'package:tribble_guide/guide/loungePage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
@@ -20,7 +20,7 @@ import 'package:tribble_guide/traveler/loginPages/signInPageT.dart';
 import 'package:tribble_guide/traveler/loginPages/signUpPageT.dart';
 import 'package:tribble_guide/traveler/loungePageT.dart';
 
-import 'package:tribble_guide/chatPages/chatPage.dart';
+import 'package:tribble_guide/guide/chatPages/chatPage.dart';
 
 
 

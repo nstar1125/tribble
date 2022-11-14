@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:tribble_guide/createEventPages/event.dart';
+import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tribble_guide/myEventPages/eventDetailCheckPage.dart';
+import 'package:tribble_guide/guide/myEventPages/eventDetailCheckPage.dart';
 
 class EventDetailWritingPage extends StatefulWidget {
   const EventDetailWritingPage({Key? key}) : super(key: key);
@@ -647,7 +647,6 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pushNamed('/toMyEventPage');
-
                       Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: myEvent); //작성한 event의 상세 내용을 체크하는 페이지로 라우팅
 
                     }
