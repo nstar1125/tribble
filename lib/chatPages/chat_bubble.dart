@@ -54,14 +54,25 @@ class ChatBubbles extends StatelessWidget {
               backGroundColor: Color(0xffE7E7ED),
               margin: EdgeInsets.only(top: 20),
               child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.7,
-                ),
-                child: Text(
-                  message,
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.7,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: isMe
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      Text(
+                        message,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  )),
             ),
           )
       ],
