@@ -49,8 +49,6 @@ class MyApp extends StatelessWidget {
               const EventDetailWritingPage(),
           '/toEventDetailCheckPage': (context) => const EventDetailCheckPage(),
           '/toMyEventPage': (context) => const MyEventPage(),
-          '/toChatloungPage': (context) => const Chatloungepage(),
-          '/toChatPage': (context) => const Chatpage(),
           '/toMyEventPage': (context) => const MyEventPage(),
 
           //traveler
@@ -60,9 +58,14 @@ class MyApp extends StatelessWidget {
           '/toLoungePageT': (context) => const LoungePageT(),
           '/toPlanLocationPage': (context) => const PlanLocationPage(),
           '/toShowNomiPage': (context) => const ShowNomiPage(),
+
           '/toEventSearchListPage': (context) => const EventSearchListPage(),
           '/toEventDetailCheckPageT': (context) =>
               const EventDetailCheckPageT(),
+
+          //common
+          '/toChatloungPage': (context) => const Chatloungepage(),
+          '/toChatPage': (context) => const Chatpage(),
         });
   }
 }
