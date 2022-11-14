@@ -19,6 +19,7 @@ class _NewMessageState extends State<NewMessage> {
         .collection('user')
         .doc(user!.uid)
         .get();
+    //FirebaseFirestore.instance.collection('chats').doc(user.uid).collection('').add();
     FirebaseFirestore.instance.collection('chat').add({
       'text': _userEnterMessage,
       'time': Timestamp.now(),
