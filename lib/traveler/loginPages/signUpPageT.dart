@@ -157,8 +157,11 @@ class _SignUpPageTState extends State<SignUpPageT> {
                             await FirebaseFirestore.instance
                                 .collection('user')
                                 .doc(newUser.user!.uid)
-                                .set(
-                                    {'userName': userName, 'email': userEmail});
+                                .set({
+                              'userName': userName,
+                              'email': userEmail,
+                              'userType': "traveler"
+                            });
                             if (newUser.user != null) {
                               Navigator.of(context).pushNamed("/toLoungePageT");
                             }
