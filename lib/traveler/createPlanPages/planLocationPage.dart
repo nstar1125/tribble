@@ -53,6 +53,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
 
   //container change bool
   bool isClikedPersonally = false;
+  bool hasSearched = false;
 
   String _date1 = "choose Day!";
   String _keyword = "";
@@ -140,7 +141,9 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      Navigator.of(context).pushNamed('/toShowNomiPage');
+                      if(hasSearched){
+                        Navigator.of(context).pushNamed('/toShowNomiPage');
+                      }
                     },
                     child: Container(
                       color: recColor,
@@ -156,9 +159,10 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      isClikedPersonally = true;
-                      setState(() {
-                      });
+                      if(hasSearched) {
+                        isClikedPersonally = true;
+                        setState(() {});
+                      }
                     },
                     child: Container(
                       color: perColor,
@@ -248,8 +252,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                         Row(                                                  //해시태그 검색
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.edit),
-                              Text(" Keyword",
+                              Text(" # Keyword",
                                   style: TextStyle(
                                       color: Colors.black87,
                                       fontFamily: "GmarketSansTTF",
@@ -340,7 +343,9 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Navigator.of(context).pushNamed('/toPlanCompletionPage', arguments: events);
+                      if(!events.isEmpty){
+                        Navigator.of(context).pushNamed('/toPlanCompletionPage', arguments: events);
+                      }
                     },
                     child: Container(
                       color: completeColor,
@@ -416,6 +421,8 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
         position: LatLng(lat, lng),
         infoWindow: InfoWindow(title: detail.result.name),
     ));
+
+    hasSearched = true;
 
     setState(() {});
 
