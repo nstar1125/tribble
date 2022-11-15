@@ -156,7 +156,8 @@ class _SignUpPageTState extends State<SignUpPageT> {
                                 .createUserWithEmailAndPassword(
                                     email: userEmail, password: userPassword);
                             await DatabaseService(uid: newUser.user!.uid)
-                                .savingUserData(userName, userEmail);
+                                .savingUserData(
+                                    userName, userEmail, "traveler");
 
                             if (newUser.user != null) {
                               Navigator.of(context).pushNamed("/toLoungePageT");

@@ -23,12 +23,27 @@ class _ChatPageState extends State<ChatPage> {
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   String admin = "";
-
+  //final ScrollController listScrollController = ScrollController();
+  int _limit = 20;
+  int _limitIncrement = 20;
   @override
   void initState() {
     getChatandAdmin();
     super.initState();
+    //listScrollController.addListener(_scrollListener);
   }
+
+  // _scrollListener() {
+  //   if (!listScrollController.hasClients) return;
+  //   if (listScrollController.offset >=
+  //           listScrollController.position.maxScrollExtent &&
+  //       !listScrollController.position.outOfRange &&
+  //       _limit <= getlen()) {
+  //     setState(() {
+  //       _limit += _limitIncrement;
+  //     });
+  //   }
+  //}
 
 //아래방법을 최근 메세지 띄우면 됨.
   getChatandAdmin() {
@@ -79,7 +94,7 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                     child: TextFormField(
                   controller: messageController,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.grey),
                   decoration: const InputDecoration(
                     hintText: "Send a message...",
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
@@ -129,6 +144,7 @@ class _ChatPageState extends State<ChatPage> {
                       sentByMe: widget.userName ==
                           snapshot.data.docs[index]['sender']);
                 },
+                //controller: unitcontroller,
               )
             : Container();
       },
