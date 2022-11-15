@@ -67,9 +67,9 @@ class MyApp extends StatelessWidget {
           '/toPlanCompletionPage':(context) => const PlanCompletionPage(),
           '/toFixPlanPage':(context) => const FixPlanPage(),
 
-          //common
+          //common chat
           '/toChatloungPage': (context) => const Chatloungepage(),
-          '/toChatPage': (context) => const Chatpage(),
+          //'/toChatPage': (context) => const ChatPage(),
         });
   }
 }
