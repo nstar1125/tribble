@@ -30,24 +30,25 @@ class _GroupTileState extends State<GroupTile> {
                     userName: widget.userName)));
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: ListTile(
           leading: CircleAvatar(
+            backgroundImage: AssetImage("assets/images/profile.jpeg"),
             radius: 30,
             backgroundColor: Theme.of(context).primaryColor,
-            child: Text(
-              widget.groupName.substring(0, 1).toUpperCase(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w500),
-            ),
+            // child: Text(
+            //   "1",
+            //   textAlign: TextAlign.center,
+            //   style: const TextStyle(
+            //       color: Colors.white, fontWeight: FontWeight.w500),
+            // ),
           ),
           title: Text(
-            widget.groupName,
+            widget.userName,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            "Join the conversation as ${widget.userName}",
+            "last message",
             style: const TextStyle(fontSize: 13),
           ),
         ),

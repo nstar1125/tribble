@@ -15,7 +15,6 @@ class Chatloungepage extends StatefulWidget {
 }
 
 class _Chatloungestate extends State<Chatloungepage> {
-  final _auth = FirebaseAuth.instance;
   User? loginUser;
   final isMe = true;
   String userName = "";
@@ -296,8 +295,8 @@ class _Chatloungestate extends State<Chatloungepage> {
           }
         } else {
           return Center(
-              //child: CircularProgressIndicator(color: Colors.red),
-              );
+            child: CircularProgressIndicator(color: Colors.red),
+          );
         }
       },
     );
@@ -324,7 +323,7 @@ class _Chatloungestate extends State<Chatloungepage> {
             height: 20,
           ),
           const Text(
-            "You've not joined any groups, tap on the add icon to create a group or also search from top search button.",
+            "not group",
             textAlign: TextAlign.center,
           )
         ],
