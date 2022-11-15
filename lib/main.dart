@@ -12,6 +12,7 @@ import 'package:tribble_guide/guide/loungePage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
+import 'package:tribble_guide/traveler/createPlanPages/planConfirm.dart';
 import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
 import 'package:tribble_guide/superInitialPage.dart';
 import 'package:tribble_guide/traveler/createPlanPages/showNomiPage.dart';
@@ -66,6 +67,10 @@ class MyApp extends StatelessWidget {
           //common
           '/toChatloungPage': (context) => const Chatloungepage(),
           '/toChatPage': (context) => const Chatpage(),
+
+
+
+          '/toPlanConfirmPage': (context) => const PlanConfirmPage(),
         });
   }
 }
