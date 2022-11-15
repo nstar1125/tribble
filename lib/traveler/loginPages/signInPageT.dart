@@ -131,10 +131,21 @@ class _SignInPageTState extends State<SignInPageT> {
                           await HelperFunctions.saveUserNameSF(
                               snapshot.docs[0]['fullName']);
                           if (newUser.user != null) {
-                            Navigator.of(context).pushNamed("/toLoungePage");
-                          }
-                          if (newUser.user != null) {
-                            Navigator.of(context).pushNamed("/toLoungePageT");
+                            if (snapshot.docs[0]['type'] == "traveler") {
+                              Navigator.of(context).pushNamed("/toLoungePage");
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                  "Wrong user type",
+                                  style: TextStyle(
+                                    fontFamily: "GmarketSansTTF",
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                backgroundColor: Colors.lightBlueAccent,
+                              ));
+                            }
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
