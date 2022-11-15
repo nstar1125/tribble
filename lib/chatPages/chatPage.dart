@@ -30,6 +30,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
   }
 
+//아래방법을 최근 메세지 띄우면 됨.
   getChatandAdmin() {
     DatabaseService().getChats(widget.groupId).then((val) {
       setState(() {
@@ -51,6 +52,16 @@ class _ChatPageState extends State<ChatPage> {
         elevation: 0,
         title: Text(widget.groupName),
         backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.exit_to_app_sharp,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/toChatloungPage');
+              })
+        ],
       ),
       body: Stack(
         children: <Widget>[

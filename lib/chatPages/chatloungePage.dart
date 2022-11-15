@@ -22,7 +22,7 @@ class _Chatloungestate extends State<Chatloungepage> {
   Stream? groups;
   bool _isLoading = false;
   String groupName = "";
-
+  String opponent = "";
   @override
   void initState() {
     super.initState();
@@ -67,7 +67,7 @@ class _Chatloungestate extends State<Chatloungepage> {
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
-          "Groups",
+          "Chatting",
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 27),
         ),
@@ -282,9 +282,10 @@ class _Chatloungestate extends State<Chatloungepage> {
                 itemBuilder: (context, index) {
                   int reverseIndex = snapshot.data['groups'].length - index - 1;
                   return GroupTile(
-                      groupId: getId(snapshot.data['groups'][reverseIndex]),
-                      groupName: getName(snapshot.data['groups'][reverseIndex]),
-                      userName: snapshot.data['fullName']);
+                    groupId: getId(snapshot.data['groups'][reverseIndex]),
+                    groupName: getName(snapshot.data['groups'][reverseIndex]),
+                    userName: snapshot.data['fullName'],
+                  );
                 },
               );
             } else {
