@@ -67,7 +67,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.menu_book),
-                    Text(" 제목",
+                    Text(" Title",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -92,7 +92,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   children: [
                     Icon(Icons.location_on),
                     // ignore: prefer_const_constructors
-                    Text(" 위치",
+                    Text(" Location",
                         // ignore: prefer_const_constructors
                         style: TextStyle(
                             color: Colors.black87,
@@ -117,7 +117,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.access_time_filled),
-                    Text(" 시간",
+                    Text(" Time",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -152,7 +152,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.textsms),
-                    Text(" 유형",
+                    Text(" Type",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -187,7 +187,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.camera_alt),
-                    Text(" 이미지",
+                    Text(" Images",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -197,7 +197,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
               SizedBox(height: 10),
               e.getImages().isEmpty //이미지 리스트뷰
                   ? Container(
-                      child: Text("등록된 이미지가 없습니다.",
+                      child: Text("No Images.",
                           style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -225,7 +225,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.tag),
-                    Text(" 주제",
+                    Text(" HashTag",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
@@ -235,7 +235,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
               SizedBox(height: 10),
               e.getTags().isEmpty //주제 리스트뷰
                   ? Container(
-                      child: Text("등록된 주제가 없습니다.",
+                      child: Text("No HashTags.",
                           style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",

@@ -25,6 +25,8 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
   final Set<Marker> markers = {};
   static int markerId = 1;
   late GoogleMapController _controller;
+  final Set<Polyline> polyline = {};
+  final List<LatLng> points = [];
 
   // related google place
   final Mode _mode = Mode.overlay;
@@ -33,7 +35,9 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
   List<Event> events = [];
 
   // 마커 이미지
-  List<String> images = ['assets/images/marker1.jpg','assets/images/marker2.jpg', 'assets/images/marker3.jpg'];
+  List<String> images = ['assets/images/marker1.png','assets/images/marker2.png',
+    'assets/images/marker3.png', 'assets/images/marker4.png',
+    'assets/images/marker5.png', 'assets/images/marker6.png'];
 
   Future<Uint8List> getImages(String path, int width) async{
     ByteData data = await rootBundle.load(path);
@@ -43,7 +47,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
   }
 
   void addMarker(coordinate) async {
-    final Uint8List markIcons = await getImages(images[markerId-1], 100);
+    final Uint8List markIcons = await getImages(images[markerId-1], 150);
     setState(() {
       markers.add(Marker(
           position: coordinate,
@@ -69,12 +73,21 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
         actions: [
           IconButton(onPressed: _handlePressButton, icon: const Icon(Icons.search))
         ],
+        leading: new IconButton(
+          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            markerId = 1;
+            Navigator.of(context).pop();
+          },
+        ),
+
       ),
       body: Stack(
         children: [
           GoogleMap(
             initialCameraPosition: _initialCameraPosition,
             markers: markers,
+            polylines: polyline,
             onMapCreated: (GoogleMapController controller) {
               setState(() {
                 _controller = controller;
@@ -118,19 +131,35 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                             backgroundColor: Colors.lightBlueAccent,
                           ),
                           onPressed: () {
-                            // pop으로 전달한 arguments를 e가 받음
-                            Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: detail.result).then((e) {  //장소+키워드+시간
-                              if (e != null) {
-                                markers.removeWhere((marker) => marker.markerId.value == "0");
+                            // 최대 이벤트 수 6개
+                            if(events.length < 7){
+                              // pop으로 전달한 arguments를 e가 받음
+                              Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: detail.result).then((e) {  //장소+키워드+시간
+                                if (e != null) {
+                                  markers.removeWhere((marker) => marker.markerId.value == "0");
 
-                                Event myEvent = e as Event;
-                                print(myEvent);
-                                events.add(myEvent);
-                                addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
-                                print(markers);
-                                _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
-                              }
-                            });
+                                  Event myEvent = e as Event;
+                                  events.add(myEvent);
+
+                                  points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                  polyline.add(Polyline(
+                                    patterns: [
+                                      PatternItem.dash(50),
+                                      PatternItem.gap(50),
+                                    ],
+                                    polylineId: const PolylineId('0'),
+                                    points: points,
+                                    color: Colors.lightBlueAccent,
+                                  ));
+
+                                  addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
+
+                                  _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
+
+
+                                }
+                              });
+                            }
                           },
                         ),
                         const SizedBox(width: 10,),
@@ -149,7 +178,23 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                           ),
                         ),
 
+
                       ],
+                    ),
+                    const SizedBox(height: 50,),
+                    ElevatedButton(
+                      child: const Text(
+                        "Tour Plan Completion",
+                        style: TextStyle(
+                          fontFamily: "GmarketSansTTF",
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/toPlanCompletionPage', arguments: events);  // 현재위치+지금까지이벤트
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightBlueAccent,
+                      ),
                     ),
                     const SizedBox(height: 50,),
 
@@ -192,6 +237,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
 
   void onError(PlacesAutocompleteResponse response) {}
 
+  // 검색 끝나면
   Future<void> displayPrediction(Prediction p, ScaffoldState? currentState) async {
     GoogleMapsPlaces places = GoogleMapsPlaces(
         apiKey: kGoogleApiKey,

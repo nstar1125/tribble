@@ -46,7 +46,13 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
     'time2': "",
     'selectedChoices': <String>[],
     'imageList': <Asset>[],
-    'tagList': <String>[]}
+    'tagList': <String>[],
+
+    'eventId': "",
+    'isBooked': false,
+    'like': 0.0,
+    'count': 0.0
+   }
   );  //생성할 이벤트
 
   // collection, document reference
@@ -65,13 +71,18 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
     myEvent.setChoices(_selectedChoices);
     myEvent.setImages(_imageList);
     myEvent.setTags(_tagList);
+
   }
 
   //collection reference의 add함수를 이용해서 파이어베이스에 이벤트를 업로드
   Future _uploadEvent() async {
     Map<String, dynamic> eventMap = myEvent.toMap(); //이벤트객체에 저장된 각종 변수들을 Map타입으로 변환, 변환하는 이유는 add함수가 Map타입만 알아먹어서...
 
-    await collectionRef.add(eventMap);
+    await collectionRef.add(eventMap).then((documentSnapshot) {
+      myEvent.setEventId(documentSnapshot.id);
+      collectionRef.doc(documentSnapshot.id).update({"eventId": documentSnapshot.id});
+    }
+    );
   }
 
 

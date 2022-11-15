@@ -25,7 +25,7 @@ class _LoungePageState extends State<LoungePage> {
   final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     HomePage(), //toEventLocationPage
-    MyEventPage(),
+    HomePage(),
     HomePage(),
     HomePage(),
   ];
@@ -68,6 +68,9 @@ class _LoungePageState extends State<LoungePage> {
             _selectedIndex = index;
             if (index == 1) {
               Navigator.pushNamed(context, '/toEventLocationPage');
+            }
+            if (index == 2) {
+              Navigator.pushNamed(context, '/toMyEventPage');
             }
             if (index == 4) {
               Navigator.pushNamed(context, '/toChatloungPage');
