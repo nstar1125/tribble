@@ -63,9 +63,9 @@ class MyApp extends StatelessWidget {
           '/toEventDetailCheckPageT': (context) =>
               const EventDetailCheckPageT(),
 
-          //common
+          //common chat
           '/toChatloungPage': (context) => const Chatloungepage(),
-          '/toChatPage': (context) => const Chatpage(),
+          //'/toChatPage': (context) => const ChatPage(),
         });
   }
 }
