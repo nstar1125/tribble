@@ -51,12 +51,6 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
           ),),
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: new IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-
-          },
-        ),
       ),
       body: Text(""),
     );

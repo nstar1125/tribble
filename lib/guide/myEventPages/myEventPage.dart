@@ -26,7 +26,12 @@ class _MyEventPageState extends State<MyEventPage> {
     'time2': "",
     'selectedChoices': <String>[],
     'imageList': <Asset>[],
-    'tagList': <String>[]}
+    'tagList': <String>[],
+    'eventId': "",
+    'isBooked': false,
+    'like': 0.0,
+    'count': 0.0
+  }
   );
 
   @override
@@ -47,9 +52,9 @@ class _MyEventPageState extends State<MyEventPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: new IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.close),
           onPressed: () {
-
+            Navigator.of(context).pop();
           },
         ),
       ),

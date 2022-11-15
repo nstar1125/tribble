@@ -12,6 +12,8 @@ import 'package:tribble_guide/guide/loungePage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
+import 'package:tribble_guide/traveler/createPlanPages/fixPlanPage.dart';
+import 'package:tribble_guide/traveler/createPlanPages/planCompletionPage.dart';
 import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
 import 'package:tribble_guide/superInitialPage.dart';
 import 'package:tribble_guide/traveler/createPlanPages/showNomiPage.dart';
@@ -62,6 +64,8 @@ class MyApp extends StatelessWidget {
           '/toEventSearchListPage': (context) => const EventSearchListPage(),
           '/toEventDetailCheckPageT': (context) =>
               const EventDetailCheckPageT(),
+          '/toPlanCompletionPage':(context) => const PlanCompletionPage(),
+          '/toFixPlanPage':(context) => const FixPlanPage(),
 
           //common
           '/toChatloungPage': (context) => const Chatloungepage(),
