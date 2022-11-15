@@ -59,16 +59,12 @@ class DatabaseService {
   }
 
   // getting the chats
-  getChats(String groupId) {
+  getChats(String groupId) async {
     return groupCollection
         .doc(groupId)
         .collection("messages")
         .orderBy("time")
         .snapshots();
-  }
-
-  getChatslen(String groupId) async {
-    return groupCollection.doc(groupId).collection("messages").count();
   }
 
   Future getGroupAdmin(String groupId) async {

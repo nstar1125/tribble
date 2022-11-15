@@ -28,8 +28,8 @@ class _ChatPageState extends State<ChatPage> {
   int _limitIncrement = 20;
   @override
   void initState() {
-    super.initState();
     getChatandAdmin();
+    super.initState();
     //listScrollController.addListener(_scrollListener);
   }
 
@@ -46,10 +46,6 @@ class _ChatPageState extends State<ChatPage> {
   //}
 
 //아래방법을 최근 메세지 띄우면 됨.
-  int getlen() {
-    return DatabaseService().getChats(widget.groupId);
-  }
-
   getChatandAdmin() {
     DatabaseService().getChats(widget.groupId).then((val) {
       setState(() {
