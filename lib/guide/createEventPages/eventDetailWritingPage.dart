@@ -34,26 +34,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   List<String> _selectedChoices = [];  //선택한 유형
   List<Asset> _imageList = <Asset>[];  //업로드한 이미지 리스트
   List<String> _tagList = <String>[];  //주제 해쉬태그 리스트
-  Event myEvent = Event.fromJson({  //이벤트 객체를 초기화하는 방법입니다~~ event.dart 파일의 fromJson메소드랑 같이 보시면 이해될듯!
-    'guideId': "",
-    'title': "",
-    'location': "",
-    'lat': 0.0,
-    'lng': 0.0,
-    'date1': "",
-    'time1': "",
-    'date2': "",
-    'time2': "",
-    'selectedChoices': <String>[],
-    'imageList': <Asset>[],
-    'tagList': <String>[],
-
-    'eventId': "",
-    'isBooked': false,
-    'like': 0.0,
-    'count': 0.0
-   }
-  );  //생성할 이벤트
+  Event myEvent = Event.fromJson(initEvent);  //생성할 이벤트
 
   // collection, document reference
   final collectionRef = FirebaseFirestore.instance.collection('events');

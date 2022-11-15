@@ -132,7 +132,7 @@ class _SignInPageTState extends State<SignInPageT> {
                               snapshot.docs[0]['fullName']);
                           if (newUser.user != null) {
                             if (snapshot.docs[0]['type'] == "traveler") {
-                              Navigator.of(context).pushNamed("/toLoungePage");
+                              Navigator.of(context).pushNamed("/toLoungePageT");
                             } else {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(

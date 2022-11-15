@@ -19,20 +19,7 @@ class ShowNomiPage extends StatefulWidget {
 
 class _ShowNomiPageState extends State<ShowNomiPage> {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
-  Event selectedEvent = Event.fromJson({  //이벤트 객체를 초기화하는 방법입니다~~ event.dart 파일의 fromJson메소드랑 같이 보시면 이해될듯!
-    'guideId': "",
-    'title': "",
-    'location': "",
-    'lat': 0.0,
-    'lng': 0.0,
-    'date1': "",
-    'time1': "",
-    'date2': "",
-    'time2': "",
-    'selectedChoices': <String>[],
-    'imageList': <Asset>[],
-    'tagList': <String>[]}
-  );
+  Event selectedEvent = Event.fromJson(initEvent);
 
   @override
   Widget build(BuildContext context) {
