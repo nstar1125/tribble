@@ -6,14 +6,14 @@ import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 import 'package:tribble_guide/guide/loungePage.dart';
 
-class SignInPageT extends StatefulWidget {
-  const SignInPageT({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State<SignInPageT> createState() => _SignInPageTState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageTState extends State<SignInPageT> {
+class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   final _authentication = FirebaseAuth.instance;
   String userEmail = '';
@@ -32,7 +32,7 @@ class _SignInPageTState extends State<SignInPageT> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black87),
           title: Text(
-            "Sign in",
+            "로그인",
             style: TextStyle(
                 color: Colors.black87,
                 fontFamily: "GmarketSansTTF",
@@ -60,7 +60,7 @@ class _SignInPageTState extends State<SignInPageT> {
                         keyboardType: TextInputType.emailAddress,
                         validator: ((value) {
                           if (value!.isEmpty || !value.contains('@')) {
-                            return "Enter a valid email address";
+                            return "올바른 이메일 형식으로 입력하세요";
                           }
                           return null;
                         }),
@@ -72,7 +72,7 @@ class _SignInPageTState extends State<SignInPageT> {
                         },
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: "email",
+                          labelText: "이메일",
                           labelStyle: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 16,
@@ -83,7 +83,7 @@ class _SignInPageTState extends State<SignInPageT> {
                         obscureText: true,
                         validator: ((value) {
                           if (value!.isEmpty) {
-                            return "Type in password";
+                            return "패스워드를 입력하세요";
                           }
                           return null;
                         }),
@@ -95,7 +95,7 @@ class _SignInPageTState extends State<SignInPageT> {
                         },
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: "password",
+                          labelText: "패스워드",
                           labelStyle: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 16,
@@ -110,7 +110,7 @@ class _SignInPageTState extends State<SignInPageT> {
                           backgroundColor: Colors.lightBlueAccent,
                           minimumSize: const Size.fromHeight(40)),
                       child: Text(
-                        "Sign in",
+                        "로그인",
                         style: TextStyle(
                           fontFamily: "GmarketSansTTF",
                           fontSize: 14,
@@ -133,13 +133,10 @@ class _SignInPageTState extends State<SignInPageT> {
                           if (newUser.user != null) {
                             Navigator.of(context).pushNamed("/toLoungePage");
                           }
-                          if (newUser.user != null) {
-                            Navigator.of(context).pushNamed("/toLoungePageT");
-                          }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
-                              "Wrong email or password",
+                              "잘못된 이메일이나 패스워드입니다",
                               style: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 14,

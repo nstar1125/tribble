@@ -71,15 +71,15 @@ class _HomePageTState extends State<HomePageT> {
                     children: [
                       Padding(
                           padding: EdgeInsets.only(left: 20, right: 20),
-                          child: Image(image: AssetImage("assets/images/home_illust_welcome_g.png"),)
+                          child: Image(image: AssetImage("assets/images/home_illust_welcome_t.png"),)
                       ),
                       Padding(
                           padding: EdgeInsets.only(left: 20, right: 20),
-                          child: Image(image: AssetImage("assets/images/home_illust_learn_g.png"),)
+                          child: Image(image: AssetImage("assets/images/home_illust_culture_t.png"),)
                       ),
                       Padding(
                           padding: EdgeInsets.only(left: 20, right: 20),
-                          child: Image(image: AssetImage("assets/images/home_illust_friends_g.png"),)
+                          child: Image(image: AssetImage("assets/images/home_illust_friends_t.png"),)
                       ),
 
                     ],

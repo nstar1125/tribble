@@ -21,23 +21,22 @@ class _LoungePageTState extends State<LoungePageT> {
     getCurrentUser();
   }
 
-
   final List<Widget> _widgetOptions = <Widget>[
     HomePageT(),
-    HomePageT(),//toEventLocationPage
+    HomePageT(), //toEventLocationPage
     HomePageT(),
     HomePageT(),
     HomePageT(),
   ];
 
-  void getCurrentUser(){
-    try{
+  void getCurrentUser() {
+    try {
       final user = _authentication.currentUser;
-      if(user != null){
+      if (user != null) {
         loggedUser = user;
         print(loggedUser!.email);
       }
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -45,63 +44,43 @@ class _LoungePageTState extends State<LoungePageT> {
   @override
   Widget build(BuildContext context) {
     String? temp;
-    if(loggedUser != null){
+    if (loggedUser != null) {
       temp = loggedUser?.email;
     }
     return Scaffold(
-      body: SafeArea(
-          child: _widgetOptions.elementAt(_selectedIndex)
-      )
-      ,
+      body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         elevation: 20,
         selectedItemColor: Colors.black87,
-        selectedLabelStyle: TextStyle(
-            fontFamily: "GmarketSansTTF",
-            fontSize: 12
-        ),
+        selectedLabelStyle:
+            TextStyle(fontFamily: "GmarketSansTTF", fontSize: 12),
         unselectedItemColor: Colors.grey,
-        unselectedLabelStyle: TextStyle(
-            fontFamily: "GmarketSansTTF",
-            fontSize: 10
-        ),
+        unselectedLabelStyle:
+            TextStyle(fontFamily: "GmarketSansTTF", fontSize: 10),
         selectedFontSize: 12,
         unselectedFontSize: 12,
         currentIndex: _selectedIndex,
-        onTap:(int index) {
+        onTap: (int index) {
           setState(() {
             _selectedIndex = index;
-            if (index == 1){
+            if (index == 1) {
               Navigator.pushNamed(context, '/toPlanLocationPage');
+            }
+            if (index == 4) {
+              Navigator.pushNamed(context, '/toChatloungPage');
             }
           });
         },
-        items: const[
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.edit), label: "Plan tour"),
+          BottomNavigationBarItem(icon: Icon(Icons.luggage), label: "My tour"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
-              label: "Home"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.edit),
-              label: "Plan tour"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.luggage),
-              label: "My tour"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: "Other tour"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble),
-              label: "Chat"
-          )
-
+              icon: Icon(Icons.search), label: "Other tour"),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: "Chat")
         ],
-
       ),
     );
   }

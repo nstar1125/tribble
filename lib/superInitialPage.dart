@@ -11,24 +11,33 @@ class SuperInitialPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
+      extendBodyBehindAppBar: true,
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              child: Text("guide\n가이드"),
-              onPressed: () {
-                Navigator.of(context).pushNamed('/toInitialPage');
-
-              },
-            ),
-            SizedBox(width: 20,),
-            ElevatedButton(
-              child: Text("traveler\n트래블러"),
-              onPressed: () {
+            GestureDetector(
+              onTap: (){
                 Navigator.of(context).pushNamed('/toInitialPageT');
-
               },
+              child: Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height/2,
+                width: MediaQuery.of(context).size.width,
+                child:  Image(image: AssetImage("assets/images/initial_traveler.png")),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).pushNamed('/toInitialPage');
+              },
+              child: Container(
+                color: Colors.lightBlueAccent,
+                height: MediaQuery.of(context).size.height/2,
+                width: MediaQuery.of(context).size.width,
+                child:  Image(image: AssetImage("assets/images/initial_guide.png")),
+
+              ),
             ),
           ],
         ),

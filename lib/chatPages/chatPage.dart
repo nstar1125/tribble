@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tribble_guide/chatPages/message.dart';
 import 'package:tribble_guide/chatPages/new_message.dart';
-import 'package:tribble_guide/homePage.dart';
+import 'package:tribble_guide/guide/homePage.dart';
 
 class Chatpage extends StatefulWidget {
   const Chatpage({Key? key}) : super(key: key);

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 
-class SignUpPageT extends StatefulWidget {
-  const SignUpPageT({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPageT> createState() => _SignUpPageTState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageTState extends State<SignUpPageT> {
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _authentication = FirebaseAuth.instance;
   String userName = '';
@@ -31,7 +30,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black87),
           title: Text(
-            "Sign Up",
+            "회원가입",
             style: TextStyle(
                 color: Colors.black87,
                 fontFamily: "GmarketSansTTF",
@@ -58,7 +57,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
                     TextFormField(
                         validator: ((value) {
                           if (value!.isEmpty || value.length < 3) {
-                            return "Enter at least 3 characters";
+                            return "3글자 이상 입력하세요";
                           }
                           return null;
                         }),
@@ -70,7 +69,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
                         },
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: "User name",
+                          labelText: "닉네임",
                           labelStyle: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 16,
@@ -87,13 +86,13 @@ class _SignUpPageTState extends State<SignUpPageT> {
                         },
                         validator: ((value) {
                           if (value!.isEmpty || !value.contains('@')) {
-                            return "Enter a valid email address";
+                            return "올바른 이메일 형식으로 입력하세요";
                           }
                           return null;
                         }),
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: "Email address",
+                          labelText: "이메일",
                           labelStyle: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 16,
@@ -104,7 +103,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
                         obscureText: true,
                         validator: ((value) {
                           if (value!.isEmpty || value.length < 8) {
-                            return "Password must be at least 8 characters long";
+                            return "패스워드는 8자 이상 입력해야 합니다";
                           }
                           return null;
                         }),
@@ -116,7 +115,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
                         },
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: "Password",
+                          labelText: "패스워드",
                           labelStyle: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 16,
@@ -127,7 +126,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
                         obscureText: true,
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: "Password confirmation",
+                          labelText: "패스워드 확인",
                           labelStyle: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 16,
@@ -142,7 +141,7 @@ class _SignUpPageTState extends State<SignUpPageT> {
                             backgroundColor: Colors.lightBlueAccent,
                             minimumSize: const Size.fromHeight(40)),
                         child: Text(
-                          "Sign in",
+                          "회원가입",
                           style: TextStyle(
                             fontFamily: "GmarketSansTTF",
                             fontSize: 14,
@@ -155,16 +154,21 @@ class _SignUpPageTState extends State<SignUpPageT> {
                             final newUser = await _authentication
                                 .createUserWithEmailAndPassword(
                                     email: userEmail, password: userPassword);
-                            await DatabaseService(uid: newUser.user!.uid)
-                                .savingUserData(userName, userEmail);
-
+                            await FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(newUser.user!.uid)
+                                .set({
+                              'userName': userName,
+                              'email': userEmail,
+                              'userType': "guide"
+                            });
                             if (newUser.user != null) {
-                              Navigator.of(context).pushNamed("/toLoungePageT");
+                              Navigator.of(context).pushNamed("/toLoungePage");
                             }
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                "Wrong email or password is already exist",
+                                "이미 있거나 잘못된 이메일과 패스워드 입니다",
                                 style: TextStyle(
                                   fontFamily: "GmarketSansTTF",
                                   fontSize: 14,
