@@ -36,6 +36,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   List<String> _tagList = <String>[];  //주제 해쉬태그 리스트
   Event myEvent = Event.fromJson(initEvent);  //생성할 이벤트
 
+
   // collection, document reference
   final collectionRef = FirebaseFirestore.instance.collection('events');
   final eventDocumentRef = FirebaseFirestore.instance.collection('events').doc();
@@ -45,15 +46,21 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   //이벤트 작성자의 이름까지 업로드
   //가이드아이디는 있음
   //
-  _setEvent(PlaceDetails detailResult){  //이벤트 생성, *위치정보 추가해야함=>추가했음
-    myEvent.setGuideId(currentUser.currentUser!.uid);
+
+  Future nickNameFunc() async {
     userRef.doc(currentUser.currentUser!.uid).get().then(
-        (DocumentSnapshot doc) {
+            (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
           nickname = data["fullName"];
         }
     );
+  }
 
+
+  _setEvent(PlaceDetails detailResult) {  //이벤트 생성, *위치정보 추가해야함=>추가했음
+    myEvent.setGuideId(currentUser.currentUser!.uid);
+
+    myEvent.setGuideName(nickname);
     myEvent.setTitle(_title);
     //위치정보시작
     myEvent.setLocation(detailResult.formattedAddress);
@@ -137,6 +144,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   @override
   Widget build(BuildContext context) {
     // 고른 장소에 대한 정보들이 담겨 있음.
+    nickNameFunc();
     PlaceDetails detailResult = ModalRoute.of(context)?.settings.arguments as PlaceDetails;
 
     return Scaffold(

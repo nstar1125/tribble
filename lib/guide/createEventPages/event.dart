@@ -2,6 +2,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 Map<String, dynamic> initEvent = {
   'guideId': "",
+  'guideName': "",
   'title': "",
   'location': "",
   'lat': 0.0,
@@ -21,6 +22,7 @@ Map<String, dynamic> initEvent = {
 
 class Event{
   String _guideId = "";
+  String _guideName = "";
   String _title = "";
   String? _location = "";
   double _lat = 0.0;
@@ -39,6 +41,10 @@ class Event{
   double _count = 0.0;
   // like, isBooked, count
 
+
+  setGuideName(String name){
+    _guideName = name;
+  }
   setGuideId(String id){
     _guideId = id;
   }
@@ -90,6 +96,10 @@ class Event{
     if(_count > 0){
       _count = _count - 1;
     }
+  }
+
+  String getGuideName(){
+    return _guideName;
   }
   String getGuideId(){
     return _guideId;
@@ -143,6 +153,7 @@ class Event{
 
   Map<String, dynamic> toMap() => {
     'guideId': _guideId,
+    'guideName': _guideName,
     'title': _title,
     'location': _location,
     'lat': _lat,
@@ -163,6 +174,7 @@ class Event{
 
   Event.fromJson(Map<String, dynamic> json)
   : _guideId = json['guideId'],
+    _guideName = json['guideName'],
     _title = json['title'],
     _location = json['location'],
     _lat = json['lat'],
