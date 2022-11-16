@@ -15,12 +15,12 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   final db = FirebaseFirestore.instance;
   final currentUser = FirebaseAuth.instance;
   late GoogleMapController _controller;
-  Set<Marker> markers = {};
   final List<Set<Marker>> markersList = [];
 
   List<bool> showList = [];
   int eventCount = 100;
 
+  //constructor
   _PlanCheckPageState(){
     for(int i =0 ; i<eventCount; i++){
       showList.add(false);
@@ -29,6 +29,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
 
   void addMarker(coordinate) {
     setState(() {
+      Set<Marker> markers = {};
       markers.add(Marker(
         position: coordinate,
         markerId: MarkerId("0"),

@@ -59,6 +59,11 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
   String _keyword = "";
 
 
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    markerId = 1;
+  }
 
   Future<Uint8List> getImages(String path, int width) async{
     ByteData data = await rootBundle.load(path);
