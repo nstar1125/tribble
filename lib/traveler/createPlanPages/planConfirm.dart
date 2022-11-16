@@ -15,7 +15,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
   final db = FirebaseFirestore.instance;
   final currentUser = FirebaseAuth.instance;
   late GoogleMapController _controller;
-  Set<Marker> markers = {};
+
   final List<Set<Marker>> markersList = [];
 
   String tourTitle = "";
@@ -31,6 +31,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
   }
   void addMarker(coordinate) {
     setState(() {
+      Set<Marker> markers = {};
       markers.add(Marker(
         position: coordinate,
         markerId: MarkerId("0"),

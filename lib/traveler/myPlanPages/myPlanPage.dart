@@ -16,39 +16,10 @@ class _MyPlanPageState extends State<MyPlanPage> {
   final db = FirebaseFirestore.instance;
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('plans');
   final currentUser = FirebaseAuth.instance;
-  Event tempEvent = Event.fromJson({  //이벤트 객체를 초기화하는 방법입니다~~ event.dart 파일의 fromJson메소드랑 같이 보시면 이해될듯!
-    'guideId': "",
-    'title': "",
-    'location': "",
-    'lat': 0.0,
-    'lng': 0.0,
-    'date1': "",
-    'time1': "",
-    'date2': "",
-    'time2': "",
-    'selectedChoices': <String>[],
-    'imageList': <Asset>[],
-    'tagList': <String>[],
-    'eventId': "",
-    'isBooked': false,
-    'like': 0.0,
-    'count': 0.0
-  }
-  );
+
   List<Event> selectedPlan = [];
 
 
-  getStartDate(String eventId){
-    final eventRef = db.collection("events").doc(eventId);
-    String sDate = "";
-    eventRef.get().then(
-            (DocumentSnapshot doc) {
-              final data = doc.data() as Map<String, dynamic>;
-              sDate = data["date1"];
-            }
-    );
-    return sDate;
-  }
   @override
   Widget build(BuildContext context) {
 
@@ -83,40 +54,46 @@ class _MyPlanPageState extends State<MyPlanPage> {
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
 
-                final eventRef = db.collection("events").doc(documentSnapshot['eventList'][0]);
-                String sDate = "";
-                eventRef.get().then(
-                        (DocumentSnapshot doc) {
-                      final data = doc.data() as Map<String, dynamic>;
-                    }
-                );
-
 
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async{
                     for (int i = 0; i < documentSnapshot['eventList'].length; i++){
                       String eventId = documentSnapshot['eventList'][i];
-                      final eventRef = db.collection("events").doc(eventId);
-                      eventRef.get().then(
-                          (DocumentSnapshot doc) {
-                            final data = doc.data() as Map<String, dynamic>;
-                            tempEvent.setGuideId(data['guideId']);
-                            tempEvent.setTitle(data['title']);
-                            tempEvent.setLocation(data['location']);
-                            tempEvent.setLatlng(data['lat'],data['lng']);
-                            tempEvent.setSTime(data['date1'],data['time1']);
-                            tempEvent.setFTime(data['date2'],data['time2']);
-                            tempEvent.setChoices(data['selectedChoices'].cast<String>());
-                            //tempEvent.setImages();
-                            tempEvent.setTags(data['tagList'].cast<String>());
-                            selectedPlan.add(tempEvent);
-                            Navigator.of(context).pushNamed('/toPlanCheckPage', arguments: selectedPlan);
-                            selectedPlan = [];
-                          }
+                      final eventData = await db.collection("events").doc(eventId).get();
+                      Event tempEvent = Event.fromJson({  //이벤트 객체를 초기화하는 방법입니다~~ event.dart 파일의 fromJson메소드랑 같이 보시면 이해될듯!
+                        'guideId': "",
+                        'title': "",
+                        'location': "",
+                        'lat': 0.0,
+                        'lng': 0.0,
+                        'date1': "",
+                        'time1': "",
+                        'date2': "",
+                        'time2': "",
+                        'selectedChoices': <String>[],
+                        'imageList': <Asset>[],
+                        'tagList': <String>[],
+                        'eventId': "",
+                        'isBooked': false,
+                        'like': 0.0,
+                        'count': 0.0
+                      }
                       );
+                      tempEvent.setGuideId(eventData.data()!["guideId"]);
+                      tempEvent.setTitle(eventData.data()!["title"]);
+                      tempEvent.setLocation(eventData.data()!["location"]);
+                      tempEvent.setLatlng(eventData.data()!["lat"],eventData.data()!["lng"]);
+                      tempEvent.setSTime(eventData.data()!["date1"],eventData.data()!["time1"]);
+                      tempEvent.setFTime(eventData.data()!["date2"],eventData.data()!["time2"]);
+                      tempEvent.setChoices(eventData.data()!["selectedChoices"].cast<String>());
+                      //tempEvent.setImages();
+                      tempEvent.setTags(eventData.data()!["tagList"].cast<String>());
+
+                      selectedPlan.add(tempEvent);
+
                     }
-
-
+                    Navigator.of(context).pushNamed('/toPlanCheckPage', arguments: selectedPlan);
+                    selectedPlan = [];
                     //초기화
                   },
                   child: Card(
@@ -132,7 +109,7 @@ class _MyPlanPageState extends State<MyPlanPage> {
                       ),
                       subtitle: Text(
                           //"${documentSnapshot['eventList'][index]}",
-                          sDate,
+                          "",
                           //첫번째 이벤트의 시작 시간
                           style: TextStyle(
                             fontFamily: "GmarketSansTTF",
