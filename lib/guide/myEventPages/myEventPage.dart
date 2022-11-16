@@ -68,6 +68,7 @@ class _MyEventPageState extends State<MyEventPage> {
                 final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
                 return GestureDetector(
                   onTap: () {
+
                     selectedEvent.setGuideId(documentSnapshot['guideId']);
                     selectedEvent.setTitle(documentSnapshot['title']);
                     selectedEvent.setLocation(documentSnapshot['location']);
