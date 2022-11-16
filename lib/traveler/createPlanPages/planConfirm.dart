@@ -265,7 +265,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                                               fontSize: 14,
                                             )),
                                         SizedBox(height: 20),
-                                        Text("작성자 ㅇㅇㅇ",
+                                        Text("Guide: "+events[index].getGuideName(),
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontFamily: "GmarketSansTTF",
