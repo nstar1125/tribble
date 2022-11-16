@@ -49,6 +49,8 @@ class _MyPlanPageState extends State<MyPlanPage> {
     );
     return sDate;
   }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -81,22 +83,21 @@ class _MyPlanPageState extends State<MyPlanPage> {
             return ListView.builder(
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
+
+                // documentSnapshot = plan 하나
                 final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
 
-                final eventRef = db.collection("events").doc(documentSnapshot['eventList'][0]);
-                String sDate = "";
-                eventRef.get().then(
-                        (DocumentSnapshot doc) {
-                      final data = doc.data() as Map<String, dynamic>;
-                    }
-                );
-
-
                 return GestureDetector(
+                  //plan 하나 카드를 누르면,
                   onTap: () {
+
                     for (int i = 0; i < documentSnapshot['eventList'].length; i++){
+                      // plan의 eventList를 돌겠다. 돌면서 plan 객체에 저장하겠어
+                      // event id
                       String eventId = documentSnapshot['eventList'][i];
+                      // eventRef = plan의 eventlist에 들어있는 모든 event를 접근하겠다. event id 이용해서
                       final eventRef = db.collection("events").doc(eventId);
+                      // event 하나에 접근해서
                       eventRef.get().then(
                           (DocumentSnapshot doc) {
                             final data = doc.data() as Map<String, dynamic>;
@@ -109,15 +110,17 @@ class _MyPlanPageState extends State<MyPlanPage> {
                             tempEvent.setChoices(data['selectedChoices'].cast<String>());
                             //tempEvent.setImages();
                             tempEvent.setTags(data['tagList'].cast<String>());
+                            // 준비된 plan 객체에 event를 쌓아서, plan과 동일한 객체를 만들겠어
                             selectedPlan.add(tempEvent);
-                            Navigator.of(context).pushNamed('/toPlanCheckPage', arguments: selectedPlan);
-                            selectedPlan = [];
                           }
                       );
                     }
+                    // plan 객체를 plan check page로 전달하겠다
+                    // 플랜 객체는 이벤트리스트타입
+                    Navigator.of(context).pushNamed('/toPlanCheckPage', arguments: selectedPlan);
 
 
-                    //초기화
+                    selectedPlan.clear();
                   },
                   child: Card(
                     margin: EdgeInsets.all(10.0),
@@ -128,15 +131,6 @@ class _MyPlanPageState extends State<MyPlanPage> {
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
                             fontSize: 14,
-                          )
-                      ),
-                      subtitle: Text(
-                          //"${documentSnapshot['eventList'][index]}",
-                          sDate,
-                          //첫번째 이벤트의 시작 시간
-                          style: TextStyle(
-                            fontFamily: "GmarketSansTTF",
-                            fontSize: 12,
                           )
                       ),
                     ),

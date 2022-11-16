@@ -20,11 +20,13 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
 
   List<bool> showList = [];
   int eventCount = 100;
+
   _PlanCheckPageState(){
     for(int i =0 ; i<eventCount; i++){
       showList.add(false);
     }
   }
+
   void addMarker(coordinate) {
     setState(() {
       markers.add(Marker(
