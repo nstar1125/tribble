@@ -6,6 +6,7 @@ import 'package:tribble_guide/guide/homePage.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 import 'package:tribble_guide/chatPages/widgets/group_tile.dart';
 import 'package:tribble_guide/chatPages/widgets/widgets.dart';
+import 'package:tribble_guide/chatPages/profile_page.dart';
 
 class Chatloungepage extends StatefulWidget {
   const Chatloungepage({Key? key}) : super(key: key);
@@ -78,7 +79,7 @@ class _Chatloungestate extends State<Chatloungepage> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/toLoungePage');
+                Navigator.pop(context);
               })
         ],
       ),
@@ -106,25 +107,13 @@ class _Chatloungestate extends State<Chatloungepage> {
             height: 2,
           ),
           ListTile(
-            onTap: () {},
-            selectedColor: Theme.of(context).primaryColor,
-            selected: true,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.group),
-            title: const Text(
-              "Groups",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          ListTile(
             onTap: () {
-              // nextScreenReplace(
-              //     context,
-              //     ProfilePage(
-              //       userName: userName,
-              //       email: email,
-              //     ));
+              nextScreenReplace(
+                  context,
+                  ProfilePage(
+                    userName: userName,
+                    email: email,
+                  ));
             },
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -134,44 +123,6 @@ class _Chatloungestate extends State<Chatloungepage> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          ListTile(
-            onTap: () async {
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Logout"),
-                      content: const Text("Are you sure you want to logout?"),
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () async {},
-                          icon: const Icon(
-                            Icons.done,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
-                    );
-                  });
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.exit_to_app),
-            title: const Text(
-              "Logout",
-              style: TextStyle(color: Colors.black),
-            ),
-          )
         ],
       )),
       body: groupList(),
@@ -247,13 +198,13 @@ class _Chatloungestate extends State<Chatloungepage> {
                       setState(() {
                         _isLoading = true;
                       });
-                      DatabaseService(
-                              uid: FirebaseAuth.instance.currentUser!.uid)
-                          .createGroup(userName,
-                              FirebaseAuth.instance.currentUser!.uid, groupName)
-                          .whenComplete(() {
-                        _isLoading = false;
-                      });
+                      // DatabaseService(
+                      //         uid: FirebaseAuth.instance.currentUser!.uid)
+                      //     .createGroup(userName,
+                      //         FirebaseAuth.instance.currentUser!.uid, groupName)
+                      //     .whenComplete(() {
+                      //   _isLoading = false;
+                      // });
                       Navigator.of(context).pop();
                       showSnackbar(
                           context, Colors.green, "Group created successfully.");

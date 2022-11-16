@@ -130,6 +130,9 @@ class _SignInPageState extends State<SignInPage> {
                           await HelperFunctions.saveUserEmailSF(userEmail);
                           await HelperFunctions.saveUserNameSF(
                               snapshot.docs[0]['fullName']);
+                          await HelperFunctions.saveUserIDSF(
+                              FirebaseAuth.instance.currentUser!.uid);
+
                           if (newUser.user != null) {
                             if (snapshot.docs[0]['type'] == "guide") {
                               Navigator.of(context).pushNamed("/toLoungePage");

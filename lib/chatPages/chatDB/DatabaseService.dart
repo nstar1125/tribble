@@ -19,6 +19,7 @@ class DatabaseService {
       "profilePic": "",
       "uid": uid,
       "type": type,
+      "url": "",
     });
   }
 
@@ -34,8 +35,14 @@ class DatabaseService {
     return userCollection.doc(uid).snapshots();
   }
 
+  getUserName() async {
+    return userCollection.doc(uid).get();
+  }
+
   // creating a group
-  Future createGroup(String userName, String id, String groupName) async {
+  //여기서하면될듯 플래너가 가이
+  Future createGroup(String userName, String id, String pName, String pid,
+      String groupName) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       "groupIcon": "",
@@ -52,7 +59,13 @@ class DatabaseService {
     });
 
     DocumentReference userDocumentReference = userCollection.doc(uid);
-    return await userDocumentReference.update({
+    await userDocumentReference.update({
+      "groups":
+          FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
+    });
+
+    DocumentReference GDocumentReference = userCollection.doc(pid);
+    return await GDocumentReference.update({
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
