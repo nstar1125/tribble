@@ -208,7 +208,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                                   .createGroup(
                                                       // events[index]
                                                       //     .getGuideName(),
-                                                      "아직 수정전",
+                                                      "last",
                                                       events[index]
                                                           .getGuideId(),
                                                       userName,
@@ -228,7 +228,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                                                       index]
                                                                   .getTitle(),
                                                               userName:
-                                                                  "dongmin")));
+                                                                  userName)));
                                             },
                                             icon: Icon(
                                               Icons.chat_bubble,

@@ -7,6 +7,9 @@ class DatabaseService {
   // reference for our collections
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
+  final CollectionReference userCollection2 =
+      FirebaseFirestore.instance.collection("users");
+
   final CollectionReference groupCollection =
       FirebaseFirestore.instance.collection("groups");
 
@@ -57,15 +60,16 @@ class DatabaseService {
       "members": FieldValue.arrayUnion(["${uid}_$userName"]),
       "groupId": groupDocumentReference.id,
     });
-
+    final String? ppid;
+    ppid = pid;
     DocumentReference userDocumentReference = userCollection.doc(uid);
     await userDocumentReference.update({
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
 
-    DocumentReference GDocumentReference = userCollection.doc(pid);
-    return await GDocumentReference.update({
+    userDocumentReference = userCollection2.doc(ppid);
+    await userDocumentReference.update({
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
