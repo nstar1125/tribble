@@ -208,6 +208,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
+
                           scrollDirection: Axis.horizontal,
                           itemCount: e.getImages().length,
                           itemBuilder: (BuildContext context, int index) {

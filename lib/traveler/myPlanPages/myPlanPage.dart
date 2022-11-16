@@ -111,6 +111,14 @@ class _MyPlanPageState extends State<MyPlanPage> {
                             fontSize: 14,
                           )
                       ),
+                      subtitle: Text(
+                          documentSnapshot['date1'],
+                          //첫번째 이벤트의 시작 시간
+                          style: TextStyle(
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 12,
+                          )
+                      ),
                     ),
                   ),
                 );

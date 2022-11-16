@@ -58,7 +58,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0.0,
+          elevation: 0,
           centerTitle: true,
           title: Text("My Plan",
             style: TextStyle(
