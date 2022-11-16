@@ -99,7 +99,6 @@ class _MyPlanPageState extends State<MyPlanPage> {
                       eventRef.get().then(
                           (DocumentSnapshot doc) {
                             final data = doc.data() as Map<String, dynamic>;
-
                             tempEvent.setGuideId(data['guideId']);
                             tempEvent.setTitle(data['title']);
                             tempEvent.setLocation(data['location']);
@@ -110,12 +109,13 @@ class _MyPlanPageState extends State<MyPlanPage> {
                             //tempEvent.setImages();
                             tempEvent.setTags(data['tagList'].cast<String>());
                             selectedPlan.add(tempEvent);
-
+                            Navigator.of(context).pushNamed('/toPlanCheckPage', arguments: selectedPlan);
+                            selectedPlan = [];
                           }
                       );
                     }
-                    Navigator.of(context).pushNamed('/toPlanCheckPage', arguments: selectedPlan);
-                    selectedPlan = [];
+
+
                     //초기화
                   },
                   child: Card(
