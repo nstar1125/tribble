@@ -39,9 +39,21 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   // collection, document reference
   final collectionRef = FirebaseFirestore.instance.collection('events');
   final eventDocumentRef = FirebaseFirestore.instance.collection('events').doc();
+  final userRef = FirebaseFirestore.instance.collection('users');
+  String nickname = "";
 
+  //이벤트 작성자의 이름까지 업로드
+  //가이드아이디는 있음
+  //
   _setEvent(PlaceDetails detailResult){  //이벤트 생성, *위치정보 추가해야함=>추가했음
     myEvent.setGuideId(currentUser.currentUser!.uid);
+    userRef.doc(currentUser.currentUser!.uid).get().then(
+        (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          nickname = data["fullName"];
+        }
+    );
+
     myEvent.setTitle(_title);
     //위치정보시작
     myEvent.setLocation(detailResult.formattedAddress);
@@ -252,7 +264,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                             minTime: DateTime(2000, 1, 1),
                             maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
                               print('confirm $date');
-                              _date1 = '${date.year} 년 ${date.month} 월 ${date.day} 일';
+                              _date1 = '${date.year} - ${date.month} - ${date.day}';
                               setState(() {});
                             }, currentTime: DateTime.now(), locale: LocaleType.en);
                       },
@@ -297,7 +309,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                           ),
                           showTitleActions: true, onConfirm: (time) {
                             print('confirm $time');
-                            _time1 = '${time.hour} 시 ${time.minute} 분 부터';
+                            _time1 = '${time.hour} : ${time.minute} ~';
                             setState(() {});
                           }, currentTime: DateTime.now(), locale: LocaleType.en);
                       setState(() {});
@@ -358,7 +370,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                           minTime: DateTime(2000, 1, 1),
                           maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
                             print('confirm $date');
-                            _date2 = '${date.year} 년 ${date.month} 월 ${date.day} 일';
+                            _date2 = '${date.year} - ${date.month} - ${date.day}';
                             setState(() {});
                           }, currentTime: DateTime.now(), locale: LocaleType.en);
                     },
@@ -403,7 +415,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                           ),
                           showTitleActions: true, onConfirm: (time) {
                             print('confirm $time');
-                            _time2 = '${time.hour} 시 ${time.minute} 분 까지';
+                            _time2 = '${time.hour} : ${time.minute}';
                             setState(() {});
                           }, currentTime: DateTime.now(), locale: LocaleType.en);
                       setState(() {});
