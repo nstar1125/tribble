@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MyPlanPage extends StatefulWidget {
@@ -8,6 +9,9 @@ class MyPlanPage extends StatefulWidget {
 }
 
 class _MyPlanPageState extends State<MyPlanPage> {
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +36,10 @@ class _MyPlanPageState extends State<MyPlanPage> {
           },
         ),
       ),
+      body: StreamBuilder(
+        stream: collectionRef.,
+      )
+
 
     );
   }

@@ -56,7 +56,7 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
 
 
                 //조건: 거리1km내 && (같은 날) && 같은 해시태그 가지는
-                if(distanceInMeters < 1000 && documentSnapshot['tagList'].contains(ltt.tag)) {
+                if(distanceInMeters < 1000 && (ltt.tag == "" || documentSnapshot['tagList'].contains(ltt.tag))) {
                   return GestureDetector(
                     onTap: () {
                       selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
