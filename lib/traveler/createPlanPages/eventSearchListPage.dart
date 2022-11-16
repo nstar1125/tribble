@@ -4,6 +4,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
 
 //지도에서 장소 하나를 검색하고 Search Event! 버튼을 누르면 나오는
 //검색한 장소 근방 1km의 이벤트를 필터링해서 보여주는 페이지입니다
@@ -17,30 +18,12 @@ class EventSearchListPage extends StatefulWidget {
 class _EventSearchListPageState extends State<EventSearchListPage> {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
 
-  Event selectedEvent = Event.fromJson({  //이벤트 객체를 초기화하는 방법입니다~~ event.dart 파일의 fromJson메소드랑 같이 보시면 이해될듯!
-    'guideId': "",
-    'title': "",
-    'location': "",
-    'lat': 0.0,
-    'lng': 0.0,
-    'date1': "",
-    'time1': "",
-    'date2': "",
-    'time2': "",
-    'selectedChoices': <String>[],
-    'imageList': <Asset>[],
-    'tagList': <String>[],
-    'eventId': "",
-    'isBooked': false,
-    'like': 0.0,
-    'count': 0.0
-  }
-  );
+  Event selectedEvent = Event.fromJson(initEvent);
 
   @override
   Widget build(BuildContext context) {
     //고른 장소의 위치를 얻기 위해 받아왔음
-    PlaceDetails detailResult = ModalRoute.of(context)!.settings.arguments as PlaceDetails;
+    LocaTimeTag ltt = ModalRoute.of(context)!.settings.arguments as LocaTimeTag;
 
     return Scaffold(
       appBar: AppBar(
@@ -69,9 +52,11 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                 final DocumentSnapshot documentSnapshot = snapshots.data!.docs[index];
 
                 //거리 1km 안의 이벤트만 리스트로 보여주기.. 앱 내 작동..
-                double distanceInMeters = Geolocator.distanceBetween(detailResult.geometry!.location.lat, detailResult.geometry!.location.lng, documentSnapshot['lat'], documentSnapshot['lng']);
+                double distanceInMeters = Geolocator.distanceBetween(ltt.locDetail.geometry!.location.lat, ltt.locDetail.geometry!.location.lng, documentSnapshot['lat'], documentSnapshot['lng']);
 
-                if(distanceInMeters < 1000) {
+
+                //조건: 거리1km내 && (같은 날) && 같은 해시태그 가지는
+                if(distanceInMeters < 1000 && documentSnapshot['tagList'].contains(ltt.tag)) {
                   return GestureDetector(
                     onTap: () {
                       selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
@@ -82,7 +67,6 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                           Navigator.pop(context, e);
                         }
                       });
-                      //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서
                     },
                     child: Card(
                       margin: EdgeInsets.all(10.0),

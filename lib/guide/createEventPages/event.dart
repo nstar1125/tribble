@@ -1,5 +1,24 @@
 import 'package:multi_image_picker/multi_image_picker.dart';
 
+Map<String, dynamic> initEvent = {
+  'guideId': "",
+  'title': "",
+  'location': "",
+  'lat': 0.0,
+  'lng': 0.0,
+  'date1': "",
+  'time1': "",
+  'date2': "",
+  'time2': "",
+  'selectedChoices': <String>[],
+  'imageList': <Asset>[],
+  'tagList': <String>[],
+  'eventId': "",
+  'isBooked': false,
+  'like': 0.0,
+  'count': 0.0
+};
+
 class Event{
   String _guideId = "";
   String _title = "";
