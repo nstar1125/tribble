@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tribble_guide/chatPages/helper/helper_function.dart';
+import 'package:flutter/material.dart';
+import 'package:tribble_guide/chatPages/chatPage.dart';
+import 'package:tribble_guide/chatPages/widgets/widgets.dart';
 
 class DatabaseService {
   final String? uid;
@@ -6,8 +10,6 @@ class DatabaseService {
 
   // reference for our collections
   final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection("users");
-  final CollectionReference userCollection2 =
       FirebaseFirestore.instance.collection("users");
 
   final CollectionReference groupCollection =
@@ -44,12 +46,12 @@ class DatabaseService {
 
   // creating a group
   //여기서하면될듯 플래너가 가이
-  Future createGroup(String userName, String id, String pName, String pid,
+  Future createGroup(String name, String id, String gname, String gid,
       String groupName) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       "groupIcon": "",
-      "admin": "${id}_$userName",
+      "admin": "${id}_$name",
       "members": [],
       "groupId": "",
       "recentMessage": "",
@@ -57,19 +59,20 @@ class DatabaseService {
     });
     // update the members
     await groupDocumentReference.update({
-      "members": FieldValue.arrayUnion(["${uid}_$userName"]),
+      "members": FieldValue.arrayUnion(["${uid}_$name"]),
       "groupId": groupDocumentReference.id,
     });
-    final String? ppid;
-    ppid = pid;
+    await groupDocumentReference.update({
+      "members": FieldValue.arrayUnion(["${gid}_$gname"]),
+    });
+
     DocumentReference userDocumentReference = userCollection.doc(uid);
     await userDocumentReference.update({
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
-
-    userDocumentReference = userCollection2.doc(ppid);
-    await userDocumentReference.update({
+    DocumentReference usocumentReference = userCollection.doc(gid);
+    await usocumentReference.update({
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });

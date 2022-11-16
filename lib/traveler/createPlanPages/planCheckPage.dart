@@ -23,8 +23,10 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   String userName = "";
   String userId = "";
   String useremail = "";
+  String groupid = "";
   List<bool> showList = [];
   int eventCount = 100;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +43,11 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
     await HelperFunctions.getUserEmailFromSF().then((value) {
       setState(() {
         userName = value!;
+      });
+    });
+    await HelperFunctions.getUserusergroupSF().then((value) {
+      setState(() {
+        groupid = value!;
       });
     });
     await HelperFunctions.getUserIDFromSF().then((value) {
@@ -196,39 +203,31 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                             const EdgeInsets.only(right: 10),
                                         child: IconButton(
                                             onPressed: () {
-                                              //1
-                                              final snapshot = DatabaseService(
-                                                      uid: events[index]
-                                                          .getGuideId())
-                                                  .getUserName();
-
                                               DatabaseService(
                                                       uid: FirebaseAuth.instance
                                                           .currentUser!.uid)
                                                   .createGroup(
-                                                      // events[index]
-                                                      //     .getGuideName(),
-                                                      "last",
+                                                      userName,
+                                                      FirebaseAuth.instance
+                                                          .currentUser!.uid,
+                                                      events[index]
+                                                          .getGuideName(),
                                                       events[index]
                                                           .getGuideId(),
-                                                      userName,
-                                                      userId,
-                                                      events[index].getTitle())
-                                                  .whenComplete(() {});
-
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ChatPage(
-                                                              groupId: events[
-                                                                      index]
-                                                                  .getGuideId(),
-                                                              groupName: events[
-                                                                      index]
-                                                                  .getTitle(),
-                                                              userName:
-                                                                  userName)));
+                                                      events[index].getTitle());
+                                              gettingUserData();
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) => ChatPage(
+                                              //             groupId:
+                                              //                 FirebaseFirestore
+                                              //                     .instance
+                                              //                     .collection(
+                                              //                         "groups")
+                                              //                     .id,
+                                              //             groupName: "events",
+                                              //             userName: "trav")));
                                             },
                                             icon: Icon(
                                               Icons.chat_bubble,
@@ -287,7 +286,9 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                                 fontSize: 14,
                                               )),
                                           SizedBox(height: 20),
-                                          Text("Guide: "+events[index].getGuideName(),
+                                          Text(
+                                              "Guide: " +
+                                                  events[index].getGuideName(),
                                               style: TextStyle(
                                                 color: Colors.black87,
                                                 fontFamily: "GmarketSansTTF",
