@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 import 'package:tribble_guide/guide/homePage.dart';
+import 'package:tribble_guide/chatPages/helper/helper_function.dart';
+import 'package:tribble_guide/chatPages/widgets/group_tile.dart';
+import 'package:tribble_guide/chatPages/widgets/widgets.dart';
 
 class Chatloungepage extends StatefulWidget {
   const Chatloungepage({Key? key}) : super(key: key);
@@ -11,101 +15,320 @@ class Chatloungepage extends StatefulWidget {
 }
 
 class _Chatloungestate extends State<Chatloungepage> {
-  final _auth = FirebaseAuth.instance;
   User? loginUser;
   final isMe = true;
+  String userName = "";
+  String email = "";
+  Stream? groups;
+  bool _isLoading = false;
+  String groupName = "";
+  String opponent = "";
   @override
   void initState() {
     super.initState();
-    //현재 유저를 받는 함수
-    //getCurrentUser();
+    gettingUserData();
   }
 
-  void getCurrentUser() {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        loginUser = user;
-        print(loginUser!.email);
-      }
-    } catch (e) {
-      print(e);
-    }
+  // string manipulation
+  String getId(String res) {
+    return res.substring(0, res.indexOf("_"));
+  }
+
+  String getName(String res) {
+    return res.substring(res.indexOf("_") + 1);
+  }
+
+  gettingUserData() async {
+    await HelperFunctions.getUserEmailFromSF().then((value) {
+      setState(() {
+        email = value!;
+      });
+    });
+    await HelperFunctions.getUserNameFromSF().then((val) {
+      setState(() {
+        userName = val!;
+      });
+    });
+    // getting the list of snapshots in our stream
+    await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getUserGroups()
+        .then((snapshot) {
+      setState(() {
+        groups = snapshot;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('채팅방'),
-          actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.exit_to_app_sharp,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/toLoungePage');
-                })
-          ],
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text(
+          "Chatting",
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 27),
         ),
-        //카카오톡 채팅방 초기화면(유저별로 대화방 있음)
-        // body: Container(
-        //   child: StreamBuilder(
-        //     stream: FirebaseFirestore.instance
-        //         .collection('users')
-        //         .limit(20)
-        //         .snapshots(),
-        //     builder: (context, snapshot) {
-        //       if (!snapshot.hasData) {
-        //         return Center(
-        //           child: CircularProgressIndicator(
-        //             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        //           ),
-        //         );
-        //       } else {
-        //         return ListView.builder(
-        //           padding: EdgeInsets.all(10.0),
-        //           itemBuilder: (context, index) =>
-        //               buildItem(context, snapshot.data.documents[index]),
-        //           itemCount: snapshot.data.documents.length,
-        //         );
-        //       }
-        //     },
-        //   ),
-        // ),
-        body: Row(
-          children: [
-            Container(
-              //말풍선 모서리 깍는 부분.
-              decoration: BoxDecoration(
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.exit_to_app_sharp,
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                    bottomRight:
-                        isMe ? Radius.circular(0) : Radius.circular(20),
-                    bottomLeft:
-                        isMe ? Radius.circular(20) : Radius.circular(0)),
               ),
-              width: 300,
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/talk.png'),
-                  ),
-                ),
-                child: GestureDetector(
-                  onTap: () async {
-                    Navigator.pushNamed(context, '/toChatPage');
-                  },
-                ),
-              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/toLoungePage');
+              })
+        ],
+      ),
+      drawer: Drawer(
+          child: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 50),
+        children: <Widget>[
+          Icon(
+            Icons.account_circle,
+            size: 150,
+            color: Colors.grey[700],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            userName,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          const Divider(
+            height: 2,
+          ),
+          ListTile(
+            onTap: () {},
+            selectedColor: Theme.of(context).primaryColor,
+            selected: true,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(Icons.group),
+            title: const Text(
+              "Groups",
+              style: TextStyle(color: Colors.black),
             ),
-          ],
-        ));
+          ),
+          ListTile(
+            onTap: () {
+              // nextScreenReplace(
+              //     context,
+              //     ProfilePage(
+              //       userName: userName,
+              //       email: email,
+              //     ));
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(Icons.group),
+            title: const Text(
+              "Profile",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          ListTile(
+            onTap: () async {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Logout"),
+                      content: const Text("Are you sure you want to logout?"),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {},
+                          icon: const Icon(
+                            Icons.done,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        ],
+      )),
+      body: groupList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          popUpDialog(context);
+        },
+        elevation: 0,
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
+    );
+  }
+
+  popUpDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: ((context, setState) {
+            return AlertDialog(
+              title: const Text(
+                "Create a group",
+                textAlign: TextAlign.left,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _isLoading == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                              color: Theme.of(context).primaryColor),
+                        )
+                      : TextField(
+                          onChanged: (val) {
+                            setState(() {
+                              groupName = val;
+                            });
+                          },
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor),
+                                  borderRadius: BorderRadius.circular(20)),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.red),
+                                  borderRadius: BorderRadius.circular(20)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor),
+                                  borderRadius: BorderRadius.circular(20))),
+                        ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                  child: const Text("CANCEL"),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (groupName != "") {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      DatabaseService(
+                              uid: FirebaseAuth.instance.currentUser!.uid)
+                          .createGroup(userName,
+                              FirebaseAuth.instance.currentUser!.uid, groupName)
+                          .whenComplete(() {
+                        _isLoading = false;
+                      });
+                      Navigator.of(context).pop();
+                      showSnackbar(
+                          context, Colors.green, "Group created successfully.");
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                  child: const Text("CREATE"),
+                )
+              ],
+            );
+          }));
+        });
+  }
+
+  groupList() {
+    return StreamBuilder(
+      stream: groups,
+      builder: (context, AsyncSnapshot snapshot) {
+        // make some checks
+        if (snapshot.hasData) {
+          if (snapshot.data['groups'] != null) {
+            if (snapshot.data['groups'].length != 0) {
+              return ListView.builder(
+                itemCount: snapshot.data['groups'].length,
+                itemBuilder: (context, index) {
+                  int reverseIndex = snapshot.data['groups'].length - index - 1;
+                  return GroupTile(
+                    groupId: getId(snapshot.data['groups'][reverseIndex]),
+                    groupName: getName(snapshot.data['groups'][reverseIndex]),
+                    userName: snapshot.data['fullName'],
+                  );
+                },
+              );
+            } else {
+              return noGroupWidget();
+            }
+          } else {
+            return noGroupWidget();
+          }
+        } else {
+          return Center(
+            child: CircularProgressIndicator(color: Colors.red),
+          );
+        }
+      },
+    );
+  }
+
+  noGroupWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              popUpDialog(context);
+            },
+            child: Icon(
+              Icons.add_circle,
+              color: Colors.grey[700],
+              size: 75,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "not group",
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
   }
 }

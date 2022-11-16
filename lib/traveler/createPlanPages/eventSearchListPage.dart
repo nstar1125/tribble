@@ -29,7 +29,12 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
     'time2': "",
     'selectedChoices': <String>[],
     'imageList': <Asset>[],
-    'tagList': <String>[]}
+    'tagList': <String>[],
+    'eventId': "",
+    'isBooked': false,
+    'like': 0.0,
+    'count': 0.0
+  }
   );
 
   @override
@@ -69,17 +74,7 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                 if(distanceInMeters < 1000) {
                   return GestureDetector(
                     onTap: () {
-                      selectedEvent.setGuideId(documentSnapshot['guideId']);
-                      selectedEvent.setTitle(documentSnapshot['title']);
-                      selectedEvent.setLocation(documentSnapshot['location']);
-                      selectedEvent.setLatlng(documentSnapshot['lat'],documentSnapshot['lng']);
-                      selectedEvent.setSTime(documentSnapshot['date1'], documentSnapshot['time1']);
-                      selectedEvent.setFTime(documentSnapshot['date2'], documentSnapshot['time2']);
-                      selectedEvent.setChoices(documentSnapshot['selectedChoices'].cast<String>());
-                      //selectedEvent.setImages();
-                      selectedEvent.setTags(documentSnapshot['tagList'].cast<String>());
-
-
+                      selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
                       //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
                       //then은 두 번 pop하기 위한 장치
                       Navigator.of(context).pushNamed('/toEventDetailCheckPageT', arguments: selectedEvent).then((e) {

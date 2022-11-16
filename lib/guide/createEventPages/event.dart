@@ -10,9 +10,14 @@ class Event{
   String _time1 = "";
   String _date2 = "";
   String _time2 = "";
-  List<String> _selectedChoices = [];
+  List<String> _selectedChoices = <String>[];
   List<Asset> _imageList = <Asset>[];
   List<String> _tagList = <String>[];
+
+  String _eventId = "";
+  bool _isBooked = false;
+  double _like = 0.0;
+  double _count = 0.0;
   // like, isBooked, count
 
   setGuideId(String id){
@@ -45,7 +50,28 @@ class Event{
   setTags(List<String> arr){
     _tagList = arr;
   }
-
+  setEventId(String id){
+    _eventId = id;
+  }
+  setIsBooked(bool book){
+    _isBooked = book;
+  }
+  addLike(){
+    _like = _like + 1;
+  }
+  subLike(){
+    if(_like > 0){
+      _like = _like - 1;
+    }
+  }
+  addCount(){
+    _count = _count + 1;
+  }
+  subCount(){
+    if(_count > 0){
+      _count = _count - 1;
+    }
+  }
   String getGuideId(){
     return _guideId;
   }
@@ -82,6 +108,18 @@ class Event{
   List<String> getTags(){
     return _tagList;
   }
+  String getEventId(){
+    return _eventId;
+  }
+  bool getIsBooked(){
+    return _isBooked;
+  }
+  double getLike(){
+    return _like;
+  }
+  double getCount(){
+    return _count;
+  }
 
 
   Map<String, dynamic> toMap() => {
@@ -97,6 +135,11 @@ class Event{
     'selectedChoices': _selectedChoices,
     'imageList': _imageList,
     'tagList': _tagList,
+
+    'eventId': _eventId,
+    'isBooked': _isBooked,
+    'like': _like,
+    'count': _count,
   };
 
   Event.fromJson(Map<String, dynamic> json)
@@ -109,8 +152,12 @@ class Event{
     _time1 = json['time1'],
     _date2 = json['date2'],
     _time2 = json['time2'],
-    _selectedChoices = json['selectedChoices'],
-    _imageList = json['imageList'],
-    _tagList = json['tagList'];
+    _selectedChoices = json['selectedChoices'].cast<String>(),
+    _imageList = json['imageList'].cast<Asset>(),
+    _tagList = json['tagList'].cast<String>(),
+    _eventId = json['eventId'],
+    _isBooked = json['isBooked'],
+    _like = json['like'],
+    _count = json['count'];
 
 }

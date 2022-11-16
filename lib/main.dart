@@ -12,7 +12,10 @@ import 'package:tribble_guide/guide/loungePage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
+import 'package:tribble_guide/traveler/createPlanPages/planCheckPage.dart';
+
 import 'package:tribble_guide/traveler/createPlanPages/planConfirm.dart';
+
 import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
 import 'package:tribble_guide/superInitialPage.dart';
 import 'package:tribble_guide/traveler/createPlanPages/showNomiPage.dart';
@@ -22,6 +25,7 @@ import 'package:tribble_guide/traveler/loginPages/signUpPageT.dart';
 import 'package:tribble_guide/traveler/loungePageT.dart';
 
 import 'package:tribble_guide/chatPages/chatPage.dart';
+import 'package:tribble_guide/traveler/myPlanPages/myPlanPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,14 +67,17 @@ class MyApp extends StatelessWidget {
           '/toEventSearchListPage': (context) => const EventSearchListPage(),
           '/toEventDetailCheckPageT': (context) =>
               const EventDetailCheckPageT(),
-
-          //common
-          '/toChatloungPage': (context) => const Chatloungepage(),
-          '/toChatPage': (context) => const Chatpage(),
-
-
-
           '/toPlanConfirmPage': (context) => const PlanConfirmPage(),
+          '/toPlanCheckPage': (context) => const PlanCheckPage(),
+          '/toMyPlanPage': (context) => const MyPlanPage(),
+
+          //common chat
+          '/toChatloungPage': (context) => const Chatloungepage(),
+
+
+
+          //'/toChatPage': (context) => const ChatPage(),
+
         });
   }
 }

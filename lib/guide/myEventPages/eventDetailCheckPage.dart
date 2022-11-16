@@ -35,12 +35,14 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
           iconTheme: const IconThemeData(
             color: Colors.black87,
           ),
-          leading: IconButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.close)
-          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.check_circle_outline)),
+          ],
+          automaticallyImplyLeading: false,
           title: const Text("이벤트 상세",
             style: TextStyle(
                 color: Colors.black87,

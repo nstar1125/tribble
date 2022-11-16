@@ -68,8 +68,8 @@ class _LoungePageTState extends State<LoungePageT> {
             if (index == 1) {
               Navigator.pushNamed(context, '/toPlanLocationPage');
             }
-            if (index ==3){
-              Navigator.pushNamed(context, '/toPlanConfirmPage');
+            if (index == 2) {
+              Navigator.pushNamed(context, '/toMyPlanPage');
             }
             if (index == 4) {
               Navigator.pushNamed(context, '/toChatloungPage');
