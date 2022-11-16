@@ -55,12 +55,6 @@ class _GroupTileState extends State<GroupTile> {
             backgroundImage: AssetImage("assets/images/profile.jpeg"),
             radius: 30,
             backgroundColor: Theme.of(context).primaryColor,
-            // child: Text(
-            //   "1",
-            //   textAlign: TextAlign.center,
-            //   style: const TextStyle(
-            //       color: Colors.white, fontWeight: FontWeight.w500),
-            // ),
           ),
           title: Text(
             "가이드이름", //DB에서 가져옴

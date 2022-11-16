@@ -74,7 +74,7 @@ class _ChatPageState extends State<ChatPage> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/toChatloungPage');
+                Navigator.pop(context);
               })
         ],
       ),
