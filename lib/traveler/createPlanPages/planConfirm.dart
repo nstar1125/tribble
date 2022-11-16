@@ -348,6 +348,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                         final plan = <String, dynamic>{
                           "travelerId": currentUser.currentUser!.uid,
                           "title" : tourTitle,
+                          "date1" : events[0].getDate1(),
                           "eventList": eventIdList
                         };
 

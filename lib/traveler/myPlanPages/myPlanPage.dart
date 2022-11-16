@@ -108,8 +108,7 @@ class _MyPlanPageState extends State<MyPlanPage> {
                           )
                       ),
                       subtitle: Text(
-                          //"${documentSnapshot['eventList'][index]}",
-                          "",
+                          documentSnapshot['date1'],
                           //첫번째 이벤트의 시작 시간
                           style: TextStyle(
                             fontFamily: "GmarketSansTTF",
