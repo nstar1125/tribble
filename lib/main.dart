@@ -74,10 +74,7 @@ class MyApp extends StatelessWidget {
           //common chat
           '/toChatloungPage': (context) => const Chatloungepage(),
 
-
-
           //'/toChatPage': (context) => const ChatPage(),
-
         });
   }
 }

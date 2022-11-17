@@ -52,12 +52,13 @@ class _GroupTileState extends State<GroupTile> {
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: ListTile(
           leading: CircleAvatar(
+            //유저가 이미지 추가하면 여기 이미지로 변경.
             backgroundImage: AssetImage("assets/images/profile.jpeg"),
             radius: 30,
             backgroundColor: Theme.of(context).primaryColor,
           ),
           title: Text(
-            "가이드이름", //DB에서 가져옴
+            widget.groupName, //DB에서 가져옴
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text(

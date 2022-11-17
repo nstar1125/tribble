@@ -21,12 +21,12 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   Set<Marker> markers = {};
   final List<Set<Marker>> markersList = [];
   String userName = "";
-  String userId = "";
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   String useremail = "";
   String groupid = "";
   List<bool> showList = [];
   int eventCount = 100;
-
+  DocumentReference? groupDocumentReference;
   @override
   void initState() {
     super.initState();
@@ -59,6 +59,44 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
       setState(() {
         useremail = value!;
       });
+    });
+  }
+
+  createGroup(String name, String id, String gname, String gid,
+      String groupName) async {
+    final CollectionReference userCollection =
+        FirebaseFirestore.instance.collection("users");
+
+    final CollectionReference groupCollection =
+        FirebaseFirestore.instance.collection("groups");
+
+    groupDocumentReference = await groupCollection.add({
+      "groupName": groupName,
+      "groupIcon": "",
+      "admin": "${id}_$name",
+      "members": [],
+      "groupId": "",
+      "recentMessage": "",
+      "recentMessageSender": "",
+    });
+    // update the members
+    await groupDocumentReference!.update({
+      "members": FieldValue.arrayUnion(["${userId}_$name"]),
+      "groupId": groupDocumentReference!.id,
+    });
+    await groupDocumentReference!.update({
+      "members": FieldValue.arrayUnion(["${gid}_$gname"]),
+    });
+
+    DocumentReference userDocumentReference = userCollection.doc(userId);
+    await userDocumentReference.update({
+      "groups":
+          FieldValue.arrayUnion(["${groupDocumentReference!.id}_$groupName"])
+    });
+    DocumentReference usocumentReference = userCollection.doc(gid);
+    await usocumentReference.update({
+      "groups":
+          FieldValue.arrayUnion(["${groupDocumentReference!.id}_$groupName"])
     });
   }
 
@@ -203,31 +241,24 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                             const EdgeInsets.only(right: 10),
                                         child: IconButton(
                                             onPressed: () {
-                                              DatabaseService(
-                                                      uid: FirebaseAuth.instance
-                                                          .currentUser!.uid)
-                                                  .createGroup(
-                                                      userName,
-                                                      FirebaseAuth.instance
-                                                          .currentUser!.uid,
-                                                      events[index]
-                                                          .getGuideName(),
-                                                      events[index]
-                                                          .getGuideId(),
-                                                      events[index].getTitle());
-                                              gettingUserData();
-                                              // Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) => ChatPage(
-                                              //             groupId:
-                                              //                 FirebaseFirestore
-                                              //                     .instance
-                                              //                     .collection(
-                                              //                         "groups")
-                                              //                     .id,
-                                              //             groupName: "events",
-                                              //             userName: "trav")));
+                                              createGroup(
+                                                  userName,
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid,
+                                                  events[index].getGuideName(),
+                                                  events[index].getGuideId(),
+                                                  events[index].getTitle());
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ChatPage(
+                                                              groupId: "123",
+                                                              groupName: events[
+                                                                      index]
+                                                                  .getTitle(),
+                                                              userName:
+                                                                  userName)));
                                             },
                                             icon: Icon(
                                               Icons.chat_bubble,
