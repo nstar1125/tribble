@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tribble_guide/chatPages/chatPage.dart';
-import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 
 class PlanCheckPage extends StatefulWidget {
@@ -29,8 +28,8 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   DocumentReference? groupDocumentReference;
   @override
   void initState() {
-    super.initState();
     gettingUserData();
+    super.initState();
   }
 
   _PlanCheckPageState() {
@@ -40,7 +39,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   }
 
   gettingUserData() async {
-    await HelperFunctions.getUserEmailFromSF().then((value) {
+    await HelperFunctions.getUserNameFromSF().then((value) {
       setState(() {
         userName = value!;
       });
@@ -253,12 +252,13 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ChatPage(
-                                                              groupId: "123",
+                                                              groupId:
+                                                                  "XTpbwYY7FFnJDLXxPECt",
                                                               groupName: events[
                                                                       index]
                                                                   .getTitle(),
                                                               userName:
-                                                                  userName)));
+                                                                  "James")));
                                             },
                                             icon: Icon(
                                               Icons.chat_bubble,

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tribble_guide/chatPages/chatPage.dart';
 import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';

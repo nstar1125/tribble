@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
-import 'package:tribble_guide/guide/homePage.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 import 'package:tribble_guide/chatPages/widgets/group_tile.dart';
 import 'package:tribble_guide/chatPages/widgets/widgets.dart';
