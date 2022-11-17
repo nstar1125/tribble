@@ -64,19 +64,17 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        elevation: 0,
+        elevation: 1,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black87,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(widget.groupName),
-        backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.exit_to_app_sharp,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              })
-        ],
+        backgroundColor: Colors.white,
       ),
       body: Stack(
         children: <Widget>[

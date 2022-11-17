@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tribble_guide/chatPages/helper/helper_function.dart';
+import 'package:tribble_guide/chatPages/widgets/widgets.dart';
+import 'package:tribble_guide/chatPages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,10 +13,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int peanut_count = 0;
+  String userName = "";
+  String email = "";
 
   final PageController pageController = PageController(
     initialPage: 0,
   );
+
+  gettingUserData() async {
+    await HelperFunctions.getUserEmailFromSF().then((value) {
+      setState(() {
+        email = value!;
+      });
+    });
+    await HelperFunctions.getUserNameFromSF().then((val) {
+      setState(() {
+        userName = val!;
+      });
+    });
+    // getting the list of snapshots in our stream
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    gettingUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +48,6 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           iconTheme: IconThemeData(
               color: Colors.black87
-          ),
-          leading: new IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-
-            },
           ),
           actions: [
             GestureDetector(
@@ -60,6 +79,48 @@ class _HomePageState extends State<HomePage> {
           ],
           backgroundColor: Colors.white,
         ),
+        drawer: Drawer(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 50),
+              children: <Widget>[
+                Icon(
+                  Icons.account_circle,
+                  size: 150,
+                  color: Colors.grey[700],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  userName,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Divider(
+                  height: 2,
+                ),
+                ListTile(
+                  onTap: () {
+                    nextScreen(
+                        context,
+                        ProfilePage(
+                          userName: userName,
+                          email: email,
+                        ));
+                  },
+                  contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.group),
+                  title: const Text(
+                    "Profile",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
+            )),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
