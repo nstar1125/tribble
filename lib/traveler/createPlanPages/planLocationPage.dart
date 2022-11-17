@@ -54,8 +54,9 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
   //container change bool
   bool isClikedPersonally = false;
   bool hasSearched = false;
+  bool isShow = true;
 
-  String _date1 = "choose Day!";
+  String _date1 = "Choose Date";
   String _keyword = "";
 
 
@@ -124,247 +125,383 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: isClikedPersonally? Text(
-                      "Event Count: ${events.length}",
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontFamily: "GmarketSansTTF",
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ) : Text("")
-                  ),
-                ],
-              ),
               //isClikedPersonally
-              !isClikedPersonally? Row(
-                children: [
-                  GestureDetector(
-                    onTap: (){
-                      if(hasSearched){
-                        Navigator.of(context).pushNamed('/toShowNomiPage');
-                      }
-                    },
-                    child: Container(
-                      color: recColor,
-                      height: MediaQuery.of(context).size.height*(1/3),
-                      width: MediaQuery.of(context).size.width/2,
-                      child: Center(
-                        child: Text(
-                          "I want\nRecommended\nTour",
-                          style: TextStyle(fontFamily: "GmarketSansTTF", fontSize: 40),
+              !isClikedPersonally? Center(
+                child: Column(
+                  children: [
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          backgroundColor: recColor,
+                          elevation: 3,
                         ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      if(hasSearched) {
-                        isClikedPersonally = true;
-                        setState(() {});
-                      }
-                    },
-                    child: Container(
-                      color: perColor,
-                      height: MediaQuery.of(context).size.height*(1/3),
-                      width: MediaQuery.of(context).size.width/2,
-                      child: Center(
-                        child: Text(
-                          "I will\nMake My Tour\npersonally",
-                          style: TextStyle(fontFamily: "GmarketSansTTF", fontSize: 40),
+                        onPressed: () {
+                          if(hasSearched){
+                            Navigator.of(context).pushNamed('/toShowNomiPage');
+                          }
+                        },
+                        icon: Icon(Icons.recommend,
+                          color: Colors.black87,
+                          size: 14,
                         ),
-                      ),
+                        label: Text("Get recommendation",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: "GmarketSansTTF",
+                              fontSize: 12,
+                            ))
                     ),
-                  ),
-                ],
-                // 2번째 페이즈
-              ) : Row(
-                children: [
-                  Container(
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          backgroundColor: perColor,
+                          elevation: 3,
+                        ),
+                        onPressed: () {
+                          if(hasSearched) {
+                            isClikedPersonally = true;
+                            setState(() {});
+                          }
+                        },
+                        icon: Icon(Icons.edit,
+                          color: Colors.black87,
+                          size: 14,
+                        ),
+                        label: Text("Make my own tour",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: "GmarketSansTTF",
+                              fontSize: 12,
+                            ))
+                    ),
+                  ],
+                  // 2번째 페이즈
+                ),
+              ) :
+              isShow ? Container(
+                padding: EdgeInsets.only(left: 20, right:20),
+                height:300,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20.0),
+                      topLeft: Radius.circular(20.0),
+                    ),
                     color: Colors.white,
-                    height: MediaQuery.of(context).size.height*(1/3),
-                    width: MediaQuery.of(context).size.width*(3/5),
-                    child: Column(
-                      children: [
-                        Row(                                                  //시간
-                            mainAxisAlignment: MainAxisAlignment.start,
+                ),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          isShow ? isShow=false : isShow=true;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 9,
+                            width: MediaQuery.of(context).size.width/2-60,
+                            color: Colors.white,
+                          ),
+                          Column(
                             children: [
-                              Icon(Icons.access_time),
-                              Text(" Time",
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontFamily: "GmarketSansTTF",
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold
-                                  )
-                              )
-                            ]
-                        ),
-                        Row(                                                  //일정 시작 버튼 2개
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  elevation: 0,
-                                  backgroundColor: Colors.white
+                              Container(
+                                height: 3,
+                                width: 80,
+                                color: Colors.white,
                               ),
-                              onPressed: (){
-                                DatePicker.showDatePicker(context,
-                                    theme: DatePickerTheme(
-                                      containerHeight: 210.0,
-                                    ),
-                                    showTitleActions: true,
-                                    minTime: DateTime(2000, 1, 1),
-                                    maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
-                                      print('confirm $date');
-                                      _date1 = '${date.year} - ${date.month} - ${date.day}';
-                                      setState(() {});
-                                    }, currentTime: DateTime.now(), locale: LocaleType.en);
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 50.0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              Container(
+                                height: 3,
+                                width: 80,
+                                color: Colors.grey,
+                              ),
+                              Container(
+                                height: 3,
+                                width: 80,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 9,
+                            width: MediaQuery.of(context).size.width/2-60,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: isClikedPersonally? RichText(
+                              text: TextSpan(
+                                text: "Currently ",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 14,
+                                ),
+                                children: [
+                                TextSpan(
+                                text: "${events.length} ",
+                                  style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  ),
+                                ),
+                                TextSpan(
+                                text: "events have been chosen.",
+                                  style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 14,
+                                  ),
+                                ),
+                                ]
+                              ),)
+                            : Text("")
+                        ),
+                      ],
+                    ),
+
+                    Row(                                                  //시간
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.access_time),
+                          Text(" Time",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold
+                              )
+                          )
+                        ]
+                    ),
+                    Row(                                                  //일정 시작 버튼 2개
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0)),
+                              elevation: 0,
+                              backgroundColor: Colors.white
+                          ),
+                          onPressed: (){
+                            DatePicker.showDatePicker(context,
+                                theme: DatePickerTheme(
+                                  containerHeight: 210.0,
+                                ),
+                                showTitleActions: true,
+                                minTime: DateTime(2000, 1, 1),
+                                maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
+                                  print('confirm $date');
+                                  _date1 = '${date.year} - ${date.month} - ${date.day}';
+                                  setState(() {});
+                                }, currentTime: DateTime.now(), locale: LocaleType.en);
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
                                   children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(
-                                            " $_date1",
-                                            style: TextStyle(
-                                              color: Colors.black87,
-                                              fontFamily: "GmarketSansTTF",
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                    Container(
+                                      child: Text(
+                                        " $_date1",
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontFamily: "GmarketSansTTF",
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(                                                  //해시태그 검색
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(" # Keyword",
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontFamily: "GmarketSansTTF",
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold
-                                  )
-                              )
-                            ]
-                        ),
-                        Padding(                                                  //해시태그 텍스트 필드
-                          padding: const EdgeInsets.only(left:20, right:20),
-                          child: TextField(
-                            onChanged: (value){
-                              _keyword = value;
-                            },
-                            decoration: const InputDecoration(
-                              hintText: "Enter your interested event keyword!",
+                              ],
                             ),
                           ),
                         ),
-
-                        //검색 버튼
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  backgroundColor: Colors.lightBlueAccent,
-                                  elevation: 0,
-                                ),
-                                onPressed: () {
-                                  // 최대 이벤트 수 6개
-                                  if(events.length < 7){
-                                    var locaTimeTagObject = LocaTimeTag();
-                                    locaTimeTagObject.locDetail = detail.result;
-                                    locaTimeTagObject.time = _date1;
-                                    locaTimeTagObject.tag = _keyword;
-
-                                    // pop으로 전달한 arguments를 e가 받음
-                                    Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: locaTimeTagObject).then((e) {  //장소+키워드+시간
-                                      if (e != null) {
-                                        markers.removeWhere((marker) => marker.markerId.value == "0");
-
-                                        Event myEvent = e as Event;
-                                        events.add(myEvent);
-
-                                        points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
-                                        polyline.add(Polyline(
-                                          patterns: [
-                                            PatternItem.dash(50),
-                                            PatternItem.gap(50),
-                                          ],
-                                          polylineId: const PolylineId('0'),
-                                          points: points,
-                                          color: Colors.lightBlueAccent,
-                                        ));
-
-                                        completeColor = Colors.lightBlueAccent;
-                                        //set state 포함
-                                        addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
-
-                                        _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
-
-
-                                      }
-                                    });
-                                  }
-                                },
-                                icon: Icon(Icons.manage_search,
-                                  color: Colors.black87,
-                                  size: 14,
-                                ),
-                                label: Text("Search Event!",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontFamily: "GmarketSansTTF",
-                                      fontSize: 12,
-                                    ))
-                            ),
-                          ),
-                        )
                       ],
-
-                    )
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      if(!events.isEmpty){
-                        Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
-                      }
-                    },
-                    child: Container(
-                      color: completeColor,
-                      height: MediaQuery.of(context).size.height*(1/3),
-                      width: MediaQuery.of(context).size.width*(2/5),
-                      child: Center(
-                        child: Text(
-                          "Complete\nMy Tour Plan!",
-                          style: TextStyle(fontFamily: "GmarketSansTTF", fontSize: 37),
+                    ),
+                    Row(                                                  //해시태그 검색
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(" # Keyword",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold
+                              )
+                          )
+                        ]
+                    ),
+                    Padding(                                                  //해시태그 텍스트 필드
+                      padding: const EdgeInsets.only(left:20, right:20),
+                      child: TextField(
+                        onChanged: (value){
+                          _keyword = value;
+                        },
+                        decoration: const InputDecoration(
+                          hintText: "Enter your interested event keyword!",
                         ),
                       ),
                     ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                backgroundColor: Colors.lightBlueAccent,
+                                elevation: 0,
+                              ),
+                              onPressed: () {
+                                // 최대 이벤트 수 6개
+                                if(events.length < 7){
+                                  var locaTimeTagObject = LocaTimeTag();
+                                  locaTimeTagObject.locDetail = detail.result;
+                                  locaTimeTagObject.time = _date1;
+                                  locaTimeTagObject.tag = _keyword;
+
+                                  // pop으로 전달한 arguments를 e가 받음
+                                  Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: locaTimeTagObject).then((e) {  //장소+키워드+시간
+                                    if (e != null) {
+                                      markers.removeWhere((marker) => marker.markerId.value == "0");
+
+                                      Event myEvent = e as Event;
+                                      events.add(myEvent);
+
+                                      points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                      polyline.add(Polyline(
+                                        patterns: [
+                                          PatternItem.dash(50),
+                                          PatternItem.gap(50),
+                                        ],
+                                        polylineId: const PolylineId('0'),
+                                        points: points,
+                                        color: Colors.lightBlueAccent,
+                                      ));
+
+                                      completeColor = Colors.lightBlueAccent;
+                                      //set state 포함
+                                      addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
+
+                                      _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
+
+
+                                    }
+                                  });
+                                }
+                              },
+                              icon: Icon(Icons.manage_search,
+                                color: Colors.black87,
+                                size: 14,
+                              ),
+                              label: Text("Search Event!",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontFamily: "GmarketSansTTF",
+                                    fontSize: 12,
+                                  ))
+                          ),
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                backgroundColor: completeColor,
+                                elevation: 0,
+                              ),
+                              onPressed: () {
+                                if(!events.isEmpty){
+                                  Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
+                                }
+                              },
+                              icon: Icon(Icons.arrow_forward,
+                                color: Colors.black87,
+                                size: 14,
+                              ),
+                              label: Text("Complete plan",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontFamily: "GmarketSansTTF",
+                                    fontSize: 12,
+                                  ))
+                          ),
+
+
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ) :
+              Container(
+                padding: EdgeInsets.only(left: 20, right:20),
+                height: 20,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20.0),
+                    topLeft: Radius.circular(20.0),
                   ),
-                ],
+                  color: Colors.white,
+                ),
+                child: GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      isShow ? isShow=false : isShow=true;
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 9,
+                        width: MediaQuery.of(context).size.width/2-60,
+                        color: Colors.white,
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 3,
+                            width: 80,
+                            color: Colors.white,
+                          ),
+                          Container(
+                            height: 3,
+                            width: 80,
+                            color: Colors.grey,
+                          ),
+                          Container(
+                            height: 3,
+                            width: 80,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 9,
+                        width: MediaQuery.of(context).size.width/2-60,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
               )
             ],
 
