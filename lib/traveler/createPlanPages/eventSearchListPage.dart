@@ -43,7 +43,7 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
 
       ),
       body: StreamBuilder(
-        stream: collectionRef.snapshots(),
+        stream: collectionRef.orderBy("count", descending: true).snapshots(),
         builder: (context, snapshots) {
           if(snapshots.hasData) {
             return ListView.builder(

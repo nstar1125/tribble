@@ -19,7 +19,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
   final List<Set<Marker>> markersList = [];
 
   String tourTitle = "";
-  int _peanut_count = 4;
+  int _peanut_count = 0;
   List<bool> pickList = [];
   List<bool> showList = [];
   int eventCount = 100;
