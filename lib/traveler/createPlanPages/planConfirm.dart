@@ -19,7 +19,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
   final List<Set<Marker>> markersList = [];
 
   String tourTitle = "";
-  int _peanut_count = 0;
+  int _peanut_count = 4;
   List<bool> pickList = [];
   List<bool> showList = [];
   int eventCount = 100;
@@ -351,6 +351,14 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                         };
 
                         db.collection("plans").add(plan);
+
+                        // event count ++
+                        for(int i = 0; i < eventIdList.length; i++){
+                          double tempCount = events[i].getCount() + 1;
+                          db.collection('events').doc(eventIdList[i]).update({'count': tempCount});
+                        }
+
+
                       }else{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
