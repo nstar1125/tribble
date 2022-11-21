@@ -24,6 +24,7 @@ class DatabaseService {
       "profilePic": "",
       "uid": uid,
       "type": type,
+      "peanuts": 8,
       "url": "",
     });
   }

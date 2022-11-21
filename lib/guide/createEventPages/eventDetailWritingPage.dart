@@ -593,7 +593,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                             popTag();
                           }
                         },
-                        icon: Icon(Icons.delete,
+                        icon: Icon(Icons.remove,
                           color: Colors.black87,
                           size: 14,
                         ),

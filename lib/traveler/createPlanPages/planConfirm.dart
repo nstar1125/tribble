@@ -19,7 +19,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
   final List<Set<Marker>> markersList = [];
 
   String tourTitle = "";
-  int peanut_count = 0;
+  int _peanut_count = 0;
   List<bool> pickList = [];
   List<bool> showList = [];
   int eventCount = 100;
@@ -82,16 +82,14 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
         actions: [
           GestureDetector(
             onTap:() {
-              setState(() {
-                peanut_count++;
-              });
+              Navigator.of(context).pushNamed('/toShopPage', arguments: true);
             },
             child: Container(
                 child: Row(
                   children: [
                     Image(image: AssetImage("assets/images/peanut.png"),width: 20,),
                     SizedBox(width: 3),
-                    Text("${peanut_count}",
+                    Text("${_peanut_count}",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily:"GmarketSansTTF",
@@ -338,7 +336,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                       backgroundColor: Colors.lightBlueAccent,
                     ),
                     onPressed: (){
-                      if (peanut_count >= getTotalPt(pickList)){
+                      if (_peanut_count >= getTotalPt(pickList)){
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pushNamed('/toMyPlanPage');

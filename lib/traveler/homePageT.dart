@@ -12,7 +12,7 @@ class HomePageT extends StatefulWidget {
 
 class _HomePageTState extends State<HomePageT> {
 
-  int peanut_count = 0;
+  int _peanut_count = 0;
   String userName = "";
   String email = "";
 
@@ -52,16 +52,14 @@ class _HomePageTState extends State<HomePageT> {
           actions: [
             GestureDetector(
               onTap:() {
-                setState(() {
-                  peanut_count++;
-                });
+                Navigator.of(context).pushNamed('/toShopPage', arguments: true);
               },
               child: Container(
                   child: Row(
                     children: [
                       Image(image: AssetImage("assets/images/peanut.png"),width: 20,),
                       SizedBox(width: 3),
-                      Text("${peanut_count}",
+                      Text("${_peanut_count}",
                           style: TextStyle(
                               color: Colors.black87,
                               fontFamily:"GmarketSansTTF",
