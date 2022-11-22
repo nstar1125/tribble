@@ -43,7 +43,7 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
 
       ),
       body: StreamBuilder(
-        stream: collectionRef.snapshots(),
+        stream: collectionRef.orderBy("count", descending: true).snapshots(),
         builder: (context, snapshots) {
           if(snapshots.hasData) {
             return ListView.builder(
@@ -55,8 +55,11 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                 double distanceInMeters = Geolocator.distanceBetween(ltt.locDetail.geometry!.location.lat, ltt.locDetail.geometry!.location.lng, documentSnapshot['lat'], documentSnapshot['lng']);
 
 
-                //조건: 거리1km내 && (같은 날) && 같은 해시태그 가지는
-                if(distanceInMeters < 1000 && (ltt.tag == "" || documentSnapshot['tagList'].contains(ltt.tag))) {
+                //조건: 거리1km내 && 같은 날 && 같은 해시태그 가지는 &&
+                if((distanceInMeters < 1000)
+                    && (ltt.tag == "" || documentSnapshot['tagList'].contains(ltt.tag))   ){
+                      //&& documentSnapshot['date1'] == ltt.time) {
+
                   return GestureDetector(
                     onTap: () {
                       selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
@@ -81,6 +84,13 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                         ),
                         subtitle: Text(
                             documentSnapshot['date1'] + ", " + documentSnapshot['location'],
+                            style: TextStyle(
+                              fontFamily: "GmarketSansTTF",
+                              fontSize: 12,
+                            )
+                        ),
+                        trailing: Text(
+                            "pick!\n  ${documentSnapshot['count'].toInt()}",
                             style: TextStyle(
                               fontFamily: "GmarketSansTTF",
                               fontSize: 12,

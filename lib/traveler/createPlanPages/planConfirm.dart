@@ -3,7 +3,6 @@ import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 
 class PlanConfirmPage extends StatefulWidget {
   const PlanConfirmPage({Key? key}) : super(key: key);
@@ -361,6 +360,15 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                         };
 
                         db.collection("plans").add(plan);
+
+                        // event count ++
+                        for (int i = 0; i < eventIdList.length; i++) {
+                          double tempCount = events[i].getCount() + 1;
+                          db
+                              .collection('events')
+                              .doc(eventIdList[i])
+                              .update({'count': tempCount});
+                        }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
