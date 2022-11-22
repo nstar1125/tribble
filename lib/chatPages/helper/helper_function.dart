@@ -7,6 +7,7 @@ class HelperFunctions {
   static String userEmailKey = "USEREMAILKEY";
   static String useridKey = "USERIDKEY";
   static String usergroupKey = "USERGROUPKEY";
+  static String userpeanutsKey = "USERPEANUTKEY";
   // saving the data to SF
 
   static Future<bool> saveUserLoggedInStatus(bool isUserLoggedIn) async {
@@ -34,6 +35,10 @@ class HelperFunctions {
     return await sf.setString(usergroupKey, usergroup);
   }
 
+  static Future<bool> saveUserpeanutsKey(int peanut) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return await sf.setInt(userpeanutsKey, peanut);
+  }
   // getting the data from SF
 
   static Future<bool?> getUserLoggedInStatus() async {
@@ -59,5 +64,10 @@ class HelperFunctions {
   static Future<String?> getUserusergroupSF() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return sf.getString(usergroupKey);
+  }
+
+  static Future<int?> getUserpeanutsKey() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return sf.getInt(userpeanutsKey);
   }
 }

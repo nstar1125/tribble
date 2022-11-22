@@ -24,7 +24,7 @@ class DatabaseService {
       "profilePic": "",
       "uid": uid,
       "type": type,
-      "peanuts": 8,
+      "peanuts": 0,
       "url": "",
     });
   }
@@ -150,6 +150,11 @@ class DatabaseService {
         "members": FieldValue.arrayUnion(["${uid}_$userName"])
       });
     }
+  }
+
+  Future updateuserpeanut(int peanut) async {
+    DocumentReference userDocumentReference = userCollection.doc(uid);
+    await userDocumentReference.update({"peanuts": peanut});
   }
 
   // send message

@@ -132,6 +132,8 @@ class _SignInPageState extends State<SignInPage> {
                               snapshot.docs[0]['fullName']);
                           await HelperFunctions.saveUserIDSF(
                               FirebaseAuth.instance.currentUser!.uid);
+                          await HelperFunctions.saveUserpeanutsKey(
+                              snapshot.docs[0]['peanuts']);
 
                           if (newUser.user != null) {
                             if (snapshot.docs[0]['type'] == "guide") {

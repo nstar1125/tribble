@@ -163,6 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             await HelperFunctions.saveUserNameSF(userName);
                             await HelperFunctions.saveUserIDSF(
                                 newUser.user!.uid);
+                            await HelperFunctions.saveUserpeanutsKey(0);
                             if (newUser.user != null) {
                               Navigator.of(context).pushNamed("/toLoungePage");
                             }
