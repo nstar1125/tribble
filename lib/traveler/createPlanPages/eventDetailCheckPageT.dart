@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
@@ -32,17 +33,25 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
     addMarker(LatLng(e.getLat(), e.getLng()));
 
     return Scaffold(
-        extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black87),
+          centerTitle: true,
           leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               icon: Icon(Icons.close)),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
+          title: Text(
+            "Event",
+            style: TextStyle(
+                color: Colors.black87,
+                fontFamily: "GmarketSansTTF",
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 1.0,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -161,9 +170,9 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   ]),
               SizedBox(height: 10),
               Container(
-                height: e.getChoices().length * 30,
-                width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: e.getChoices().length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
@@ -208,7 +217,6 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
-
                           scrollDirection: Axis.horizontal,
                           itemCount: e.getImages().length,
                           itemBuilder: (BuildContext context, int index) {
@@ -244,26 +252,26 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                           )),
                     )
                   : Container(
-                      height: e.getTags().length * 30,
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                          itemCount: e.getTags().length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              height: 30,
-                              width: MediaQuery.of(context).size.width,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Text("${e.getTags()[index]}",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontFamily: "GmarketSansTTF",
-                                      fontSize: 14,
-                                    )),
-                              ),
-                            );
-                          }),
-                    ),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: e.getTags().length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 30,
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text("${e.getTags()[index]}",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontFamily: "GmarketSansTTF",
+                                    fontSize: 14,
+                                  )),
+                            ),
+                          );
+                        }),
+                  ),
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
