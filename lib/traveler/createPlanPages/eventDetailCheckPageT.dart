@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
+import 'package:tribble_guide/traveler/createPlanPages/langTranslate.dart';
 
 class EventDetailCheckPageT extends StatefulWidget {
   const EventDetailCheckPageT({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class EventDetailCheckPageT extends StatefulWidget {
 class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
   late GoogleMapController _controller;
   final Set<Marker> markers = {};
+  LangTranslate lt = new LangTranslate();
 
   void addMarker(coordinate) {
     setState(() {
@@ -170,25 +172,61 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   ]),
               SizedBox(height: 10),
               Container(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: e.getChoices().length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 30,
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text("${e.getChoices()[index]}",
+                padding: EdgeInsets.only(left: 10, right: 10),
+                width: MediaQuery.of(context).size.width,
+                child: Wrap(
+                  children: [
+                    for (var i in e.getFoodChoices())
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(lt.toEng(i),
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 14,
-                              )),
-                        ),
-                      );
-                    }),
+                              )
+                          )
+                      ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                width: MediaQuery.of(context).size.width,
+                child: Wrap(
+                  children: [
+                    for (var i in e.getPlaceChoices())
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(lt.toEng(i),
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 14,
+                              )
+                          )
+                      ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                width: MediaQuery.of(context).size.width,
+                child: Wrap(
+                  children: [
+                    for (var i in e.getPrefChoices())
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(lt.toEng(i),
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 14,
+                              )
+                          )
+                      ),
+                  ],
+                ),
               ),
               SizedBox(height: 30),
               Row(
