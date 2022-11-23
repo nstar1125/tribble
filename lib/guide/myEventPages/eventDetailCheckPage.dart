@@ -175,6 +175,7 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
                 padding: EdgeInsets.only(left: 10, right: 10),
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     for (var i in e.getFoodChoices())
                       Padding(
@@ -194,6 +195,7 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
                 padding: EdgeInsets.only(left: 10, right: 10),
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     for (var i in e.getPlaceChoices())
                       Padding(
@@ -213,6 +215,7 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
                 padding: EdgeInsets.only(left: 10, right: 10),
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     for (var i in e.getPrefChoices())
                       Padding(
@@ -228,7 +231,7 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
                   ],
                 ),
               ),
-              SizedBox(height:30),
+              SizedBox(height:20),
               Row(                                                  //이미지
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

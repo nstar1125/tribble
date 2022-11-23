@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
+import 'package:tribble_guide/traveler/createPlanPages/langTranslate.dart';
 
 class PlanConfirmPage extends StatefulWidget {
   const PlanConfirmPage({Key? key}) : super(key: key);
@@ -25,6 +26,8 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
   List<bool> pickList = [];
   List<bool> showList = [];
   int eventCount = 100;
+  LangTranslate lt = new LangTranslate();
+
   _PlanConfirmPageState() {
     for (int i = 0; i < eventCount; i++) {
       pickList.add(true);
@@ -142,17 +145,17 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                   child: Container(
                       width: 3,
                       height: showList[eventCount - 1]
-                          ? 100 * eventCount.toDouble() +
-                              300 * (getTrueCount(showList) - 1)
-                          : 100 * eventCount.toDouble() +
-                              300 * getTrueCount(showList),
+                          ? 80 * eventCount.toDouble() +
+                              320 * (getTrueCount(showList) - 1)
+                          : 80 * eventCount.toDouble() +
+                              320 * getTrueCount(showList),
                       color: Colors.lightBlueAccent),
                 ),
                 Column(
                   children: [
                     Container(
-                        height: 100 * (eventCount.toDouble() + 1) +
-                            300 * getTrueCount(showList),
+                        height: 80 * (eventCount.toDouble() + 1) +
+                            320 * getTrueCount(showList),
                         child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: eventCount,
@@ -171,7 +174,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                                     child: Container(
                                       color: Colors.transparent,
                                       width: MediaQuery.of(context).size.width,
-                                      height: 100,
+                                      height: 80,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -268,69 +271,174 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                                   ),
                                   showList[index]
                                       ? Container(
-                                          height: 300,
-                                          width: MediaQuery.of(context).size.width -
-                                              80,
-                                          child: Column(
+                                    height: 320,
+                                    color: Color.fromARGB(255, 239, 239, 239),
+
+                                    width: MediaQuery.of(context).size.width - 80,
+                                    child: ListView(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left:10,right:10,top: 10),
+                                          height: 120,
+                                          child: GoogleMap(
+                                            initialCameraPosition:
+                                            CameraPosition(
+                                              target: LatLng(
+                                                  events[index].getLat(),
+                                                  events[index].getLng()),
+                                              zoom: 15.0,
+                                            ),
+                                            markers: markersList[index],
+                                            onMapCreated: (GoogleMapController
+                                            controller) {
+                                              setState(() {
+                                                _controller = controller;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Center(
+                                          child: Text(events[index].getLocation()!,
+                                              style: TextStyle(
+                                                color: Colors.black87,
+                                                fontFamily: "GmarketSansTTF",
+                                                fontSize: 12,
+                                              )),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                              child: Text("Type:",
+                                                  style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontFamily: "GmarketSansTTF",
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          color: Colors.transparent,
+                                          padding: EdgeInsets.only(left: 10, right: 10),
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.center,
                                             children: [
-                                              SizedBox(
-                                                height: 120,
-                                                child: GoogleMap(
-                                                  initialCameraPosition:
-                                                      CameraPosition(
-                                                    target: LatLng(
-                                                        events[index].getLat(),
-                                                        events[index].getLng()),
-                                                    zoom: 15.0,
-                                                  ),
-                                                  markers: markersList[index],
-                                                  onMapCreated: (GoogleMapController
-                                                      controller) {
-                                                    setState(() {
-                                                      _controller = controller;
-                                                    });
-                                                  },
+                                              for (var i in events[index].getFoodChoices())
+                                                Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(lt.toEng(i),
+                                                        style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontFamily: "GmarketSansTTF",
+                                                          fontSize: 10,
+                                                        )
+                                                    )
                                                 ),
-                                              ),
-                                              SizedBox(height: 20),
-                                              Text(events[index].getLocation()!,
-                                                  style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontFamily: "GmarketSansTTF",
-                                                    fontSize: 14,
-                                                  )),
-                                              SizedBox(height: 20),
-                                              Text("설명",
-                                                  style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontFamily: "GmarketSansTTF",
-                                                    fontSize: 14,
-                                                  )),
-                                              SizedBox(height: 20),
-                                              Text("주제",
-                                                  style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontFamily: "GmarketSansTTF",
-                                                    fontSize: 14,
-                                                  )),
-                                              SizedBox(height: 20),
-                                              Text(
-                                                  "Guide: " +
-                                                      events[index].getGuideName(),
-                                                  style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontFamily: "GmarketSansTTF",
-                                                    fontSize: 14,
-                                                  )),
+                                              for (var i in events[index].getPlaceChoices())
+                                                Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(lt.toEng(i),
+                                                        style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontFamily: "GmarketSansTTF",
+                                                          fontSize: 10,
+                                                        )
+                                                    )
+                                                ),
+                                              for (var i in events[index].getPrefChoices())
+                                                Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(lt.toEng(i),
+                                                        style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontFamily: "GmarketSansTTF",
+                                                          fontSize: 10,
+                                                        )
+                                                    )
+                                                ),
                                             ],
                                           ),
-                                        )
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                              child: Text("Hashtags:",
+                                                  style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontFamily: "GmarketSansTTF",
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          color: Colors.transparent,
+                                          padding: EdgeInsets.only(left: 10, right: 10),
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.center,
+                                            children: [
+                                              for (var i in events[index].getTags())
+                                                Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text("# "+i,
+                                                        style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontFamily: "GmarketSansTTF",
+                                                          fontSize: 10,
+                                                        )
+                                                    )
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                      text: "Guide:  ",
+                                                      style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontFamily: "GmarketSansTTF",
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 12,
+                                                      ),
+                                                      children: [
+                                                        TextSpan(
+                                                            text: events[index].getGuideName(),
+                                                            style: TextStyle(
+                                                              color: Colors.black87,
+                                                              fontFamily: "GmarketSansTTF",
+                                                              fontWeight: FontWeight.normal,
+                                                              fontSize: 12,
+                                                            )
+                                                        ),
+                                                      ]
+                                                  ),
+                                                )
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                       : Container()
                                 ],
                               );
                             })),
                     Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
