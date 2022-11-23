@@ -139,7 +139,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                         ),
                         onPressed: () {
                           if(hasSearched){
-                            Navigator.of(context).pushNamed('/toShowNomiPage');
+                            Navigator.of(context).pushNamed('/toAutoPlanPage');
                           }
                         },
                         icon: Icon(Icons.recommend,
