@@ -11,7 +11,9 @@ Map<String, dynamic> initEvent = {
   'time1': "",
   'date2': "",
   'time2': "",
-  'selectedChoices': <String>[],
+  'selFoodChoices': <String>[],
+  'selPlaceChoices': <String>[],
+  'selPrefChoices': <String>[],
   'imageList': <Asset>[],
   'tagList': <String>[],
   'eventId': "",
@@ -31,7 +33,9 @@ class Event{
   String _time1 = "";
   String _date2 = "";
   String _time2 = "";
-  List<String> _selectedChoices = <String>[];
+  List<String> _selFoodChoices = <String>[];
+  List<String> _selPlaceChoices = <String>[];
+  List<String> _selPrefChoices = <String>[];
   List<Asset> _imageList = <Asset>[];
   List<String> _tagList = <String>[];
 
@@ -66,8 +70,14 @@ class Event{
     _date2 = date;
     _time2 = time;
   }
-  setChoices(List<String> arr){
-    _selectedChoices = arr;
+  setFoodChoices(List<String> arr){
+    _selFoodChoices = arr;
+  }
+  setPlaceChoices(List<String> arr){
+    _selPlaceChoices = arr;
+  }
+  setPrefChoices(List<String> arr){
+    _selPrefChoices = arr;
   }
   setImages(List<Asset> arr){
     _imageList = arr;
@@ -128,8 +138,14 @@ class Event{
   String getTime2(){
     return _time2;
   }
-  List<String> getChoices(){
-    return _selectedChoices;
+  List<String> getFoodChoices(){
+    return _selFoodChoices;
+  }
+  List<String> getPlaceChoices(){
+    return _selPlaceChoices;
+  }
+  List<String> getPrefChoices(){
+    return _selPrefChoices;
   }
   List<Asset> getImages(){
     return _imageList;
@@ -162,10 +178,11 @@ class Event{
     'time1': _time1,
     'date2': _date2,
     'time2': _time2,
-    'selectedChoices': _selectedChoices,
+    'selFoodChoices': _selFoodChoices,
+    'selPlaceChoices': _selPlaceChoices,
+    'selPrefChoices': _selPrefChoices,
     'imageList': _imageList,
     'tagList': _tagList,
-
     'eventId': _eventId,
     'isBooked': _isBooked,
     'like': _like,
@@ -183,7 +200,9 @@ class Event{
     _time1 = json['time1'],
     _date2 = json['date2'],
     _time2 = json['time2'],
-    _selectedChoices = json['selectedChoices'].cast<String>(),
+    _selFoodChoices = json['selFoodChoices'].cast<String>(),
+    _selPlaceChoices = json['selPlaceChoices'].cast<String>(),
+    _selPrefChoices = json['selPrefChoices'].cast<String>(),
     _imageList = json['imageList'].cast<Asset>(),
     _tagList = json['tagList'].cast<String>(),
     _eventId = json['eventId'],

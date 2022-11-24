@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tribble_guide/chatPages/chatPage.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
+import 'package:tribble_guide/traveler/createPlanPages/langTranslate.dart';
 
 class PlanCheckPage extends StatefulWidget {
   const PlanCheckPage({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   List<bool> showList = [];
   int eventCount = 100;
   DocumentReference? groupDocumentReference;
+  LangTranslate lt = new LangTranslate();
   @override
   void initState() {
     gettingUserData();
@@ -103,12 +105,18 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                 fontSize: 20,
                 fontWeight: FontWeight.bold),
           ),
-          leading: new IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )),
+        iconTheme: const IconThemeData(
+          color: Colors.black87,
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.logout)),
+        ],
+      automaticallyImplyLeading: false,
+      ),
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
@@ -119,17 +127,17 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
               child: Container(
                   width: 3,
                   height: showList[eventCount - 1]
-                      ? 100 * eventCount.toDouble() +
-                          300 * (getTrueCount(showList) - 1)
-                      : 100 * eventCount.toDouble() +
-                          300 * getTrueCount(showList),
+                      ? 80 * eventCount.toDouble() +
+                      320 * (getTrueCount(showList) - 1)
+                      : 80 * eventCount.toDouble() +
+                      320 * getTrueCount(showList),
                   color: Colors.lightBlueAccent),
             ),
             Column(
               children: [
                 Container(
-                    height: 100 * (eventCount.toDouble() + 1) +
-                        300 * getTrueCount(showList),
+                    height: 80 * (eventCount.toDouble() + 1) +
+                        600 * getTrueCount(showList),
                     child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: eventCount,
@@ -142,13 +150,12 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                     showList[index]
                                         ? showList[index] = false
                                         : showList[index] = true;
-                                    print(showList);
                                   });
                                 },
                                 child: Container(
                                   color: Colors.transparent,
                                   width: MediaQuery.of(context).size.width,
-                                  height: 100,
+                                  height: 80,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -244,12 +251,14 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                               ),
                               showList[index]
                                   ? Container(
-                                      height: 300,
-                                      width: MediaQuery.of(context).size.width -
-                                          80,
-                                      child: Column(
+                                      height: 320,
+                                      color: Color.fromARGB(255, 239, 239, 239),
+
+                                      width: MediaQuery.of(context).size.width - 80,
+                                      child: ListView(
                                         children: [
-                                          SizedBox(
+                                          Container(
+                                            padding: EdgeInsets.only(left:10,right:10,top: 10),
                                             height: 120,
                                             child: GoogleMap(
                                               initialCameraPosition:
@@ -268,36 +277,139 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                               },
                                             ),
                                           ),
-                                          SizedBox(height: 20),
-                                          Text(events[index].getLocation()!,
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontFamily: "GmarketSansTTF",
-                                                fontSize: 14,
-                                              )),
-                                          SizedBox(height: 20),
-                                          Text("설명",
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontFamily: "GmarketSansTTF",
-                                                fontSize: 14,
-                                              )),
-                                          SizedBox(height: 20),
-                                          Text("주제",
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontFamily: "GmarketSansTTF",
-                                                fontSize: 14,
-                                              )),
-                                          SizedBox(height: 20),
-                                          Text(
-                                              "Guide: " +
-                                                  events[index].getGuideName(),
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontFamily: "GmarketSansTTF",
-                                                fontSize: 14,
-                                              )),
+                                          SizedBox(height: 10),
+                                          Center(
+                                            child: Text(events[index].getLocation()!,
+                                                style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontFamily: "GmarketSansTTF",
+                                                  fontSize: 12,
+                                                )),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                                child: Text("Type:",
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontFamily: "GmarketSansTTF",
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 12,
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            color: Colors.transparent,
+                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Wrap(
+                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              children: [
+                                                for (var i in events[index].getFoodChoices())
+                                                  Padding(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Text(lt.toEng(i),
+                                                          style: TextStyle(
+                                                            color: Colors.black87,
+                                                            fontFamily: "GmarketSansTTF",
+                                                            fontSize: 10,
+                                                          )
+                                                      )
+                                                  ),
+                                                for (var i in events[index].getPlaceChoices())
+                                                  Padding(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Text(lt.toEng(i),
+                                                          style: TextStyle(
+                                                            color: Colors.black87,
+                                                            fontFamily: "GmarketSansTTF",
+                                                            fontSize: 10,
+                                                          )
+                                                      )
+                                                  ),
+                                                for (var i in events[index].getPrefChoices())
+                                                  Padding(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Text(lt.toEng(i),
+                                                          style: TextStyle(
+                                                            color: Colors.black87,
+                                                            fontFamily: "GmarketSansTTF",
+                                                            fontSize: 10,
+                                                          )
+                                                      )
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                                child: Text("Hashtags:",
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontFamily: "GmarketSansTTF",
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 12,
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            color: Colors.transparent,
+                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Wrap(
+                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              children: [
+                                                for (var i in events[index].getTags())
+                                                  Padding(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Text("# "+i,
+                                                          style: TextStyle(
+                                                            color: Colors.black87,
+                                                            fontFamily: "GmarketSansTTF",
+                                                            fontSize: 10,
+                                                          )
+                                                      )
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    text: "Guide:  ",
+                                                      style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontFamily: "GmarketSansTTF",
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 12,
+                                                      ),
+                                                    children: [
+                                                      TextSpan(
+                                                        text: events[index].getGuideName(),
+                                                        style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontFamily: "GmarketSansTTF",
+                                                          fontWeight: FontWeight.normal,
+                                                          fontSize: 12,
+                                                        )
+                                                      ),
+                                                    ]
+                                                  ),
+                                                )
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     )
@@ -307,6 +419,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                         })),
               ],
             ),
+
           ],
         ),
       ),

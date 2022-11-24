@@ -15,14 +15,32 @@ class EventDetailWritingPage extends StatefulWidget {
 }
 
 class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
-  List<String> eType1List = [
-    "스포츠",
-    "익스트림",
-    "축제",
-    "공연",
-    "전통명소",
-    "쇼핑"
-  ];  //이벤트 유형1 -> 추후 추가할 예정
+  List<String> foodList = [
+    "🍽 식사",
+    "🍺 술",
+    "☕️ 카페",
+    "🏮 시장",
+  ];
+  List<String> placeList = [
+    "⛰ 풍경",
+    "🏯 전통 장소",
+    "🛍 쇼핑",
+    "🪂 액티비티",
+    "🏟 스포츠",
+    "🎨 예술",
+    "🎯 유흥/오락",
+    "🧖 휴양",
+    "🚶 산책",
+  ];
+  List<String> prefList = [
+    "🎎 현지에서만",
+    "🔥 핫플레이스",
+    "📷 사진 명소",
+    "🤳 혼자서도",
+    "🎈 젊음의",
+    "😌 여유로운"
+  ];
+
 
   final currentUser = FirebaseAuth.instance;
   String _title = '';   //이벤트 제목
@@ -31,7 +49,9 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   String _time1 = "시간 선택";  //일정 시간 시작 (11 시 11 분) 이런형식
   String _date2 = "날짜 선택";  //일정 날짜 끝
   String _time2 = "시간 선택";  //일정 시간 끝
-  List<String> _selectedChoices = [];  //선택한 유형
+  List<String> _selFoodChoices = [];
+  List<String> _selPlaceChoices = [];
+  List<String> _selPrefChoices = [];
   List<Asset> _imageList = <Asset>[];  //업로드한 이미지 리스트
   List<String> _tagList = <String>[];  //주제 해쉬태그 리스트
   Event myEvent = Event.fromJson(initEvent);  //생성할 이벤트
@@ -68,7 +88,9 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
     //위치정보끝
     myEvent.setSTime(_date1, _time1);
     myEvent.setFTime(_date2, _time2);
-    myEvent.setChoices(_selectedChoices);
+    myEvent.setFoodChoices(_selFoodChoices);
+    myEvent.setPlaceChoices(_selPlaceChoices);
+    myEvent.setPrefChoices(_selPrefChoices);
     myEvent.setImages(_imageList);
     myEvent.setTags(_tagList);
 
@@ -86,24 +108,67 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
   }
 
 
-  _buildChoiceList() {   //타일 선택하면 선택유형 리스트에 반영하는 함수
+  _buildChoiceList(int type) {   //타입 1: food, 2: place, 3: pref
     List<Widget> choices = [];
-    eType1List.forEach((item) {
-      choices.add(Container(
-        padding: const EdgeInsets.all(2.0),
-        child: ChoiceChip(
-          label: Text(item),
-          selected: _selectedChoices.contains(item),
-          onSelected: (selected) {
-            setState(() {
-              _selectedChoices.contains(item)
-                  ? _selectedChoices.remove(item)
-                  : _selectedChoices.add(item);
-            });
-          },
-        ),
-      ));
-    });
+    switch(type){
+      case 1:
+        foodList.forEach((item) {
+          choices.add(Container(
+            padding: const EdgeInsets.all(2.0),
+            child: ChoiceChip(
+              selectedColor: Colors.lightBlueAccent,
+              label: Text(item),
+              selected: _selFoodChoices.contains(item),
+              onSelected: (selected) {
+                setState(() {
+                  _selFoodChoices.contains(item)
+                      ? _selFoodChoices.remove(item)
+                      : _selFoodChoices.add(item);
+                });
+              },
+            ),
+          ));
+        });
+        break;
+      case 2:
+        placeList.forEach((item) {
+          choices.add(Container(
+            padding: const EdgeInsets.all(2.0),
+            child: ChoiceChip(
+              selectedColor: Colors.lightBlueAccent,
+              label: Text(item),
+              selected: _selPlaceChoices.contains(item),
+              onSelected: (selected) {
+                setState(() {
+                  _selPlaceChoices.contains(item)
+                      ? _selPlaceChoices.remove(item)
+                      : _selPlaceChoices.add(item);
+                });
+              },
+            ),
+          ));
+        });
+        break;
+      case 3:
+        prefList.forEach((item) {
+          choices.add(Container(
+            padding: const EdgeInsets.all(2.0),
+            child: ChoiceChip(
+              selectedColor: Colors.lightBlueAccent,
+              label: Text(item),
+              selected: _selPrefChoices.contains(item),
+              onSelected: (selected) {
+                setState(() {
+                  _selPrefChoices.contains(item)
+                      ? _selPrefChoices.remove(item)
+                      : _selPrefChoices.add(item);
+                });
+              },
+            ),
+          ));
+        });
+        break;
+    }
     return choices;
   }
 
@@ -466,8 +531,102 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                     )
                   ]
               ),
-              Wrap(                                                  //유형 타일
-                children: _buildChoiceList(),
+
+              Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 239, 239, 239)),
+                child: Column(
+                  children: [
+                    Row(                                                  //유형
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.fastfood, color: Colors.grey,),
+                          Text(" 식사",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold
+                              )
+                          )
+                        ]
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      width: MediaQuery.of(context).size.width,
+                      child: Wrap(
+                        children: _buildChoiceList(1),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 239, 239, 239)),
+                child: Column(
+                  children: [
+                    Row(                                                  //유형
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.category, color: Colors.grey,),
+                          Text(" 장소",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold
+                              )
+                          )
+                        ]
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      width: MediaQuery.of(context).size.width,
+                      child: Wrap(
+                        children: _buildChoiceList(2),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 239, 239, 239)),
+                child: Column(
+                  children: [
+                    Row(                                                  //유형
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.emoji_emotions, color: Colors.grey,),
+                          Text(" 성격",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold
+                              )
+                          )
+                        ]
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      width: MediaQuery.of(context).size.width,
+                      child: Wrap(
+                        children: _buildChoiceList(3),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height:30),
               Row(                                                  //이미지
@@ -650,17 +809,15 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                       showMsg("일정 시작을 선택해주세요.");
                     }else if (_date2 == "날짜 선택" || _time2 == "시간 선택"){
                       showMsg("일정 끝을 선택해주세요.");
-                    }else if (_selectedChoices.isEmpty){
+                    }else if (_selFoodChoices.isEmpty || _selPlaceChoices.isEmpty || _selPrefChoices.isEmpty){
                       showMsg("유형을 선택해주세요.");
                     }else{
                       _setEvent(detailResult);  //입력받은 내용을 event 객체에 저장
-
                       _uploadEvent(); //파이어베이스에 event를 add
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pushNamed('/toMyEventPage');
                       Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: myEvent); //작성한 event의 상세 내용을 체크하는 페이지로 라우팅
-
                     }
                   },
                   icon: Icon(Icons.upload,

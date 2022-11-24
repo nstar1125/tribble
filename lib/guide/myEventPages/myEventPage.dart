@@ -57,7 +57,9 @@ class _MyEventPageState extends State<MyEventPage> {
                     selectedEvent.setLatlng(documentSnapshot['lat'],documentSnapshot['lng']);
                     selectedEvent.setSTime(documentSnapshot['date1'], documentSnapshot['time1']);
                     selectedEvent.setFTime(documentSnapshot['date2'], documentSnapshot['time2']);
-                    selectedEvent.setChoices(documentSnapshot['selectedChoices'].cast<String>());
+                    selectedEvent.setFoodChoices(documentSnapshot['selFoodChoices'].cast<String>());
+                    selectedEvent.setPlaceChoices(documentSnapshot['selPlaceChoices'].cast<String>());
+                    selectedEvent.setPrefChoices(documentSnapshot['selPrefChoices'].cast<String>());
                     //selectedEvent.setImages();
                     selectedEvent.setTags(documentSnapshot['tagList'].cast<String>());
 

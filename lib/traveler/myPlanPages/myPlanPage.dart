@@ -72,7 +72,9 @@ class _MyPlanPageState extends State<MyPlanPage> {
                       tempEvent.setLatlng(eventData.data()!["lat"],eventData.data()!["lng"]);
                       tempEvent.setSTime(eventData.data()!["date1"],eventData.data()!["time1"]);
                       tempEvent.setFTime(eventData.data()!["date2"],eventData.data()!["time2"]);
-                      tempEvent.setChoices(eventData.data()!["selectedChoices"].cast<String>());
+                      tempEvent.setFoodChoices(eventData.data()!["selFoodChoices"].cast<String>());
+                      tempEvent.setPlaceChoices(eventData.data()!["selPlaceChoices"].cast<String>());
+                      tempEvent.setPrefChoices(eventData.data()!["selPrefChoices"].cast<String>());
                       //tempEvent.setImages();
                       tempEvent.setTags(eventData.data()!["tagList"].cast<String>());
 
