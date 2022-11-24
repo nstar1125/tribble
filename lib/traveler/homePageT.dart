@@ -42,9 +42,6 @@ class _HomePageTState extends State<HomePageT> {
   @override
   void initState() {
     gettingUserData();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      gettingUserData();
-    });
     super.initState();
   }
 
@@ -62,8 +59,6 @@ class _HomePageTState extends State<HomePageT> {
             actions: [
               GestureDetector(
                 onTap: () async {
-                  // Navigator.of(context)
-                  //     .pushNamed('/toShopPage', arguments: true);
                   Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ShopPage()))
                       .then((value) {

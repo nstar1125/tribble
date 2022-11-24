@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,44 +59,6 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
       setState(() {
         useremail = value!;
       });
-    });
-  }
-
-  createGroup(String name, String id, String gname, String gid,
-      String groupName) async {
-    final CollectionReference userCollection =
-        FirebaseFirestore.instance.collection("users");
-
-    final CollectionReference groupCollection =
-        FirebaseFirestore.instance.collection("groups");
-
-    groupDocumentReference = await groupCollection.add({
-      "groupName": groupName,
-      "groupIcon": "",
-      "admin": "${id}_$name",
-      "members": [],
-      "groupId": "",
-      "recentMessage": "",
-      "recentMessageSender": "",
-    });
-    // update the members
-    await groupDocumentReference!.update({
-      "members": FieldValue.arrayUnion(["${userId}_$name"]),
-      "groupId": groupDocumentReference!.id,
-    });
-    await groupDocumentReference!.update({
-      "members": FieldValue.arrayUnion(["${gid}_$gname"]),
-    });
-
-    DocumentReference userDocumentReference = userCollection.doc(userId);
-    await userDocumentReference.update({
-      "groups":
-          FieldValue.arrayUnion(["${groupDocumentReference!.id}_$groupName"])
-    });
-    DocumentReference usocumentReference = userCollection.doc(gid);
-    await usocumentReference.update({
-      "groups":
-          FieldValue.arrayUnion(["${groupDocumentReference!.id}_$groupName"])
     });
   }
 
@@ -240,25 +203,35 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                             const EdgeInsets.only(right: 10),
                                         child: IconButton(
                                             onPressed: () {
-                                              createGroup(
-                                                  userName,
-                                                  FirebaseAuth.instance
-                                                      .currentUser!.uid,
-                                                  events[index].getGuideName(),
-                                                  events[index].getGuideId(),
-                                                  events[index].getTitle());
+                                              DatabaseService(
+                                                      uid: FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                  .createGroup(
+                                                      userName,
+                                                      FirebaseAuth.instance
+                                                          .currentUser!.uid,
+                                                      events[index]
+                                                          .getGuideName(),
+                                                      events[index]
+                                                          .getGuideId(),
+                                                      events[index].getTitle())
+                                                  .then((value) {
+                                                setState(() {
+                                                  groupid = value!;
+                                                });
+                                              });
+
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ChatPage(
-                                                              groupId:
-                                                                  "XTpbwYY7FFnJDLXxPECt",
+                                                              groupId: groupid,
                                                               groupName: events[
                                                                       index]
                                                                   .getTitle(),
                                                               userName:
-                                                                  "James")));
+                                                                  userName)));
                                             },
                                             icon: Icon(
                                               Icons.chat_bubble,

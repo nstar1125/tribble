@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 import 'package:flutter/material.dart';
-import 'package:tribble_guide/chatPages/chatPage.dart';
-import 'package:tribble_guide/chatPages/widgets/widgets.dart';
 
 class DatabaseService {
   final String? uid;
@@ -47,7 +45,7 @@ class DatabaseService {
 
   // creating a group
   //여기서하면될듯 플래너가 가이
-  Future createGroup(String name, String id, String gname, String gid,
+  Future<String?> createGroup(String name, String id, String gname, String gid,
       String groupName) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
@@ -77,6 +75,8 @@ class DatabaseService {
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
+    HelperFunctions.saverecentgroupKey(groupDocumentReference.id);
+    return groupDocumentReference.id;
   }
 
   // getting the chats
