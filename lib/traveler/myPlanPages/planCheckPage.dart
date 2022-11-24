@@ -24,7 +24,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   String userName = "";
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String useremail = "";
-  String groupid = "";
+  String groupid = "error";
   List<bool> showList = [];
   int eventCount = 100;
   DocumentReference? groupDocumentReference;
@@ -94,17 +94,17 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          centerTitle: true,
-          title: Text(
-            "My Plan",
-            style: TextStyle(
-                color: Colors.black87,
-                fontFamily: "GmarketSansTTF",
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
-          ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        title: Text(
+          "My Plan",
+          style: TextStyle(
+              color: Colors.black87,
+              fontFamily: "GmarketSansTTF",
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        ),
         iconTheme: const IconThemeData(
           color: Colors.black87,
         ),
@@ -115,7 +115,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
               },
               icon: Icon(Icons.logout)),
         ],
-      automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -128,9 +128,9 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                   width: 3,
                   height: showList[eventCount - 1]
                       ? 80 * eventCount.toDouble() +
-                      320 * (getTrueCount(showList) - 1)
+                          320 * (getTrueCount(showList) - 1)
                       : 80 * eventCount.toDouble() +
-                      320 * getTrueCount(showList),
+                          320 * getTrueCount(showList),
                   color: Colors.lightBlueAccent),
             ),
             Column(
@@ -209,31 +209,30 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                         padding:
                                             const EdgeInsets.only(right: 10),
                                         child: IconButton(
-                                            onPressed: () {
-                                              DatabaseService(
-                                                      uid: FirebaseAuth.instance
-                                                          .currentUser!.uid)
-                                                  .createGroup(
-                                                      userName,
-                                                      FirebaseAuth.instance
-                                                          .currentUser!.uid,
-                                                      events[index]
-                                                          .getGuideName(),
-                                                      events[index]
-                                                          .getGuideId(),
-                                                      events[index].getTitle())
-                                                  .then((value) {
-                                                setState(() {
-                                                  groupid = value!;
-                                                });
-                                              });
+                                            onPressed: () async {
+                                              final String?
+                                                  abc =
+                                                  await DatabaseService(
+                                                          uid:
+                                                              FirebaseAuth.instance
+                                                                  .currentUser!.uid)
+                                                      .createGroup(
+                                                          userName,
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid,
+                                                          events[index]
+                                                              .getGuideName(),
+                                                          events[index]
+                                                              .getGuideId(),
+                                                          events[index]
+                                                              .getTitle());
 
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ChatPage(
-                                                              groupId: groupid,
+                                                              groupId: abc!,
                                                               groupName: events[
                                                                       index]
                                                                   .getTitle(),
@@ -253,12 +252,13 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                   ? Container(
                                       height: 320,
                                       color: Color.fromARGB(255, 239, 239, 239),
-
-                                      width: MediaQuery.of(context).size.width - 80,
+                                      width: MediaQuery.of(context).size.width -
+                                          80,
                                       child: ListView(
                                         children: [
                                           Container(
-                                            padding: EdgeInsets.only(left:10,right:10,top: 10),
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10, top: 10),
                                             height: 120,
                                             child: GoogleMap(
                                               initialCameraPosition:
@@ -279,7 +279,8 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                           ),
                                           SizedBox(height: 10),
                                           Center(
-                                            child: Text(events[index].getLocation()!,
+                                            child: Text(
+                                                events[index].getLocation()!,
                                                 style: TextStyle(
                                                   color: Colors.black87,
                                                   fontFamily: "GmarketSansTTF",
@@ -290,12 +291,15 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                                padding: const EdgeInsets.only(
+                                                    left: 20, bottom: 10),
                                                 child: Text("Type:",
                                                     style: TextStyle(
                                                       color: Colors.black87,
-                                                      fontFamily: "GmarketSansTTF",
-                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily:
+                                                          "GmarketSansTTF",
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 12,
                                                     )),
                                               ),
@@ -303,44 +307,54 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                           ),
                                           Container(
                                             color: Colors.transparent,
-                                            padding: EdgeInsets.only(left: 10, right: 10),
-                                            width: MediaQuery.of(context).size.width,
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             child: Wrap(
-                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              crossAxisAlignment:
+                                                  WrapCrossAlignment.center,
                                               children: [
-                                                for (var i in events[index].getFoodChoices())
+                                                for (var i in events[index]
+                                                    .getFoodChoices())
                                                   Padding(
-                                                      padding: EdgeInsets.all(10),
+                                                      padding:
+                                                          EdgeInsets.all(10),
                                                       child: Text(lt.toEng(i),
                                                           style: TextStyle(
-                                                            color: Colors.black87,
-                                                            fontFamily: "GmarketSansTTF",
+                                                            color:
+                                                                Colors.black87,
+                                                            fontFamily:
+                                                                "GmarketSansTTF",
                                                             fontSize: 10,
-                                                          )
-                                                      )
-                                                  ),
-                                                for (var i in events[index].getPlaceChoices())
+                                                          ))),
+                                                for (var i in events[index]
+                                                    .getPlaceChoices())
                                                   Padding(
-                                                      padding: EdgeInsets.all(10),
+                                                      padding:
+                                                          EdgeInsets.all(10),
                                                       child: Text(lt.toEng(i),
                                                           style: TextStyle(
-                                                            color: Colors.black87,
-                                                            fontFamily: "GmarketSansTTF",
+                                                            color:
+                                                                Colors.black87,
+                                                            fontFamily:
+                                                                "GmarketSansTTF",
                                                             fontSize: 10,
-                                                          )
-                                                      )
-                                                  ),
-                                                for (var i in events[index].getPrefChoices())
+                                                          ))),
+                                                for (var i in events[index]
+                                                    .getPrefChoices())
                                                   Padding(
-                                                      padding: EdgeInsets.all(10),
+                                                      padding:
+                                                          EdgeInsets.all(10),
                                                       child: Text(lt.toEng(i),
                                                           style: TextStyle(
-                                                            color: Colors.black87,
-                                                            fontFamily: "GmarketSansTTF",
+                                                            color:
+                                                                Colors.black87,
+                                                            fontFamily:
+                                                                "GmarketSansTTF",
                                                             fontSize: 10,
-                                                          )
-                                                      )
-                                                  ),
+                                                          ))),
                                               ],
                                             ),
                                           ),
@@ -348,12 +362,15 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                                                padding: const EdgeInsets.only(
+                                                    left: 20, bottom: 10),
                                                 child: Text("Hashtags:",
                                                     style: TextStyle(
                                                       color: Colors.black87,
-                                                      fontFamily: "GmarketSansTTF",
-                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily:
+                                                          "GmarketSansTTF",
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 12,
                                                     )),
                                               ),
@@ -361,53 +378,68 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                           ),
                                           Container(
                                             color: Colors.transparent,
-                                            padding: EdgeInsets.only(left: 10, right: 10),
-                                            width: MediaQuery.of(context).size.width,
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             child: Wrap(
-                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              crossAxisAlignment:
+                                                  WrapCrossAlignment.center,
                                               children: [
-                                                for (var i in events[index].getTags())
+                                                for (var i
+                                                    in events[index].getTags())
                                                   Padding(
-                                                      padding: EdgeInsets.all(10),
-                                                      child: Text("# "+i,
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      child: Text("# " + i,
                                                           style: TextStyle(
-                                                            color: Colors.black87,
-                                                            fontFamily: "GmarketSansTTF",
+                                                            color:
+                                                                Colors.black87,
+                                                            fontFamily:
+                                                                "GmarketSansTTF",
                                                             fontSize: 10,
-                                                          )
-                                                      )
-                                                  ),
+                                                          ))),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(height: 10,),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 20, bottom: 10),
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    text: "Guide:  ",
-                                                      style: TextStyle(
-                                                        color: Colors.black87,
-                                                        fontFamily: "GmarketSansTTF",
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 12,
-                                                      ),
-                                                    children: [
-                                                      TextSpan(
-                                                        text: events[index].getGuideName(),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20, bottom: 10),
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                        text: "Guide:  ",
                                                         style: TextStyle(
                                                           color: Colors.black87,
-                                                          fontFamily: "GmarketSansTTF",
-                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily:
+                                                              "GmarketSansTTF",
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                           fontSize: 12,
-                                                        )
-                                                      ),
-                                                    ]
-                                                  ),
-                                                )
-                                              ),
+                                                        ),
+                                                        children: [
+                                                          TextSpan(
+                                                              text: events[
+                                                                      index]
+                                                                  .getGuideName(),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black87,
+                                                                fontFamily:
+                                                                    "GmarketSansTTF",
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 12,
+                                                              )),
+                                                        ]),
+                                                  )),
                                             ],
                                           ),
                                         ],
@@ -419,7 +451,6 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                         })),
               ],
             ),
-
           ],
         ),
       ),

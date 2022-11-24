@@ -30,20 +30,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     getChatandAdmin();
     super.initState();
-    //listScrollController.addListener(_scrollListener);
   }
-
-  // _scrollListener() {
-  //   if (!listScrollController.hasClients) return;
-  //   if (listScrollController.offset >=
-  //           listScrollController.position.maxScrollExtent &&
-  //       !listScrollController.position.outOfRange &&
-  //       _limit <= getlen()) {
-  //     setState(() {
-  //       _limit += _limitIncrement;
-  //     });
-  //   }
-  //}
 
 //아래방법을 최근 메세지 띄우면 됨.
   getChatandAdmin() {
@@ -73,7 +60,10 @@ class _ChatPageState extends State<ChatPage> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text(widget.groupName),
+        title: Text(
+          widget.groupName,
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.white,
       ),
       body: Stack(
