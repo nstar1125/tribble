@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
@@ -23,7 +24,15 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
   @override
   Widget build(BuildContext context) {
     //고른 장소의 위치를 얻기 위해 받아왔음
-    LocaTimeTag ltt = ModalRoute.of(context)!.settings.arguments as LocaTimeTag;
+    FromPlanLocation fromPlanLocationObject = ModalRoute.of(context)!.settings.arguments as FromPlanLocation;
+
+    List<LatLng> positions = [];
+    for (int i = 0; i < fromPlanLocationObject.events.length; i++){
+      positions.add(LatLng(fromPlanLocationObject.events[i].getLat(), fromPlanLocationObject.events[i].getLng()));
+    }
+
+    print(fromPlanLocationObject.events.length);
+    print(fromPlanLocationObject.events[0].getTitle());
 
     return Scaffold(
       appBar: AppBar(
@@ -52,35 +61,48 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                 final DocumentSnapshot documentSnapshot = snapshots.data!.docs[index];
 
                 //거리 1km 안의 이벤트만 리스트로 보여주기.. 앱 내 작동..
-                double distanceInMeters = Geolocator.distanceBetween(ltt.locDetail.geometry!.location.lat, ltt.locDetail.geometry!.location.lng, documentSnapshot['lat'], documentSnapshot['lng']);
+                double distanceInMeters = Geolocator.distanceBetween(fromPlanLocationObject.locDetail.geometry!.location.lat,
+                    fromPlanLocationObject.locDetail.geometry!.location.lng, documentSnapshot['lat'], documentSnapshot['lng']);
 
 
                 //조건: 거리1km내 && 같은 날 && 같은 해시태그 가지는 &&
                 if((distanceInMeters < 1000)
-                    && (ltt.tag == "" || documentSnapshot['tagList'].contains(ltt.tag))   ){
+                    && (fromPlanLocationObject.tag == "" || documentSnapshot['tagList'].contains(fromPlanLocationObject.tag))   ){
                       //&& documentSnapshot['date1'] == ltt.time) {
+
+                  selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
 
                   return GestureDetector(
                     onTap: () {
-                      selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
-                      //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
-                      //then은 두 번 pop하기 위한 장치
-                      Navigator.of(context).pushNamed('/toEventDetailCheckPageT', arguments: selectedEvent).then((e) {
-                        if(e != null){
-                          Navigator.pop(context, e);
-                        }
-                      });
+                      if (!positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng']))) {
+                        //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
+                        //then은 두 번 pop하기 위한 장치
+                        Navigator.of(context).pushNamed('/toEventDetailCheckPageT', arguments: selectedEvent).then((e) {
+                          if(e != null){
+                            Navigator.pop(context, e);
+                          }
+                        });
+                      }
+
                     },
                     child: Card(
                       margin: EdgeInsets.all(10.0),
                       child: ListTile(
-                        title: Text(
+
+                        title: positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng'])) ? Text(
+                            documentSnapshot['title'] + " ✔",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: "GmarketSansTTF",
+                              fontSize: 14,
+                            )) : Text(
                             documentSnapshot['title'],
                             style: TextStyle(
                               color: Colors.black87,
                               fontFamily: "GmarketSansTTF",
                               fontSize: 14,
                             )
+
                         ),
                         subtitle: Text(
                             documentSnapshot['date1'] + ", " + documentSnapshot['location'],

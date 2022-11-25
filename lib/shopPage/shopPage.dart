@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tribble_guide/shopPage/shopLang.dart';
 import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
@@ -14,6 +15,8 @@ class ShopPage extends StatefulWidget {
 class _ShopPageState extends State<ShopPage> {
   int _pExchange = 0;
   int _pCurrent = 0;
+
+  final currentUser = FirebaseAuth.instance;
   ShopText st = new ShopText();
 
   @override
@@ -23,12 +26,14 @@ class _ShopPageState extends State<ShopPage> {
   }
 
   gettingUserData() async {
-    await HelperFunctions.getUserpeanutsKey().then((val) {
-      setState(() {
-        _pCurrent = val!;
-      });
+    final db = FirebaseFirestore.instance;
+    DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+
+    _pCurrent = docIdSnapshot.data()!["peanuts"];
+
+    setState(() {
+
     });
-    // getting the list of snapshots in our stream
   }
 
   storeValues() async {

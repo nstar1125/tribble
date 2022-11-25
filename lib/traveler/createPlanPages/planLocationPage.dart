@@ -12,10 +12,11 @@ import 'package:tribble_guide/guide/createEventPages/event.dart';
 const kGoogleApiKey = "AIzaSyDJtGaKCd-UALmx7Qnoxb6LwKmUXZpk-78";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
-class LocaTimeTag {
+class FromPlanLocation {
   late PlaceDetails locDetail;
   late String time;
   late String tag;
+  late List<Event> events;
 }
 
 //Plan tour 버튼을 누르면 나오는 페이지입니다.
@@ -29,11 +30,11 @@ class PlanLocationPage extends StatefulWidget {
 class _PlanLocationPageState extends State<PlanLocationPage> {
   // related google map
   static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.5052, 126.9571), zoom: 14.0);
-  final Set<Marker> markers = {};
+  Set<Marker> markers = {};
   static int markerId = 1;
   late GoogleMapController _controller;
-  final Set<Polyline> polyline = {};
-  final List<LatLng> points = [];
+  Set<Polyline> polyline = {};
+  List<LatLng> points = [];
 
   // related google place
   final Mode _mode = Mode.overlay;
@@ -73,13 +74,50 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
     return(await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 
-  void addMarker(coordinate) async {
+  addMarker(coordinate) async {
     final Uint8List markIcons = await getImages(images[markerId-1], 150);
     setState(() {
       markers.add(Marker(
           position: coordinate,
           markerId: MarkerId(markerId.toString()),
           icon: BitmapDescriptor.fromBytes(markIcons),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Remove ?"),
+                  actions: [
+                    TextButton(
+                      child: Text("YES"),
+                      onPressed: () async {
+                        markers.clear();
+                        points.remove(coordinate);
+                        markers.removeWhere((marker) => marker.markerId.value == (points.indexOf(coordinate)+1).toString());
+                        events.removeWhere((event) => LatLng(event.getLat(), event.getLng()) == coordinate);
+
+                        markerId = 1;
+                        for(int i = 0; i < points.length; i++){
+                          await addMarker(points[i]);
+                        }
+
+
+                        setState(() {});
+
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text("NO"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              }
+            );
+          }
       ));
     });
     markerId++;
@@ -373,13 +411,14 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                               onPressed: () {
                                 // 최대 이벤트 수 6개
                                 if(events.length < 7){
-                                  var locaTimeTagObject = LocaTimeTag();
-                                  locaTimeTagObject.locDetail = detail.result;
-                                  locaTimeTagObject.time = _date1;
-                                  locaTimeTagObject.tag = _keyword;
+                                  var fromPlanLocationObject = FromPlanLocation();
+                                  fromPlanLocationObject.locDetail = detail.result;
+                                  fromPlanLocationObject.time = _date1;
+                                  fromPlanLocationObject.tag = _keyword;
+                                  fromPlanLocationObject.events = events;
 
                                   // pop으로 전달한 arguments를 e가 받음
-                                  Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: locaTimeTagObject).then((e) {  //장소+키워드+시간
+                                  Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: fromPlanLocationObject).then((e) {  //장소+키워드+시간
                                     if (e != null) {
                                       markers.removeWhere((marker) => marker.markerId.value == "0");
 

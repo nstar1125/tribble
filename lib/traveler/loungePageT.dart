@@ -1,6 +1,11 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tribble_guide/traveler/homePageT.dart';
+
+import '../chatPages/helper/helper_function.dart';
 
 class LoungePageT extends StatefulWidget {
   const LoungePageT({Key? key}) : super(key: key);
@@ -13,6 +18,7 @@ class _LoungePageTState extends State<LoungePageT> {
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
   int _selectedIndex = 0;
+  int tempPeanut = 0;
 
   @override
   void initState() {
@@ -21,13 +27,19 @@ class _LoungePageTState extends State<LoungePageT> {
     getCurrentUser();
   }
 
-  final List<Widget> _widgetOptions = <Widget>[
-    HomePageT(),
-    HomePageT(), //toEventLocationPage
-    HomePageT(),
-    HomePageT(),
-    HomePageT(),
-  ];
+
+
+  List<Widget> _widgetOptionsFunc(tempPeanut) {
+    final List<Widget> _widgetOptions = <Widget>[
+      HomePageT(tempPeanut: tempPeanut),
+      HomePageT(tempPeanut: tempPeanut), //toEventLocationPage
+      HomePageT(tempPeanut: tempPeanut),
+      HomePageT(tempPeanut: tempPeanut),
+      HomePageT(tempPeanut: tempPeanut),
+    ];
+
+    return _widgetOptions;
+  }
 
   void getCurrentUser() {
     try {
@@ -48,7 +60,7 @@ class _LoungePageTState extends State<LoungePageT> {
       temp = loggedUser?.email;
     }
     return Scaffold(
-      body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
+      body: SafeArea(child: _widgetOptionsFunc(tempPeanut).elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
@@ -66,10 +78,31 @@ class _LoungePageTState extends State<LoungePageT> {
           setState(() {
             _selectedIndex = index;
             if (index == 1) {
-              Navigator.pushNamed(context, '/toPlanLocationPage');
+              Navigator.pushNamed(context, '/toPlanLocationPage').then((value) async {
+                print("11*************");
+                // read all documents from collection
+                final db = FirebaseFirestore.instance;
+                DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(loggedUser!.uid).get();
+
+                tempPeanut = docIdSnapshot.data()!["peanuts"];
+
+                setState(() {
+
+                });
+              });
             }
             if (index == 2) {
-              Navigator.pushNamed(context, '/toMyPlanPage');
+              Navigator.pushNamed(context, '/toMyPlanPage').then((value) async {
+                // read all documents from collection
+                final db = FirebaseFirestore.instance;
+                DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(loggedUser!.uid).get();
+
+                tempPeanut = docIdSnapshot.data()!["peanuts"];
+
+                setState(() {
+
+                });
+              });
             }
             if (index == 4) {
               Navigator.pushNamed(context, '/toChatloungPage');

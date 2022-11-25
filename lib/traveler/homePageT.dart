@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tribble_guide/chatPages/helper/helper_function.dart';
 import 'package:tribble_guide/chatPages/widgets/widgets.dart';
@@ -5,16 +7,18 @@ import 'package:tribble_guide/chatPages/profile_page.dart';
 import 'package:tribble_guide/shopPage/shopPage.dart';
 
 class HomePageT extends StatefulWidget {
-  const HomePageT({Key? key}) : super(key: key);
+  HomePageT({super.key, required this.tempPeanut});
+
+  late int tempPeanut;
 
   @override
   State<HomePageT> createState() => _HomePageTState();
 }
 
 class _HomePageTState extends State<HomePageT> {
-  int _peanut_count = 0;
   String userName = "";
   String email = "";
+  final currentUser = FirebaseAuth.instance;
 
   final PageController pageController = PageController(
     initialPage: 0,
@@ -32,8 +36,11 @@ class _HomePageTState extends State<HomePageT> {
       });
     });
     await HelperFunctions.getUserpeanutsKey().then((val) {
-      setState(() {
-        _peanut_count = val!;
+      setState(() async {
+        final db = FirebaseFirestore.instance;
+        DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+
+        widget.tempPeanut = docIdSnapshot.data()!["peanuts"];
       });
     });
     // getting the list of snapshots in our stream
@@ -47,6 +54,7 @@ class _HomePageTState extends State<HomePageT> {
 
   @override
   Widget build(BuildContext context) {
+    // my tour에서 나오면 자동 피넛 업데이트
     return Builder(builder: (context) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         gettingUserData();
@@ -61,8 +69,8 @@ class _HomePageTState extends State<HomePageT> {
                 onTap: () async {
                   Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ShopPage()))
-                      .then((value) {
-                    setState(() {});
+                      .then((value) async {
+                    gettingUserData();
                   });
                 },
                 child: Container(
@@ -73,7 +81,7 @@ class _HomePageTState extends State<HomePageT> {
                       width: 20,
                     ),
                     SizedBox(width: 3),
-                    Text("${_peanut_count}",
+                    Text("${widget.tempPeanut}",
                         style: TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",

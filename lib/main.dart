@@ -14,6 +14,7 @@ import 'package:tribble_guide/traveler/autoPlanPages/autoPlanPage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
+import 'package:tribble_guide/traveler/homePageT.dart';
 import 'package:tribble_guide/traveler/myPlanPages/planCheckPage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/planConfirm.dart';

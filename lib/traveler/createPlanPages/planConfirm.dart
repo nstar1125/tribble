@@ -335,6 +335,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                               ],
                             );
                           })),
+                  SizedBox(height: 20,),
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Container(
@@ -385,13 +386,9 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                           int n = getTotalPt(pickList);
                           _peanut_count -= n;
                           storeValues();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pushNamed('/toMyPlanPage');
-                          Navigator.of(context)
-                              .pushNamed('/toPlanCheckPage', arguments: events);
 
-                          // fix 버튼 누르면, 파이어베이스에 플랜 다큐먼트 업로드
+
+                          // confirm my plan 버튼 누르면, 파이어베이스에 플랜 다큐먼트 업로드
                           final plan = <String, dynamic>{
                             "travelerId": currentUser.currentUser!.uid,
                             "title": tourTitle,
@@ -409,6 +406,13 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                                 .doc(eventIdList[i])
                                 .update({'count': tempCount});
                           }
+
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed('/toMyPlanPage');
+                          Navigator.of(context)
+                              .pushNamed('/toPlanCheckPage', arguments: events);
+
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
@@ -421,6 +425,9 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                             backgroundColor: Colors.lightBlueAccent,
                           ));
                         }
+
+
+
                       },
                       icon: Image(
                         image: AssetImage("assets/images/peanut.png"),
