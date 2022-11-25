@@ -5,6 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tribble_guide/chatPages/chatDB/DatabaseService.dart';
+import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
+
+import '../../shopPage/shopPage.dart';
 
 class PlanConfirmPage extends StatefulWidget {
   const PlanConfirmPage({Key? key}) : super(key: key);
@@ -65,8 +68,11 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
 
   gettingUserData() async {
     await HelperFunctions.getUserpeanutsKey().then((val) {
-      setState(() {
-        _peanut_count = val!;
+      setState(() async {
+        final db = FirebaseFirestore.instance;
+        DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+
+        _peanut_count = await docIdSnapshot.data()!["peanuts"];
       });
     });
     // getting the list of snapshots in our stream
@@ -90,8 +96,12 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Event> events =
-        ModalRoute.of(context)!.settings.arguments as List<Event>;
+    EventsAndPeanuts eventsAndPeanutsObject =
+        ModalRoute.of(context)!.settings.arguments as EventsAndPeanuts;
+
+    List<Event> events = eventsAndPeanutsObject.events;
+    _peanut_count = eventsAndPeanutsObject.peanuts;
+
     List<String> eventIdList = [];
     for (int i = 0; i < events.length; i++) {
       eventIdList.add(events[i].getEventId());
@@ -111,8 +121,16 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
           elevation: 0.0,
           actions: [
             GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/toShopPage', arguments: true);
+              onTap: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ShopPage()))
+                    .then((value) async {
+                  gettingUserData();
+                });
+
+                setState(() {
+
+                });
               },
               child: Container(
                   child: Row(
@@ -381,7 +399,7 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                         ),
                         backgroundColor: Colors.lightBlueAccent,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if (_peanut_count >= getTotalPt(pickList)) {
                           int n = getTotalPt(pickList);
                           _peanut_count -= n;
@@ -405,6 +423,25 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                                 .collection('events')
                                 .doc(eventIdList[i])
                                 .update({'count': tempCount});
+                          }
+
+                          for (int i = 0; i < eventIdList.length; i++) {
+                            DocumentSnapshot<Map<String, dynamic>> eventsIdSnapshot = await db.collection("events").doc(eventIdList[i]).get();
+
+                            String guideId = eventsIdSnapshot.data()!["guideId"];
+
+                            DocumentSnapshot<Map<String, dynamic>> usersIdSnapshot = await db.collection("users").doc(guideId).get();
+
+                            int guidePeanuts = usersIdSnapshot.data()!["peanuts"];
+
+                            if(pickList[i]) {
+                              db.collection("users").doc(guideId).update({"peanuts": guidePeanuts + 2});
+                            } else {
+                              db.collection("users").doc(guideId).update({"peanuts": guidePeanuts + 1});
+                            }
+
+
+
                           }
 
                           Navigator.of(context).pop();

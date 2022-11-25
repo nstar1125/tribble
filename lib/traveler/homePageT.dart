@@ -54,7 +54,6 @@ class _HomePageTState extends State<HomePageT> {
 
   @override
   Widget build(BuildContext context) {
-    // my tour에서 나오면 자동 피넛 업데이트
     return Builder(builder: (context) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         gettingUserData();

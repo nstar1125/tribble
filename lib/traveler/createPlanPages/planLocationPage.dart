@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -17,6 +19,11 @@ class FromPlanLocation {
   late String time;
   late String tag;
   late List<Event> events;
+}
+
+class EventsAndPeanuts {
+  late List<Event> events;
+  late int peanuts;
 }
 
 //Plan tour 버튼을 누르면 나오는 페이지입니다.
@@ -59,6 +66,8 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
 
   String _date1 = "Choose Date";
   String _keyword = "";
+
+  final currentUser = FirebaseAuth.instance;
 
 
   void initState() {
@@ -466,9 +475,16 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 backgroundColor: completeColor,
                                 elevation: 0,
                               ),
-                              onPressed: () {
+                              onPressed: () async {
+                                final db = FirebaseFirestore.instance;
+                                DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+
+                                var eventsAndPeanutsObject = EventsAndPeanuts();
+                                eventsAndPeanutsObject.events = events;
+                                eventsAndPeanutsObject.peanuts = await docIdSnapshot.data()!["peanuts"];
+
                                 if(!events.isEmpty){
-                                  Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
+                                  Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: eventsAndPeanutsObject);
                                 }
                               },
                               icon: Icon(Icons.arrow_forward,

@@ -31,9 +31,6 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
       positions.add(LatLng(fromPlanLocationObject.events[i].getLat(), fromPlanLocationObject.events[i].getLng()));
     }
 
-    print(fromPlanLocationObject.events.length);
-    print(fromPlanLocationObject.events[0].getTitle());
-
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -70,10 +67,11 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                     && (fromPlanLocationObject.tag == "" || documentSnapshot['tagList'].contains(fromPlanLocationObject.tag))   ){
                       //&& documentSnapshot['date1'] == ltt.time) {
 
-                  selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+
 
                   return GestureDetector(
                     onTap: () {
+                      selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
                       if (!positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng']))) {
                         //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
                         //then은 두 번 pop하기 위한 장치
