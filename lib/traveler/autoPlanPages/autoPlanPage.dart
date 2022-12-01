@@ -34,6 +34,7 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
     "🎈 Young",
     "😌 Leisurely"
   ];
+  List<List<String>> bias = [];
   List<String> _selFoodChoices = [];
   List<String> _selPlaceChoices = [];
   List<String> _selPrefChoices = [];
@@ -252,7 +253,10 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
                 backgroundColor: Colors.lightBlueAccent,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamed('/toShowNomiPage');
+                bias.add(_selFoodChoices);
+                bias.add(_selPlaceChoices);
+                bias.add(_selPrefChoices);
+                Navigator.of(context).pushNamed('/toShowNomiPage', arguments: bias);
               },
               icon: Icon(Icons.search),
               label: Text("find recommended plans",

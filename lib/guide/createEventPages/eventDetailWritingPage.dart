@@ -809,7 +809,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
                       showMsg("일정 시작을 선택해주세요.");
                     }else if (_date2 == "날짜 선택" || _time2 == "시간 선택"){
                       showMsg("일정 끝을 선택해주세요.");
-                    }else if (_selFoodChoices.isEmpty || _selPlaceChoices.isEmpty || _selPrefChoices.isEmpty){
+                    }else if (_selFoodChoices.isEmpty && _selPlaceChoices.isEmpty && _selPrefChoices.isEmpty){
                       showMsg("유형을 선택해주세요.");
                     }else{
                       _setEvent(detailResult);  //입력받은 내용을 event 객체에 저장

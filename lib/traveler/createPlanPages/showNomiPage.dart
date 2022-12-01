@@ -17,9 +17,11 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
   Event selectedEvent = Event.fromJson(initEvent);
   List<Event> events = [];
+  List<List<String>> bias = [];
 
   @override
   Widget build(BuildContext context) {
+    bias = ModalRoute.of(context)!.settings.arguments as List<List<String>>;
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -55,7 +57,10 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             SizedBox(height: 20,),
             GestureDetector(
               onTap: () async {
+                //AutoPath auto = new AutoPath(eventPool, bias);
+                //events = auto.makePath(count);
 
+                /*
                 final eventInfo1 = await FirebaseFirestore.instance.collection('events').doc('hfW0ZCKZPstiHtuqIpje').get();
                 Event eventObj = Event.fromJson(eventInfo1.data()!);
                 events.add(eventObj);
@@ -63,7 +68,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 final eventInfo2 = await FirebaseFirestore.instance.collection('events').doc('qkX3TETwezPjtdGw4esJ').get();
                 eventObj = Event.fromJson(eventInfo2.data()!);
                 events.add(eventObj);
-
+                */
                 await Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
                 events.clear();
               },
@@ -105,7 +110,10 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             SizedBox(height: 20,),
             GestureDetector(
               onTap: () async {
+                //AutoPath auto = new AutoPath(eventPool, bias);
+                //events = auto.makePath(count);
 
+                /*
                 final eventInfo1 = await FirebaseFirestore.instance.collection('events').doc('hfW0ZCKZPstiHtuqIpje').get();
                 Event eventObj = Event.fromJson(eventInfo1.data()!);
                 events.add(eventObj);
@@ -113,7 +121,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 final eventInfo2 = await FirebaseFirestore.instance.collection('events').doc('3JvlNTsYRDu5diXNzBAj').get();
                 eventObj = Event.fromJson(eventInfo2.data()!);
                 events.add(eventObj);
-
+                */
                 await Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
                 events.clear();
               },
