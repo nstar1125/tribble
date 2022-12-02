@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_maps_webservice/places.dart';
 
 class AutoPlanPage extends StatefulWidget {
   const AutoPlanPage({Key? key}) : super(key: key);
@@ -105,6 +106,8 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
   }
   @override
   Widget build(BuildContext context) {
+    PlaceDetails locDetail = ModalRoute.of(context)!.settings.arguments as PlaceDetails;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black87),
@@ -256,7 +259,12 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
                 bias.add(_selFoodChoices);
                 bias.add(_selPlaceChoices);
                 bias.add(_selPrefChoices);
-                Navigator.of(context).pushNamed('/toShowNomiPage', arguments: bias);
+
+                var biasAndLocationObj = BiasAndLocation();
+                biasAndLocationObj.bias = bias;
+                biasAndLocationObj.locDetail = locDetail;
+
+                Navigator.of(context).pushNamed('/toShowNomiPage', arguments: biasAndLocationObj);
               },
               icon: Icon(Icons.search),
               label: Text("find recommended plans",
@@ -269,4 +277,9 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
       ),
     );
   }
+}
+
+class BiasAndLocation {
+  late List<List<String>> bias;
+  late PlaceDetails locDetail;
 }

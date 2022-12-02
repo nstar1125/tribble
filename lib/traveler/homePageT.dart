@@ -18,6 +18,8 @@ class HomePageT extends StatefulWidget {
 class _HomePageTState extends State<HomePageT> {
   String userName = "";
   String email = "";
+
+  final db = FirebaseFirestore.instance;
   final currentUser = FirebaseAuth.instance;
 
   final PageController pageController = PageController(
@@ -35,13 +37,12 @@ class _HomePageTState extends State<HomePageT> {
         userName = val!;
       });
     });
-    await HelperFunctions.getUserpeanutsKey().then((val) {
-      setState(() async {
-        final db = FirebaseFirestore.instance;
-        DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+    await HelperFunctions.getUserpeanutsKey().then((val) async {
 
-        widget.tempPeanut = docIdSnapshot.data()!["peanuts"];
-      });
+      DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+
+      widget.tempPeanut = docIdSnapshot.data()!["peanuts"];
+
     });
     // getting the list of snapshots in our stream
   }
