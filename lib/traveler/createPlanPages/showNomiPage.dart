@@ -82,6 +82,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                       Event selectedEvent = Event.fromJson(initEvent);
 
                       selectedEvent.setGuideId(allData[i]['guideId']);
+                      selectedEvent.setGuideName(allData[i]['guideName']);
                       selectedEvent.setTitle(allData[i]['title']);
                       selectedEvent.setLocation(allData[i]['location']);
                       selectedEvent.setLatlng(allData[i]['lat'],allData[i]['lng']);
@@ -92,6 +93,11 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                       selectedEvent.setPrefChoices(allData[i]['selPrefChoices'].cast<String>());
                       //selectedEvent.setImages();
                       selectedEvent.setTags(allData[i]['tagList'].cast<String>());
+                      selectedEvent.setEventId(allData[i]['eventId']);
+                      selectedEvent.setIsBooked(allData[i]['isBooked']);
+                      selectedEvent.setLike(allData[i]['like']);
+                      selectedEvent.setCount(allData[i]['count']);
+
 
                       eventPool.add(selectedEvent);
                     }

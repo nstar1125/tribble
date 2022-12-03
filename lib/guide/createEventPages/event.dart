@@ -38,7 +38,6 @@ class Event{
   List<String> _selPrefChoices = <String>[];
   List<Asset> _imageList = <Asset>[];
   List<String> _tagList = <String>[];
-
   String _eventId = "";
   bool _isBooked = false;
   double _like = 0.0;
@@ -90,6 +89,12 @@ class Event{
   }
   setIsBooked(bool book){
     _isBooked = book;
+  }
+  setLike(double like){
+    _like = like;
+  }
+  setCount(double count){
+    _count = count;
   }
   addLike(){
     _like = _like + 1;

@@ -127,10 +127,10 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                     .then((value) async {
                   gettingUserData();
                 });
-
                 setState(() {
 
                 });
+
               },
               child: Container(
                   child: Row(
@@ -439,16 +439,11 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
                             } else {
                               db.collection("users").doc(guideId).update({"peanuts": guidePeanuts + 1});
                             }
-
-
-
                           }
 
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pushNamed('/toMyPlanPage');
                           Navigator.of(context)
                               .pushNamed('/toPlanCheckPage', arguments: events);
+
 
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -26,6 +26,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
   String useremail = "";
   String groupid = "error";
   List<bool> showList = [];
+  List<Event> events = [];
   int eventCount = 100;
   DocumentReference? groupDocumentReference;
   LangTranslate lt = new LangTranslate();
@@ -83,15 +84,13 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Event> events =
-        ModalRoute.of(context)!.settings.arguments as List<Event>;
+    events = ModalRoute.of(context)!.settings.arguments as List<Event>;
     List<String> eventIdList = [];
     for (int i = 0; i < events.length; i++) {
       eventIdList.add(events[i].getEventId());
       addMarker(LatLng(events[i].getLat(), events[i].getLng()));
     }
     eventCount = events.length;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -111,7 +110,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.popUntil(context, ModalRoute.withName('/toLoungePageT'));
               },
               icon: Icon(Icons.logout)),
         ],
