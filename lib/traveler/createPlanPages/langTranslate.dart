@@ -24,6 +24,31 @@ class LangTranslate{
     "🎈 Young",
     "😌 Leisurely"
   ];
+  List<String> foodListk = [
+    "🍽 식사",
+    "🍺 술",
+    "☕️ 카페",
+    "🏮 시장",
+  ];
+  List<String> placeListk = [
+    "⛰ 풍경",
+    "🏯 전통 장소",
+    "🛍 쇼핑",
+    "🪂 액티비티",
+    "🏟 스포츠",
+    "🎨 예술",
+    "🎯 유흥/오락",
+    "🧖 휴양",
+    "🚶 산책",
+  ];
+  List<String> prefListk = [
+    "🎎 현지에서만",
+    "🔥 핫플레이스",
+    "📷 사진 명소",
+    "🤳 혼자서도",
+    "🎈 젊음의",
+    "😌 여유로운"
+  ];
   toEng(String tileStr){
     switch(tileStr){
       case "🍽 식사":
@@ -64,6 +89,50 @@ class LangTranslate{
         return prefList[4];
       case "😌 여유로운":
         return prefList[5];
+    }
+
+
+  }
+  toKor(String tileStr){
+    switch(tileStr){
+      case "🍽 Meal":
+        return foodListk[0];
+      case "🍺 Beer":
+        return foodListk[1];
+      case "☕️ Cafe":
+        return foodListk[2];
+      case "🏮 Local market":
+        return foodListk[3];
+      case "⛰ Landscape":
+        return placeListk[0];
+      case "🏯 Traditional place":
+        return placeListk[1];
+      case "🛍 Shopping":
+        return placeListk[2];
+      case "🪂 Activity":
+        return placeListk[3];
+      case "🏟 Sports":
+        return placeListk[4];
+      case "🎨 Arts":
+        return placeListk[5];
+      case "🎯 Entertainment":
+        return placeListk[6];
+      case "🧖 Relax":
+        return placeListk[7];
+      case "🚶 Walk":
+        return placeListk[8];
+      case "🎎 Only local":
+        return prefListk[0];
+      case "🔥 Hot place":
+        return prefListk[1];
+      case "📷 Photo spot":
+        return prefListk[2];
+      case "🤳 alone":
+        return prefListk[3];
+      case "🎈 Young":
+        return prefListk[4];
+      case "😌 Leisurely":
+        return prefListk[5];
     }
 
 

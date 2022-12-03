@@ -11,6 +11,7 @@ import 'package:tribble_guide/guide/loginPages/signUpPage.dart';
 import 'package:tribble_guide/guide/loungePage.dart';
 import 'package:tribble_guide/shopPage/shopPage.dart';
 import 'package:tribble_guide/traveler/autoPlanPages/autoPlanPage.dart';
+import 'package:tribble_guide/traveler/autoPlanPages/showPathPage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
           '/toPlanCheckPage': (context) => const PlanCheckPage(),
           '/toMyPlanPage': (context) => const MyPlanPage(),
           '/toAutoPlanPage': (context) => const AutoPlanPage(),
+          '/toShowPathPage': (context) => const ShowPathPage(),
 
           //common chat
           '/toChatloungPage': (context) => const Chatloungepage(),

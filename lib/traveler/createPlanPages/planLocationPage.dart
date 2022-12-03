@@ -445,7 +445,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                         color: Colors.lightBlueAccent,
                                       ));
 
-                                      completeColor = Colors.lightBlueAccent;
+                                      completeColor  = Colors.lightBlueAccent;
                                       //set state 포함
                                       addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:tribble_guide/traveler/autoPlanPages/autoPath.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:tribble_guide/traveler/autoPlanPages/autoPlanPage.dart';
 
@@ -98,10 +99,9 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 }
                 //// 1km 내의 event pool 생성 끝
                 // event pool test
-                print("event pool length test : ${eventPool.length}");
 
-                // AutoPath auto = new AutoPath(eventPool, biasAndLocation.bias);
-                // events = auto.makePath(count);
+                AutoPath auto = new AutoPath(eventPool, biasAndLocation.bias);
+                events = auto.makePath(3);
 
                 /*
                 final eventInfo1 = await FirebaseFirestore.instance.collection('events').doc('hfW0ZCKZPstiHtuqIpje').get();
@@ -112,7 +112,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 eventObj = Event.fromJson(eventInfo2.data()!);
                 events.add(eventObj);
                 */
-                // await Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
+                await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
                 events.clear();
               },
               child: Card(
