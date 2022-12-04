@@ -151,6 +151,17 @@ class _ShowPathPageState extends State<ShowPathPage> {
             markers: markers,
             polylines: polyline,
             onMapCreated: (GoogleMapController controller) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(
+                content: Text(
+                  "Travel plan with "+events.length.toString()+" events has been structed!",
+                  style: TextStyle(
+                    fontFamily: "GmarketSansTTF",
+                    fontSize: 14,
+                  ),
+                ),
+                backgroundColor: Colors.green,
+              ));
               setState(() {
                 _controller = controller;
               });
@@ -162,9 +173,6 @@ class _ShowPathPageState extends State<ShowPathPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(events.length.toString()),
-              Text(events[0].getTitle()),
-              Text(events[1].getTitle()),
-              Text(events[2].getTitle()),
               ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

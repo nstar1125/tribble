@@ -26,7 +26,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
 
   @override
   Widget build(BuildContext context) {
-    BiasAndLocation biasAndLocation = ModalRoute.of(context)!.settings.arguments as BiasAndLocation;
+    TravPref travPref = ModalRoute.of(context)!.settings.arguments as TravPref;
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -72,7 +72,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 if(allData.isNotEmpty) {
                   for(int i = 0; i < allData.length; i++) {
 
-                    double distanceInMeters = Geolocator.distanceBetween(biasAndLocation.locDetail.geometry!.location.lat, biasAndLocation.locDetail.geometry!.location.lng,
+                    double distanceInMeters = Geolocator.distanceBetween(travPref.locDetail.geometry!.location.lat, travPref.locDetail.geometry!.location.lng,
                         allData[i]["lat"], allData[i]["lng"]);
 
                     // distance test
@@ -97,28 +97,45 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                       selectedEvent.setIsBooked(allData[i]['isBooked']);
                       selectedEvent.setLike(allData[i]['like']);
                       selectedEvent.setCount(allData[i]['count']);
-
-
-                      eventPool.add(selectedEvent);
+                      if(selectedEvent.getDate1()==travPref.date){
+                        bool avail = false;
+                        if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
+                          avail = true;
+                        }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
+                          if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
+                            avail = true;
+                          }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
+                            avail = true;
+                          }
+                        }
+                        if(avail){
+                          eventPool.add(selectedEvent);
+                        }
+                      }
                     }
                   }
                 }
                 //// 1km 내의 event pool 생성 끝
                 // event pool test
 
-                AutoPath auto = new AutoPath(eventPool, biasAndLocation.bias);
-                events = auto.makePath(3);
+                if(eventPool.length>0){
+                  AutoPath auto = new AutoPath(eventPool, travPref.bias);
+                  events = auto.makePath(travPref.count);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                }else{
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(
+                    content: Text(
+                      "No events found!\nPlease choose other place or date.",
+                      style: TextStyle(
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlueAccent,
+                  ));
+                }
 
-                /*
-                final eventInfo1 = await FirebaseFirestore.instance.collection('events').doc('hfW0ZCKZPstiHtuqIpje').get();
-                Event eventObj = Event.fromJson(eventInfo1.data()!);
-                events.add(eventObj);
-
-                final eventInfo2 = await FirebaseFirestore.instance.collection('events').doc('qkX3TETwezPjtdGw4esJ').get();
-                eventObj = Event.fromJson(eventInfo2.data()!);
-                events.add(eventObj);
-                */
-                await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
                 events.clear();
               },
               child: Card(
@@ -199,5 +216,15 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
         ),
       ),
     );
+  }
+  getHour(String s){
+    s = s.replaceAll(" ~", "");
+    var arr = s.split(" : ");
+    return int.parse(arr[0]);
+  }
+  getMinute(String s){
+    s = s.replaceAll(" ~", "");
+    var arr = s.split(" : ");
+    return int.parse(arr[1]);
   }
 }

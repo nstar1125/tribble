@@ -40,7 +40,8 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
   List<String> _selPlaceChoices = [];
   List<String> _selPrefChoices = [];
   String _date1 = "Choose Date";
-
+  String _time1 = "Choose Time";
+  int _count = 1;
   _buildChoiceList(int type) {   //타입 1: food, 2: place, 3: pref
     List<Widget> choices = [];
     switch(type){
@@ -107,7 +108,6 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
   @override
   Widget build(BuildContext context) {
     PlaceDetails locDetail = ModalRoute.of(context)!.settings.arguments as PlaceDetails;
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black87),
@@ -124,162 +124,262 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
         elevation: 1.0,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          SizedBox(height: 20),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.fastfood),
-                Text(" Food",
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: "GmarketSansTTF",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ]),
-          Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            child: Wrap(
-              children: _buildChoiceList(1), //타입 1: food, 2: place, 3: pref
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.fastfood),
+                  Text(" Food",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                ]),
+            Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              child: Wrap(
+                children: _buildChoiceList(1), //타입 1: food, 2: place, 3: pref
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.category),
-                Text(" Place Category",
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: "GmarketSansTTF",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ]),
-          Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            child: Wrap(
-              children: _buildChoiceList(2), //타입 1: food, 2: place, 3: pref
+            SizedBox(height: 20),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.category),
+                  Text(" Place Category",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                ]),
+            Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              child: Wrap(
+                children: _buildChoiceList(2), //타입 1: food, 2: place, 3: pref
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.emoji_emotions),
-                Text(" Characteristic",
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: "GmarketSansTTF",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ]),
-          Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            child: Wrap(
-              children: _buildChoiceList(3), //타입 1: food, 2: place, 3: pref
+            SizedBox(height: 20),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.emoji_emotions),
+                  Text(" Characteristic",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                ]),
+            Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              child: Wrap(
+                children: _buildChoiceList(3), //타입 1: food, 2: place, 3: pref
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-          Row(                                                  //시간
-              mainAxisAlignment: MainAxisAlignment.start,
+            SizedBox(height: 20),
+            Row(                                                  //시간
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.access_time_filled),
+                  Text(" Time",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold
+                      )
+                  )
+                ]
+            ),
+            Row(                                                  //일정 시작 버튼 2개
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.access_time_filled),
-                Text(" Time",
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: "GmarketSansTTF",
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold
-                    )
-                )
-              ]
-          ),
-          Row(                                                  //일정 시작 버튼 2개
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    elevation: 0,
-                    backgroundColor: Colors.white
-                ),
-                onPressed: (){
-                  DatePicker.showDatePicker(context,
-                      theme: DatePickerTheme(
-                        containerHeight: 210.0,
-                      ),
-                      showTitleActions: true,
-                      minTime: DateTime(2000, 1, 1),
-                      maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
-                        print('confirm $date');
-                        _date1 = '${date.year} - ${date.month} - ${date.day}';
-                        setState(() {});
-                      }, currentTime: DateTime.now(), locale: LocaleType.en);
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              " $_date1",
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontFamily: "GmarketSansTTF",
-                                fontSize: 16,
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 0,
+                      backgroundColor: Colors.white
+                  ),
+                  onPressed: (){
+                    DatePicker.showDatePicker(context,
+                        theme: DatePickerTheme(
+                          containerHeight: 210.0,
+                        ),
+                        showTitleActions: true,
+                        minTime: DateTime(2000, 1, 1),
+                        maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
+                          print('confirm $date');
+                          _date1 = '${date.year} - ${date.month} - ${date.day}';
+                          setState(() {});
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                " $_date1",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "GmarketSansTTF",
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 30),
-          ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 0,
+                      backgroundColor: Colors.white
+                  ),
+                  onPressed: (){
+                    DatePicker.showTimePicker(context,
+                        theme: DatePickerTheme(
+                          containerHeight: 210.0,
+                        ),
+                        showTitleActions: true, onConfirm: (time) {
+                          print('confirm $time');
+                          _time1 = '${time.hour} : ${time.minute} ~';
+                          setState(() {});
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
+                    setState(() {});
+                  },
+
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            " $_time1",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: "GmarketSansTTF",
+                              fontSize: 16,),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ),
-                backgroundColor: Colors.lightBlueAccent,
-              ),
-              onPressed: () {
-                bias.add(_selFoodChoices);
-                bias.add(_selPlaceChoices);
-                bias.add(_selPrefChoices);
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(                                                  //시간
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.library_add),
+                  Text(" Maximum number of events",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold
+                      )
+                  )
+                ]
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _count = _count - 1;
+                        if (_count < 1) _count = 1;
+                      });
+                    },
+                    icon: Icon(Icons.remove_circle,
+                        color: Colors.lightBlueAccent)),
+                Container(
+                  color: Colors.white,
+                  height: 20,
+                  width: 200,
+                  child: Center(
+                    child: Text("${_count}",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 14)),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _count = _count + 1;
+                        if (_count > 6) _count = 6;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.add_circle,
+                      color: Colors.lightBlueAccent,
+                    ))
+              ],
+            ),
+            SizedBox(height: 30),
+            ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  backgroundColor: Colors.lightBlueAccent,
+                ),
+                onPressed: () {
+                  bias.add(_selFoodChoices);
+                  bias.add(_selPlaceChoices);
+                  bias.add(_selPrefChoices);
 
-                var biasAndLocationObj = BiasAndLocation();
-                biasAndLocationObj.bias = bias;
-                biasAndLocationObj.locDetail = locDetail;
+                  var travPrefObj = TravPref();
+                  travPrefObj.bias = bias;
+                  travPrefObj.locDetail = locDetail;
+                  travPrefObj.date = _date1;
+                  travPrefObj.time = _time1;
+                  travPrefObj.count = _count;
 
-                Navigator.of(context).pushNamed('/toShowNomiPage', arguments: biasAndLocationObj);
-              },
-              icon: Icon(Icons.search),
-              label: Text("find recommended plans",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "GmarketSansTTF",
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold))),
-        ],
+                  Navigator.of(context).pushNamed('/toShowNomiPage', arguments: travPrefObj);
+                },
+                icon: Icon(Icons.search),
+                label: Text("find recommended plans",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold))),
+          ],
+        ),
       ),
     );
   }
 }
 
-class BiasAndLocation {
+class TravPref {
   late List<List<String>> bias;
   late PlaceDetails locDetail;
+  late String date;
+  late String time;
+  late int count;
 }
