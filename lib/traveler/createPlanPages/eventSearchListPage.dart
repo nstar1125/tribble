@@ -85,38 +85,62 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                     },
                     child: Card(
                       margin: EdgeInsets.all(10.0),
-                      child: ListTile(
+                      child: positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng'])) ?
+                      Container(
+                        color: Colors.grey,
+                        child: ListTile(
+                          title:  Text(
+                              documentSnapshot['title'] + " ✔",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 14,
+                              )
+                          ),
+                          subtitle: Text(
+                              documentSnapshot['date1'] + ", " + documentSnapshot['location'],
+                              style: TextStyle(
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 12,
+                              )
+                          ),
+                          trailing: Text(
+                              "pick!\n  ${documentSnapshot['count'].toInt()}",
+                              style: TextStyle(
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 12,
+                              )
+                          ),
+                        ),
+                      ):
+                      Container(
+                        color: Colors.white,
+                        child: ListTile(
+                          title:  Text(
+                              documentSnapshot['title'],
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 14,
+                              )
+                          ),
+                          subtitle: Text(
+                              documentSnapshot['date1'] + ", " + documentSnapshot['location'],
+                              style: TextStyle(
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 12,
+                              )
+                          ),
+                          trailing: Text(
+                              "pick!\n  ${documentSnapshot['count'].toInt()}",
+                              style: TextStyle(
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 12,
+                              )
+                          ),
+                        ),
+                      )
 
-                        title: positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng'])) ? Text(
-                            documentSnapshot['title'] + " ✔",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: "GmarketSansTTF",
-                              fontSize: 14,
-                            )) : Text(
-                            documentSnapshot['title'],
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: "GmarketSansTTF",
-                              fontSize: 14,
-                            )
-
-                        ),
-                        subtitle: Text(
-                            documentSnapshot['date1'] + ", " + documentSnapshot['location'],
-                            style: TextStyle(
-                              fontFamily: "GmarketSansTTF",
-                              fontSize: 12,
-                            )
-                        ),
-                        trailing: Text(
-                            "pick!\n  ${documentSnapshot['count'].toInt()}",
-                            style: TextStyle(
-                              fontFamily: "GmarketSansTTF",
-                              fontSize: 12,
-                            )
-                        ),
-                      ),
                     ),
                   );
                 }
