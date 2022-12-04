@@ -349,18 +349,33 @@ class _AutoPlanPageState extends State<AutoPlanPage> {
                   backgroundColor: Colors.lightBlueAccent,
                 ),
                 onPressed: () {
-                  bias.add(_selFoodChoices);
-                  bias.add(_selPlaceChoices);
-                  bias.add(_selPrefChoices);
+                  if(_date1 == "Choose Date" || _time1 == "Choose Time"){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(
+                      content: Text(
+                        "Start time not choosen.",
+                        style: TextStyle(
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 14,
+                        ),
+                      ),
+                      backgroundColor: Colors.lightBlueAccent,
+                    ));
+                  }else{
+                    bias.add(_selFoodChoices);
+                    bias.add(_selPlaceChoices);
+                    bias.add(_selPrefChoices);
 
-                  var travPrefObj = TravPref();
-                  travPrefObj.bias = bias;
-                  travPrefObj.locDetail = locDetail;
-                  travPrefObj.date = _date1;
-                  travPrefObj.time = _time1;
-                  travPrefObj.count = _count;
+                    var travPrefObj = TravPref();
+                    travPrefObj.bias = bias;
+                    travPrefObj.locDetail = locDetail;
+                    travPrefObj.date = _date1;
+                    travPrefObj.time = _time1;
+                    travPrefObj.count = _count;
 
-                  Navigator.of(context).pushNamed('/toShowNomiPage', arguments: travPrefObj);
+                    Navigator.of(context).pushNamed('/toShowNomiPage', arguments: travPrefObj);
+                  }
+
                 },
                 icon: Icon(Icons.search),
                 label: Text("find recommended plans",
