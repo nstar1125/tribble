@@ -73,6 +73,7 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
       ));
       markersList.add(markers);
+      markers = {};
     });
   }
 
@@ -267,6 +268,8 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                                     events[index].getLng()),
                                                 zoom: 15.0,
                                               ),
+                                              zoomGesturesEnabled: false,
+                                              zoomControlsEnabled: false,
                                               markers: markersList[index],
                                               onMapCreated: (GoogleMapController
                                                   controller) {
@@ -278,13 +281,17 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                           ),
                                           SizedBox(height: 10),
                                           Center(
-                                            child: Text(
-                                                events[index].getLocation()!,
-                                                style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontFamily: "GmarketSansTTF",
-                                                  fontSize: 12,
-                                                )),
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 10, right: 10, top: 10),
+                                              child: Text(
+                                                  events[index].getLocation()!,
+                                                  style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontFamily: "GmarketSansTTF",
+                                                    fontSize: 12,
+                                                  )),
+                                            ),
                                           ),
                                           SizedBox(height: 10),
                                           Row(

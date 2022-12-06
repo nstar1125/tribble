@@ -35,7 +35,6 @@ class _LoungePageTState extends State<LoungePageT> {
       HomePageT(tempPeanut: tempPeanut), //toEventLocationPage
       HomePageT(tempPeanut: tempPeanut),
       HomePageT(tempPeanut: tempPeanut),
-      HomePageT(tempPeanut: tempPeanut),
     ];
 
     return _widgetOptions;
@@ -104,7 +103,7 @@ class _LoungePageTState extends State<LoungePageT> {
                 });
               });
             }
-            if (index == 4) {
+            if (index == 3) {
               Navigator.pushNamed(context, '/toChatloungPage');
             }
           });
@@ -113,8 +112,6 @@ class _LoungePageTState extends State<LoungePageT> {
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.edit), label: "Plan tour"),
           BottomNavigationBarItem(icon: Icon(Icons.luggage), label: "My tour"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search), label: "Other tour"),
           BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: "Chat")
         ],
       ),

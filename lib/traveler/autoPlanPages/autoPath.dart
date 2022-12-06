@@ -78,6 +78,8 @@ class AutoPath{
         }else if(getHour(eventPool[i].getTime1())==getHour(curEvent.getTime2())){
           if(getMinute(eventPool[i].getTime1())>getMinute(curEvent.getTime2())){
             avail = true;
+          }else if(getMinute(eventPool[i].getTime1())==getMinute(curEvent.getTime2())){
+            avail = true;
           }
         }
       }else{
@@ -85,6 +87,8 @@ class AutoPath{
           avail = true;
         }else if(getHour(eventPool[i].getTime2())==getHour(curEvent.getTime1())){
           if(getMinute(eventPool[i].getTime2())<getMinute(curEvent.getTime1())){
+            avail = true;
+          }else if(getMinute(eventPool[i].getTime2())==getMinute(curEvent.getTime1())){
             avail = true;
           }
         }
@@ -110,25 +114,26 @@ class AutoPath{
     double distance =
       Geolocator.distanceBetween(s_node.getLat(),s_node.getLng(),e_node.getLat(),e_node.getLng());  //s_node와 e_node간 거리 점수
     double liked = e_node.getLike();
+    int timeDiff =  getHour(e_node.getTime1())-getHour(s_node.getTime2());
     var bias  = getDupList(e_node.getFoodChoices(), foodList).length
                     +getDupList(e_node.getPlaceChoices(), placeList).length
                       +getDupList(e_node.getPrefChoices(), prefList).length;
     double total = 0;
     switch(type){
       case "like":
-        total = (1000-distance)/100 + liked*10 + bias.toDouble();
+        total = (1000-distance)/100 + liked*10 + bias.toDouble() + (24-timeDiff);
         break;
       case "food":
         bias += getDupList(e_node.getFoodChoices(), foodList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble();
+        total = (1000-distance)/100 + liked + bias.toDouble() + (24-timeDiff);
         break;
       case "place":
         bias += getDupList(e_node.getPlaceChoices(), placeList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble();
+        total = (1000-distance)/100 + liked + bias.toDouble() + (24-timeDiff);
         break;
       case "pref":
         bias += bias += getDupList(e_node.getPrefChoices(), prefList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble();
+        total = (1000-distance)/100 + liked + bias.toDouble() + (24-timeDiff);
         break;
     }
     return total;
@@ -139,13 +144,13 @@ class AutoPath{
       return [];
     }
     if(aList.length > bList.length){
-      for(int i = 0; i<aList.length; i++){
+      for(int i = 0; i<bList.length; i++){
         if(aList.contains(bList[i])){
           newList.add(bList[i]);
         }
       }
     }else{
-      for(int i = 0; i<bList.length; i++){
+      for(int i = 0; i<aList.length; i++){
         if(bList.contains(aList[i])){
           newList.add(aList[i]);
         }

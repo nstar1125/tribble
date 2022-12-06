@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:tribble_guide/traveler/createPlanPages/langTranslate.dart';
+import 'package:tribble_guide/traveler/homePageT.dart';
 
 class EventDetailCheckPageT extends StatefulWidget {
   const EventDetailCheckPageT({Key? key}) : super(key: key);
@@ -31,7 +32,8 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
 
   @override
   Widget build(BuildContext context) {
-    Event e = ModalRoute.of(context)!.settings.arguments as Event;
+    BtnnEvent be = ModalRoute.of(context)!.settings.arguments as BtnnEvent;
+    Event e = be.event;
     addMarker(LatLng(e.getLat(), e.getLng()));
 
     return Scaffold(
@@ -73,6 +75,45 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   },
                 ),
               ),
+              Row(                                                  //제목
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(Icons.person),
+                    Text(" Profile",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
+                  ]
+              ),
+              Padding(                                                  //위치 정보
+                  padding: const EdgeInsets.only(left:20, right:20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("Guide: "+e.getGuideName() ,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 14,)),
+                      (e.getState() == "available") ? Text("Available" ,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 14,
+                          )):Text("Booked" ,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 14,
+                          ))
+                    ],
+                  )
+              ),
+              SizedBox(height:30),
               Row(
                   //제목
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -315,7 +356,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   ),
               SizedBox(height: 20),
               Center(
-                child: ElevatedButton(
+                child: (be.isBtn)?ElevatedButton(
                   child: Text(
                     "Add To My Tour",
                     style: TextStyle(
@@ -328,7 +369,7 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlueAccent,
                   ),
-                ),
+                ):Container()
               )
             ],
           ),

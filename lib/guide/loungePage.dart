@@ -27,7 +27,6 @@ class _LoungePageState extends State<LoungePage> {
     HomePage(), //toEventLocationPage
     HomePage(),
     HomePage(),
-    HomePage(),
   ];
 
   void getCurrentUser() {
@@ -72,7 +71,7 @@ class _LoungePageState extends State<LoungePage> {
             if (index == 2) {
               Navigator.pushNamed(context, '/toMyEventPage');
             }
-            if (index == 4) {
+            if (index == 3) {
               Navigator.pushNamed(context, '/toChatloungPage');
             }
           });
@@ -82,8 +81,6 @@ class _LoungePageState extends State<LoungePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.edit_location_alt), label: "이벤트 작성"),
           BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: "나의 이벤트"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart_outlined), label: "트렌드 분석"),
           BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: "채팅")
         ],
       ),

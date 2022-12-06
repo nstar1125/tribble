@@ -64,6 +64,7 @@ class _MyEventPageState extends State<MyEventPage> {
                     selectedEvent.setPrefChoices(documentSnapshot['selPrefChoices'].cast<String>());
                     //selectedEvent.setImages();
                     selectedEvent.setTags(documentSnapshot['tagList'].cast<String>());
+                    selectedEvent.setGuideName(documentSnapshot['guideName']);
                     selectedEvent.setState(documentSnapshot['state']);
 
                     Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: selectedEvent); // 클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서

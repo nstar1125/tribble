@@ -6,6 +6,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tribble_guide/traveler/createPlanPages/planLocationPage.dart';
+import 'package:tribble_guide/traveler/homePageT.dart';
 
 //지도에서 장소 하나를 검색하고 Search Event! 버튼을 누르면 나오는
 //검색한 장소 근방 1km의 이벤트를 필터링해서 보여주는 페이지입니다
@@ -75,7 +76,10 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                       if (!positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng']))) {
                         //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
                         //then은 두 번 pop하기 위한 장치
-                        Navigator.of(context).pushNamed('/toEventDetailCheckPageT', arguments: selectedEvent).then((e) {
+                        var btnnEvent = BtnnEvent();
+                        btnnEvent.event = selectedEvent;
+                        btnnEvent.isBtn = true;
+                        Navigator.of(context).pushNamed('/toEventDetailCheckPageT', arguments: btnnEvent).then((e) {
                           if(e != null){
                             Navigator.pop(context, e);
                           }

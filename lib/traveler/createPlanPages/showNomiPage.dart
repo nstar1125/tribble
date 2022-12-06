@@ -119,7 +119,10 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 if(eventPool.length>0){
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "like");
                   events = auto.makePath(travPref.count);
-                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    getEventPool(travPref);
+                    events.clear();
+                  });
                 }else{
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(
@@ -176,7 +179,10 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 if(eventPool.length>0){
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "food");
                   events = auto.makePath(travPref.count);
-                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    getEventPool(travPref);
+                    events.clear();
+                  });
                 }else{
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(
@@ -190,7 +196,8 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                     backgroundColor: Colors.lightBlueAccent,
                   ));
                 }
-                events.clear();
+
+
               },
               child: Card(
                 margin: EdgeInsets.all(10.0),
@@ -218,7 +225,10 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 if(eventPool.length>0){
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "place");
                   events = auto.makePath(travPref.count);
-                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    getEventPool(travPref);
+                    events.clear();
+                  });
                 }else{
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(
@@ -260,7 +270,10 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                 if(eventPool.length>0){
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "pref");
                   events = auto.makePath(travPref.count);
-                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    getEventPool(travPref);
+                    events.clear();
+                  });
                 }else{
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(
