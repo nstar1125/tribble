@@ -20,13 +20,67 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
   Event selectedEvent = Event.fromJson(initEvent);
   List<Event> events = [];
+  List<Event> eventPool = [];
   List<List<String>> bias = [];
 
   final db = FirebaseFirestore.instance;
 
+  getEventPool(TravPref travPref) async{
+    //// event pool 생성 시작
+
+    QuerySnapshot querySnapshot = await db.collection("events").orderBy("date1").get();
+    List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+    if(allData.isNotEmpty) {
+      for(int i = 0; i < allData.length; i++) {
+
+        double distanceInMeters = Geolocator.distanceBetween(travPref.locDetail.geometry!.location.lat, travPref.locDetail.geometry!.location.lng,
+            allData[i]["lat"], allData[i]["lng"]);
+
+        if(distanceInMeters < 1000){
+          Event selectedEvent = Event.fromJson(initEvent);
+
+          selectedEvent.setGuideId(allData[i]['guideId']);
+          selectedEvent.setGuideName(allData[i]['guideName']);
+          selectedEvent.setTitle(allData[i]['title']);
+          selectedEvent.setLocation(allData[i]['location']);
+          selectedEvent.setLatlng(allData[i]['lat'],allData[i]['lng']);
+          selectedEvent.setSTime(allData[i]['date1'], allData[i]['time1']);
+          selectedEvent.setFTime(allData[i]['date2'], allData[i]['time2']);
+          selectedEvent.setFoodChoices(allData[i]['selFoodChoices'].cast<String>());
+          selectedEvent.setPlaceChoices(allData[i]['selPlaceChoices'].cast<String>());
+          selectedEvent.setPrefChoices(allData[i]['selPrefChoices'].cast<String>());
+          //selectedEvent.setImages();
+          selectedEvent.setTags(allData[i]['tagList'].cast<String>());
+          selectedEvent.setEventId(allData[i]['eventId']);
+          selectedEvent.setState(allData[i]['state']);
+          selectedEvent.setLike(allData[i]['like']);
+          selectedEvent.setCount(allData[i]['count']);
+          if(selectedEvent.getDate1()==travPref.date){
+            bool avail = false;
+            if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
+              avail = true;
+            }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
+              if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
+                avail = true;
+              }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
+                avail = true;
+              }
+            }
+            if(avail){
+              eventPool.add(selectedEvent);
+            }
+          }
+        }
+      }
+    }
+    //// 1km 내의 event pool 생성 끝
+    // event pool test
+  }
   @override
   Widget build(BuildContext context) {
     TravPref travPref = ModalRoute.of(context)!.settings.arguments as TravPref;
+    getEventPool(travPref);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -62,64 +116,8 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             SizedBox(height: 20,),
             GestureDetector(
               onTap: () async {
-
-                //// event pool 생성 시작
-                List<Event> eventPool = [];
-
-                QuerySnapshot querySnapshot = await db.collection("events").orderBy("date1").get();
-                List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
-
-                if(allData.isNotEmpty) {
-                  for(int i = 0; i < allData.length; i++) {
-
-                    double distanceInMeters = Geolocator.distanceBetween(travPref.locDetail.geometry!.location.lat, travPref.locDetail.geometry!.location.lng,
-                        allData[i]["lat"], allData[i]["lng"]);
-
-                    // distance test
-                    print("distance test : ${distanceInMeters}");
-
-                    if(distanceInMeters < 1000){
-                      Event selectedEvent = Event.fromJson(initEvent);
-
-                      selectedEvent.setGuideId(allData[i]['guideId']);
-                      selectedEvent.setGuideName(allData[i]['guideName']);
-                      selectedEvent.setTitle(allData[i]['title']);
-                      selectedEvent.setLocation(allData[i]['location']);
-                      selectedEvent.setLatlng(allData[i]['lat'],allData[i]['lng']);
-                      selectedEvent.setSTime(allData[i]['date1'], allData[i]['time1']);
-                      selectedEvent.setFTime(allData[i]['date2'], allData[i]['time2']);
-                      selectedEvent.setFoodChoices(allData[i]['selFoodChoices'].cast<String>());
-                      selectedEvent.setPlaceChoices(allData[i]['selPlaceChoices'].cast<String>());
-                      selectedEvent.setPrefChoices(allData[i]['selPrefChoices'].cast<String>());
-                      //selectedEvent.setImages();
-                      selectedEvent.setTags(allData[i]['tagList'].cast<String>());
-                      selectedEvent.setEventId(allData[i]['eventId']);
-                      selectedEvent.setState(allData[i]['state']);
-                      selectedEvent.setLike(allData[i]['like']);
-                      selectedEvent.setCount(allData[i]['count']);
-                      if(selectedEvent.getDate1()==travPref.date){
-                        bool avail = false;
-                        if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
-                          avail = true;
-                        }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
-                          if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
-                            avail = true;
-                          }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
-                            avail = true;
-                          }
-                        }
-                        if(avail){
-                          eventPool.add(selectedEvent);
-                        }
-                      }
-                    }
-                  }
-                }
-                //// 1km 내의 event pool 생성 끝
-                // event pool test
-
                 if(eventPool.length>0){
-                  AutoPath auto = new AutoPath(eventPool, travPref.bias);
+                  AutoPath auto = new AutoPath(eventPool, travPref.bias, "like");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
                 }else{
@@ -135,14 +133,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                     backgroundColor: Colors.lightBlueAccent,
                   ));
                 }
-
                 events.clear();
               },
               child: Card(
                 margin: EdgeInsets.all(10.0),
                 child: ListTile(
                   title: Text(
-                      "Most Liked / Viewed Tour Now ;)",
+                      "😍 Most Liked / Viewed Tour Now",
                       style: TextStyle(
                         color: Colors.black87,
                         fontFamily: "GmarketSansTTF",
@@ -150,7 +147,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                       )
                   ),
                   subtitle: Text(
-                      "12 : 10 ~",
+                      "Let's see what tour is hot!",
                       style: TextStyle(
                         fontFamily: "GmarketSansTTF",
                         fontSize: 12,
@@ -176,26 +173,30 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             SizedBox(height: 20,),
             GestureDetector(
               onTap: () async {
-                //AutoPath auto = new AutoPath(eventPool, bias);
-                //events = auto.makePath(count);
-
-                /*
-                final eventInfo1 = await FirebaseFirestore.instance.collection('events').doc('hfW0ZCKZPstiHtuqIpje').get();
-                Event eventObj = Event.fromJson(eventInfo1.data()!);
-                events.add(eventObj);
-
-                final eventInfo2 = await FirebaseFirestore.instance.collection('events').doc('3JvlNTsYRDu5diXNzBAj').get();
-                eventObj = Event.fromJson(eventInfo2.data()!);
-                events.add(eventObj);
-                */
-                await Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: events);
+                if(eventPool.length>0){
+                  AutoPath auto = new AutoPath(eventPool, travPref.bias, "food");
+                  events = auto.makePath(travPref.count);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                }else{
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(
+                    content: Text(
+                      "No events found!\nPlease choose other place or date.",
+                      style: TextStyle(
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlueAccent,
+                  ));
+                }
                 events.clear();
               },
               child: Card(
                 margin: EdgeInsets.all(10.0),
                 child: ListTile(
                   title: Text(
-                      "Food Tour :)",
+                      "🍕 Food Tour",
                       style: TextStyle(
                         color: Colors.black87,
                         fontFamily: "GmarketSansTTF",
@@ -203,7 +204,91 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                       )
                   ),
                   subtitle: Text(
-                      "12 : 10 ~",
+                      "Eating is most important to me!",
+                      style: TextStyle(
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 12,
+                      )
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () async {
+                if(eventPool.length>0){
+                  AutoPath auto = new AutoPath(eventPool, travPref.bias, "place");
+                  events = auto.makePath(travPref.count);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                }else{
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(
+                    content: Text(
+                      "No events found!\nPlease choose other place or date.",
+                      style: TextStyle(
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlueAccent,
+                  ));
+                }
+                events.clear();
+              },
+              child: Card(
+                margin: EdgeInsets.all(10.0),
+                child: ListTile(
+                  title: Text(
+                      "🎁 Contents tour",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                      )
+                  ),
+                  subtitle: Text(
+                      "Tour with my favorite contents.",
+                      style: TextStyle(
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 12,
+                      )
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () async {
+                if(eventPool.length>0){
+                  AutoPath auto = new AutoPath(eventPool, travPref.bias, "pref");
+                  events = auto.makePath(travPref.count);
+                  await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events);
+                }else{
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(
+                    content: Text(
+                      "No events found!\nPlease choose other place or date.",
+                      style: TextStyle(
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlueAccent,
+                  ));
+                }
+                events.clear();
+              },
+              child: Card(
+                margin: EdgeInsets.all(10.0),
+                child: ListTile(
+                  title: Text(
+                      "😊 Emotional Tour",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontFamily: "GmarketSansTTF",
+                        fontSize: 14,
+                      )
+                  ),
+                  subtitle: Text(
+                      "I need a tour with my tempo ;)",
                       style: TextStyle(
                         fontFamily: "GmarketSansTTF",
                         fontSize: 12,

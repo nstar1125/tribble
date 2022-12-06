@@ -10,8 +10,10 @@ class AutoPath{
   late List<String> placeList; //장소 취향 리스트
   late List<String> prefList;  //선호 취향 리스트
   late Event startE;
+  late String type;
 
-  AutoPath(List<Event> eList, List<List<String>> bias){  //생성자
+  AutoPath(List<Event> eList, List<List<String>> bias, String t){  //생성자
+    type = t;
     LangTranslate lt = new LangTranslate();
     foodList = [];
     placeList = [];
@@ -33,6 +35,7 @@ class AutoPath{
       });
     }
     startE = getFirstE();
+       //like, food, place, pref
   }
 
   makePath(int count){  //start event를 기준으로 count만큼 일정이 포함된 event list를 리턴하는 함수
@@ -107,10 +110,28 @@ class AutoPath{
     double distance =
       Geolocator.distanceBetween(s_node.getLat(),s_node.getLng(),e_node.getLat(),e_node.getLng());  //s_node와 e_node간 거리 점수
     double liked = e_node.getLike();
-    int bias  = getDupList(e_node.getFoodChoices(), foodList).length
+    var bias  = getDupList(e_node.getFoodChoices(), foodList).length
                     +getDupList(e_node.getPlaceChoices(), placeList).length
                       +getDupList(e_node.getPrefChoices(), prefList).length;
-    return distance/100 + liked + bias.toDouble();
+    double total = 0;
+    switch(type){
+      case "like":
+        total = (1000-distance)/100 + liked*10 + bias.toDouble();
+        break;
+      case "food":
+        bias += getDupList(e_node.getFoodChoices(), foodList).length*10;
+        total = (1000-distance)/100 + liked + bias.toDouble();
+        break;
+      case "place":
+        bias += getDupList(e_node.getPlaceChoices(), placeList).length*10;
+        total = (1000-distance)/100 + liked + bias.toDouble();
+        break;
+      case "pref":
+        bias += bias += getDupList(e_node.getPrefChoices(), prefList).length*10;
+        total = (1000-distance)/100 + liked + bias.toDouble();
+        break;
+    }
+    return total;
   }
   getDupList(List<String> aList, List<String> bList){
     List<String> newList = [];
