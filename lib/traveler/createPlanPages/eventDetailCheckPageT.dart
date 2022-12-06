@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:like_button/like_button.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:tribble_guide/traveler/createPlanPages/langTranslate.dart';
@@ -46,6 +47,14 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
                 Navigator.of(context).pop();
               },
               icon: Icon(Icons.close)),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right:10),
+              child: LikeButton(
+
+              ),
+            )
+          ],
           title: Text(
             "Event",
             style: TextStyle(

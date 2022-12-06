@@ -136,7 +136,7 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
                               )
                           ),
                           trailing: Text(
-                              "pick!\n  ${documentSnapshot['count'].toInt()}",
+                              "❤️ ${documentSnapshot['count'].toInt()}",
                               style: TextStyle(
                                 fontFamily: "GmarketSansTTF",
                                 fontSize: 12,
