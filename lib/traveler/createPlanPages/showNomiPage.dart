@@ -94,7 +94,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
                       //selectedEvent.setImages();
                       selectedEvent.setTags(allData[i]['tagList'].cast<String>());
                       selectedEvent.setEventId(allData[i]['eventId']);
-                      selectedEvent.setIsBooked(allData[i]['isBooked']);
+                      selectedEvent.setState(allData[i]['state']);
                       selectedEvent.setLike(allData[i]['like']);
                       selectedEvent.setCount(allData[i]['count']);
                       if(selectedEvent.getDate1()==travPref.date){

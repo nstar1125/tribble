@@ -17,7 +17,7 @@ Map<String, dynamic> initEvent = {
   'imageList': <Asset>[],
   'tagList': <String>[],
   'eventId': "",
-  'isBooked': false,
+  'state': "",
   'like': 0.0,
   'count': 0.0
 };
@@ -39,7 +39,7 @@ class Event{
   List<Asset> _imageList = <Asset>[];
   List<String> _tagList = <String>[];
   String _eventId = "";
-  bool _isBooked = false;
+  String _state = "";
   double _like = 0.0;
   double _count = 0.0;
   // like, isBooked, count
@@ -87,8 +87,8 @@ class Event{
   setEventId(String id){
     _eventId = id;
   }
-  setIsBooked(bool book){
-    _isBooked = book;
+  setState(String state){
+    _state = state;
   }
   setLike(double like){
     _like = like;
@@ -161,8 +161,8 @@ class Event{
   String getEventId(){
     return _eventId;
   }
-  bool getIsBooked(){
-    return _isBooked;
+  String getState(){
+    return _state;
   }
   double getLike(){
     return _like;
@@ -189,7 +189,7 @@ class Event{
     'imageList': _imageList,
     'tagList': _tagList,
     'eventId': _eventId,
-    'isBooked': _isBooked,
+    'state': _state,
     'like': _like,
     'count': _count,
   };
@@ -211,7 +211,7 @@ class Event{
     _imageList = json['imageList'].cast<Asset>(),
     _tagList = json['tagList'].cast<String>(),
     _eventId = json['eventId'],
-    _isBooked = json['isBooked'],
+    _state = json['state'],
     _like = json['like'],
     _count = json['count'];
 

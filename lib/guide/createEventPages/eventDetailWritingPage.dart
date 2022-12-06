@@ -93,6 +93,7 @@ class _EventDetailWritingPageState extends State<EventDetailWritingPage> {
     myEvent.setPrefChoices(_selPrefChoices);
     myEvent.setImages(_imageList);
     myEvent.setTags(_tagList);
+    myEvent.setState("available");
 
   }
 

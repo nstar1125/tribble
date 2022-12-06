@@ -436,8 +436,10 @@ class _PlanConfirmPageState extends State<PlanConfirmPage> {
 
                             if(pickList[i]) {
                               db.collection("users").doc(guideId).update({"peanuts": guidePeanuts + 2});
+                              db.collection("events").doc(eventIdList[i]).update({"state": "guide"});
                             } else {
                               db.collection("users").doc(guideId).update({"peanuts": guidePeanuts + 1});
+                              db.collection("events").doc(eventIdList[i]).update({"state": "helper"});
                             }
                           }
 

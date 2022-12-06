@@ -64,8 +64,8 @@ class _EventSearchListPageState extends State<EventSearchListPage> {
 
                 //조건: 거리1km내 && 같은 날 && 같은 해시태그 가지는 &&
                 if((distanceInMeters < 1000)
-                    && (fromPlanLocationObject.tag == "" || documentSnapshot['tagList'].contains(fromPlanLocationObject.tag))   ){
-                      //&& documentSnapshot['date1'] == ltt.time) {
+                    && (fromPlanLocationObject.tag == "" || documentSnapshot['tagList'].contains(fromPlanLocationObject.tag))
+                      && documentSnapshot['date1'] == fromPlanLocationObject.time) {
 
 
 

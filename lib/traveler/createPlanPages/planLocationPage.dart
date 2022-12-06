@@ -57,6 +57,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
   //color
   Color recColor = Colors.grey;
   Color perColor = Colors.grey;
+  Color searchColor = Colors.grey;
   Color completeColor = Colors.grey;
 
   //container change bool
@@ -350,10 +351,11 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 showTitleActions: true,
                                 minTime: DateTime(2000, 1, 1),
                                 maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
-                                  print('confirm $date');
+
                                   _date1 = '${date.year} - ${date.month} - ${date.day}';
                                   setState(() {});
                                 }, currentTime: DateTime.now(), locale: LocaleType.en);
+                             searchColor = Colors.lightBlueAccent;
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -414,47 +416,50 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                backgroundColor: Colors.lightBlueAccent,
+                                backgroundColor: searchColor,
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                // 최대 이벤트 수 6개
-                                if(events.length < 7){
-                                  var fromPlanLocationObject = FromPlanLocation();
-                                  fromPlanLocationObject.locDetail = detail.result;
-                                  fromPlanLocationObject.time = _date1;
-                                  fromPlanLocationObject.tag = _keyword;
-                                  fromPlanLocationObject.events = events;
+                                if(_date1!="Choose Date"){
+                                  if(events.length < 7){
+                                    var fromPlanLocationObject = FromPlanLocation();
+                                    fromPlanLocationObject.locDetail = detail.result;
+                                    fromPlanLocationObject.time = _date1;
+                                    fromPlanLocationObject.tag = _keyword;
+                                    fromPlanLocationObject.events = events;
 
-                                  // pop으로 전달한 arguments를 e가 받음
-                                  Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: fromPlanLocationObject).then((e) {  //장소+키워드+시간
-                                    if (e != null) {
-                                      markers.removeWhere((marker) => marker.markerId.value == "0");
+                                    // pop으로 전달한 arguments를 e가 받음
+                                    Navigator.of(context).pushNamed("/toEventSearchListPage", arguments: fromPlanLocationObject).then((e) {  //장소+키워드+시간
+                                      if (e != null) {
+                                        markers.removeWhere((marker) => marker.markerId.value == "0");
 
-                                      Event myEvent = e as Event;
-                                      events.add(myEvent);
+                                        Event myEvent = e as Event;
+                                        events.add(myEvent);
 
-                                      points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
-                                      polyline.add(Polyline(
-                                        patterns: [
-                                          PatternItem.dash(50),
-                                          PatternItem.gap(50),
-                                        ],
-                                        polylineId: const PolylineId('0'),
-                                        points: points,
-                                        color: Colors.lightBlueAccent,
-                                      ));
+                                        points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                        polyline.add(Polyline(
+                                          patterns: [
+                                            PatternItem.dash(50),
+                                            PatternItem.gap(50),
+                                          ],
+                                          polylineId: const PolylineId('0'),
+                                          points: points,
+                                          color: Colors.lightBlueAccent,
+                                        ));
 
-                                      completeColor  = Colors.lightBlueAccent;
-                                      //set state 포함
-                                      addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                        completeColor  = Colors.lightBlueAccent;
+                                        //set state 포함
+                                        addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
 
-                                      _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
+                                        _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
 
 
-                                    }
-                                  });
+                                      }
+                                    });
+                                  }
                                 }
+                                // 최대 이벤트 수 6개
+
                               },
                               icon: Icon(Icons.manage_search,
                                 color: Colors.black87,

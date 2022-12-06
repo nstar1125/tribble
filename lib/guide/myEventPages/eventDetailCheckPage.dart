@@ -74,6 +74,40 @@ class _EventDetailCheckPageState extends State<EventDetailCheckPage> {
               Row(                                                  //제목
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Icon(Icons.person),
+                    Text(" 상태",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
+                  ]
+              ),
+              Padding(                                                  //위치 정보
+                padding: const EdgeInsets.only(left:20, right:20),
+                child: (e.getState() == "available") ? Text("예약 대기중" ,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: "GmarketSansTTF",
+                      fontSize: 14,
+                    )): (e.getState() == "helper") ? Text("헬퍼 예약완료" ,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: "GmarketSansTTF",
+                      fontSize: 14,
+                    )):Text("가이드 예약완료" ,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: "GmarketSansTTF",
+                      fontSize: 14,
+                    )),
+              ),
+              SizedBox(height:30),
+              Row(                                                  //제목
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Icon(Icons.menu_book),
                     Text(" 제목",
                         style: TextStyle(

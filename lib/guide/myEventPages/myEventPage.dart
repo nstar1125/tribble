@@ -15,6 +15,8 @@ class _MyEventPageState extends State<MyEventPage> {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
   final currentUser = FirebaseAuth.instance;
   Event selectedEvent = Event.fromJson(initEvent);
+  Color helperColor = Color.fromARGB(255, 198, 224, 180);
+  Color guideColor = Color.fromARGB(255, 190, 215, 238);
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +64,15 @@ class _MyEventPageState extends State<MyEventPage> {
                     selectedEvent.setPrefChoices(documentSnapshot['selPrefChoices'].cast<String>());
                     //selectedEvent.setImages();
                     selectedEvent.setTags(documentSnapshot['tagList'].cast<String>());
+                    selectedEvent.setState(documentSnapshot['state']);
 
                     Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: selectedEvent); // 클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서
 
                   },
                   child: Card(
+                    color: (documentSnapshot['state']=="guide") ?
+                      guideColor : (documentSnapshot['state']=="helper") ?
+                        helperColor : Colors.white,
                     margin: EdgeInsets.all(10.0),
                     child: ListTile(
                       title: Text(
