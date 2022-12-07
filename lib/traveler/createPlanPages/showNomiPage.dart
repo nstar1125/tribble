@@ -28,6 +28,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
   getEventPool(TravPref travPref) async{
     //// event pool 생성 시작
 
+
     QuerySnapshot querySnapshot = await db.collection("events").orderBy("date1").get();
     List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
 
@@ -117,10 +118,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "like");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
@@ -177,10 +181,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "food");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
@@ -223,10 +230,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "place");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
@@ -268,10 +278,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "pref");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
