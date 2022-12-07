@@ -57,19 +57,21 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
           selectedEvent.setState(allData[i]['state']);
           selectedEvent.setLike(allData[i]['like']);
           selectedEvent.setCount(allData[i]['count']);
-          if(selectedEvent.getDate1()==travPref.date){
-            bool avail = false;
-            if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
-              avail = true;
-            }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
-              if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
+          if(selectedEvent.getState()=="available"){
+            if(selectedEvent.getDate1()==travPref.date){
+              bool avail = false;
+              if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
                 avail = true;
-              }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
-                avail = true;
+              }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
+                if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
+                  avail = true;
+                }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
+                  avail = true;
+                }
               }
-            }
-            if(avail){
-              eventPool.add(selectedEvent);
+              if(avail){
+                eventPool.add(selectedEvent);
+              }
             }
           }
         }
