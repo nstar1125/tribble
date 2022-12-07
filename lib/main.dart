@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tribble_guide/chatPages/chatloungePage.dart';
@@ -16,6 +18,7 @@ import 'package:tribble_guide/traveler/autoPlanPages/showPathPage.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventDetailCheckPageT.dart';
 import 'package:tribble_guide/traveler/createPlanPages/eventSearchListPage.dart';
 import 'package:tribble_guide/traveler/homePageT.dart';
+import 'package:tribble_guide/traveler/myPlanPages/getAPIPage.dart';
 import 'package:tribble_guide/traveler/myPlanPages/planCheckPage.dart';
 
 import 'package:tribble_guide/traveler/createPlanPages/planConfirm.dart';
@@ -34,6 +37,7 @@ import 'package:tribble_guide/traveler/myPlanPages/myPlanPage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -82,6 +86,17 @@ class MyApp extends StatelessWidget {
 
           '/toShopPage': (context) => const ShopPage(),
 
+
+          '/toGetAPIPage': (context) => const GetAPIPage(),
+
         });
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }

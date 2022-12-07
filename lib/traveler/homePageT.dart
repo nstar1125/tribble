@@ -33,7 +33,7 @@ class _HomePageTState extends State<HomePageT> {
     setState(() {
       markers.add(Marker(
         position: coordinate,
-        markerId: MarkerId("0"),
+        markerId: const MarkerId("0"),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
       ));
       Set<Marker> temp = markers;
@@ -112,7 +112,7 @@ class _HomePageTState extends State<HomePageT> {
 
   @override
   Widget build(BuildContext context) {
-    getTopEvents();
+    //getTopEvents();
     if(stack.length>0){
       if(firstBuild){
         for (int i = 0; i < stack.length; i++) {
@@ -129,7 +129,7 @@ class _HomePageTState extends State<HomePageT> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black87),
+            iconTheme: const IconThemeData(color: Colors.black87),
             actions: [
               GestureDetector(
                 onTap: () async {
@@ -142,13 +142,13 @@ class _HomePageTState extends State<HomePageT> {
                 child: Container(
                     child: Row(
                   children: [
-                    Image(
+                    const Image(
                       image: AssetImage("assets/images/peanut.png"),
                       width: 20,
                     ),
-                    SizedBox(width: 3),
+                    const SizedBox(width: 3),
                     Text("${widget.tempPeanut}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black87,
                             fontFamily: "GmarketSansTTF",
                             fontSize: 14,
@@ -206,11 +206,11 @@ class _HomePageTState extends State<HomePageT> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 340,
                     child: PageView(
                       controller: pageController,
-                      children: [
+                      children: const [
                         Padding(
                             padding: EdgeInsets.only(left: 20, right: 20),
                             child: Image(
@@ -239,10 +239,10 @@ class _HomePageTState extends State<HomePageT> {
                         width: MediaQuery.of(context).size.width - 40,
                         color: Colors.grey),
                   ),
-                  Container(
+                  SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Row(
-                        children: [
+                        children: const [
                           SizedBox(width: 20),
                           Text(
                             "Popular Events",
@@ -254,7 +254,7 @@ class _HomePageTState extends State<HomePageT> {
                           ),
                         ],
                       )),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Column(
                       children: List.generate(stack.length, (i){
                         return GestureDetector(
@@ -269,11 +269,11 @@ class _HomePageTState extends State<HomePageT> {
                             child: Container(
                               height: 200,
                               width: MediaQuery.of(context).size.width,
-                              color: Color.fromARGB(155, 190, 215, 238),
+                              color: const Color.fromARGB(155, 190, 215, 238),
                               child: Column(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         left: 10, right: 10, top: 10),
                                     height: 120,
                                     child: Stack(
@@ -308,11 +308,11 @@ class _HomePageTState extends State<HomePageT> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             left: 10, right: 10, top: 10),
                                         child: Text(
                                             "#${i+1}. "+" "+stack[i].getTitle()!,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.black87,
                                               fontFamily: "GmarketSansTTF",
                                               fontSize: 16,
@@ -323,11 +323,11 @@ class _HomePageTState extends State<HomePageT> {
                                   ),
                                   Center(
                                     child: Container(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 10, right: 10, top: 10),
                                       child: Text(
                                           stack[i].getLocation()!,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.black87,
                                             fontFamily: "GmarketSansTTF",
                                             fontSize: 12,

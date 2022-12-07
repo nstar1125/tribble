@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class InitialPageT extends StatelessWidget {
   const InitialPageT({Key? key}) : super(key: key);
@@ -181,7 +182,7 @@ class InitialPageT extends StatelessWidget {
                       child: IconButton(
                         icon: Image.asset("assets/images/k_logo.png"),
                         onPressed:() {
-
+                          Navigator.pushNamed(context, '/toGetAPIPage');
                         },
                       ),
                     ),

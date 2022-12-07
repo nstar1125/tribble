@@ -96,10 +96,10 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("Remove ?"),
+                  title: const Text("Remove ?"),
                   actions: [
                     TextButton(
-                      child: Text("YES"),
+                      child: const Text("YES"),
                       onPressed: () async {
                         markers.clear();
                         points.remove(coordinate);
@@ -118,7 +118,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                       },
                     ),
                     TextButton(
-                      child: Text("NO"),
+                      child: const Text("NO"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -148,8 +148,8 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
         actions: [
           IconButton(onPressed: _handlePressButton, icon: const Icon(Icons.search))
         ],
-        leading: new IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             markerId = 1;
             Navigator.of(context).pop();
@@ -190,11 +190,11 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                             Navigator.of(context).pushNamed('/toAutoPlanPage', arguments: detail.result);
                           }
                         },
-                        icon: Icon(Icons.recommend,
+                        icon: const Icon(Icons.recommend,
                           color: Colors.black87,
                           size: 14,
                         ),
-                        label: Text("Get recommendation",
+                        label: const Text("Get recommendation",
                             style: TextStyle(
                               color: Colors.black87,
                               fontFamily: "GmarketSansTTF",
@@ -215,11 +215,11 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                             setState(() {});
                           }
                         },
-                        icon: Icon(Icons.edit,
+                        icon: const Icon(Icons.edit,
                           color: Colors.black87,
                           size: 14,
                         ),
-                        label: Text("Make my own tour",
+                        label: const Text("Make my own tour",
                             style: TextStyle(
                               color: Colors.black87,
                               fontFamily: "GmarketSansTTF",
@@ -231,9 +231,9 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                 ),
               ) :
               isShow ? Container(
-                padding: EdgeInsets.only(left: 20, right:20),
+                padding: const EdgeInsets.only(left: 20, right:20),
                 height:300,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20.0),
                       topLeft: Radius.circular(20.0),
@@ -289,7 +289,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                             child: isClikedPersonally? RichText(
                               text: TextSpan(
                                 text: "Currently ",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black87,
                                   fontFamily: "GmarketSansTTF",
                                   fontSize: 14,
@@ -297,14 +297,14 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 children: [
                                 TextSpan(
                                 text: "${events.length} ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                   color: Colors.black87,
                                   fontFamily: "GmarketSansTTF",
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                   ),
                                 ),
-                                TextSpan(
+                                const TextSpan(
                                 text: "events have been chosen.",
                                   style: TextStyle(
                                   color: Colors.black87,
@@ -314,14 +314,14 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 ),
                                 ]
                               ),)
-                            : Text("")
+                            : const Text("")
                         ),
                       ],
                     ),
 
                     Row(                                                  //시간
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
+                        children: const [
                           Icon(Icons.access_time),
                           Text(" Time",
                               style: TextStyle(
@@ -343,9 +343,9 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                               elevation: 0,
                               backgroundColor: Colors.white
                           ),
-                          onPressed: (){
-                            DatePicker.showDatePicker(context,
-                                theme: DatePickerTheme(
+                          onPressed: () async {
+                            await DatePicker.showDatePicker(context,
+                                theme: const DatePickerTheme(
                                   containerHeight: 210.0,
                                 ),
                                 showTitleActions: true,
@@ -368,7 +368,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                     Container(
                                       child: Text(
                                         " $_date1",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.black87,
                                           fontFamily: "GmarketSansTTF",
                                           fontSize: 16,
@@ -385,7 +385,7 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                     ),
                     Row(                                                  //해시태그 검색
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(" # Keyword",
                               style: TextStyle(
                                   color: Colors.black87,
@@ -461,11 +461,11 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                 // 최대 이벤트 수 6개
 
                               },
-                              icon: Icon(Icons.manage_search,
+                              icon: const Icon(Icons.manage_search,
                                 color: Colors.black87,
                                 size: 14,
                               ),
-                              label: Text("Search Event!",
+                              label: const Text("Search Event!",
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontFamily: "GmarketSansTTF",
@@ -492,11 +492,11 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                                   Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: eventsAndPeanutsObject);
                                 }
                               },
-                              icon: Icon(Icons.arrow_forward,
+                              icon: const Icon(Icons.arrow_forward,
                                 color: Colors.black87,
                                 size: 14,
                               ),
-                              label: Text("Complete plan",
+                              label: const Text("Complete plan",
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontFamily: "GmarketSansTTF",
@@ -512,10 +512,10 @@ class _PlanLocationPageState extends State<PlanLocationPage> {
                 ),
               ) :
               Container(
-                padding: EdgeInsets.only(left: 20, right:20),
+                padding: const EdgeInsets.only(left: 20, right:20),
                 height: 20,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20.0),
                     topLeft: Radius.circular(20.0),

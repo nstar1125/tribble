@@ -66,10 +66,10 @@ class _LoungePageTState extends State<LoungePageT> {
         elevation: 20,
         selectedItemColor: Colors.black87,
         selectedLabelStyle:
-            TextStyle(fontFamily: "GmarketSansTTF", fontSize: 12),
+            const TextStyle(fontFamily: "GmarketSansTTF", fontSize: 12),
         unselectedItemColor: Colors.grey,
         unselectedLabelStyle:
-            TextStyle(fontFamily: "GmarketSansTTF", fontSize: 10),
+            const TextStyle(fontFamily: "GmarketSansTTF", fontSize: 10),
         selectedFontSize: 12,
         unselectedFontSize: 12,
         currentIndex: _selectedIndex,
@@ -78,7 +78,6 @@ class _LoungePageTState extends State<LoungePageT> {
             _selectedIndex = index;
             if (index == 1) {
               Navigator.pushNamed(context, '/toPlanLocationPage').then((value) async {
-                print("11*************");
                 // read all documents from collection
                 final db = FirebaseFirestore.instance;
                 DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(loggedUser!.uid).get();
@@ -105,6 +104,7 @@ class _LoungePageTState extends State<LoungePageT> {
             }
             if (index == 3) {
               Navigator.pushNamed(context, '/toChatloungPage');
+
             }
           });
         },

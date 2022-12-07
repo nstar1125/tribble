@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
   bool firstBuild = true;
   @override
   Widget build(BuildContext context) {
-    getTopEvents();
+    //getTopEvents();
     if(stack.length>0){
       if(firstBuild){
         for (int i = 0; i < stack.length; i++) {
