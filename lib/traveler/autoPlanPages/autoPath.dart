@@ -164,25 +164,25 @@ class AutoPath{
     double total = 0;
     switch(type){
       case "like":
-        total = (1000-distance)/100 + liked*10 + bias.toDouble()*10 + (24/(timeDiff+1));
+        total = (1000-distance)/100 + liked*10 + bias.toDouble()*10 + (240/(timeDiff+1));
         break;
       case "food":
         bias += getDupList(e_node.getFoodChoices(), foodList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (24/(timeDiff+1));
+        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (240/(timeDiff+1));
         break;
       case "place":
         bias += getDupList(e_node.getPlaceChoices(), placeList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (24/(timeDiff+1));
+        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (240/(timeDiff+1));
         break;
       case "pref":
         bias += bias += getDupList(e_node.getPrefChoices(), prefList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (24/(timeDiff+1));
+        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (240/(timeDiff+1));
         break;
     }
     print("distance : "+((1000-distance)/100).toString());
     print("liked : "+(liked*10).toString());
     print("bias : "+(bias*10).toString());
-    print("time : "+(24/(timeDiff+1)).toString());
+    print("time : "+(240/(timeDiff+1)).toString());
     print("TOTAL : "+total.toString());
     print("");
     return total;
