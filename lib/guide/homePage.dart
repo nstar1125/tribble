@@ -246,7 +246,8 @@ class _HomePageState extends State<HomePage> {
                       )),
                   SizedBox(height: 20),
                   Column(
-                    children: List.generate(stack.length, (i){
+                    children: List.generate(stack.length, (index){
+                      int i = stack.length-index-1;
                       return GestureDetector(
                         onTap: (){
                           Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: stack[i]); // 클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서
@@ -298,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                                       padding: EdgeInsets.only(
                                           left: 10, right: 10, top: 10),
                                       child: Text(
-                                          "#${i+1}. "+" "+stack[i].getTitle()!,
+                                          "#${index+1}. "+" "+stack[i].getTitle()!,
                                           style: TextStyle(
                                             color: Colors.black87,
                                             fontFamily: "GmarketSansTTF",

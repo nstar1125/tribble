@@ -256,7 +256,8 @@ class _HomePageTState extends State<HomePageT> {
                       )),
                   SizedBox(height: 20),
                   Column(
-                      children: List.generate(stack.length, (i){
+                      children: List.generate(stack.length, (index){
+                        int i = stack.length-index-1;
                         return GestureDetector(
                           onTap: (){
                             var btnnEvent = BtnnEvent();
@@ -311,7 +312,7 @@ class _HomePageTState extends State<HomePageT> {
                                         padding: EdgeInsets.only(
                                             left: 10, right: 10, top: 10),
                                         child: Text(
-                                            "#${i+1}. "+" "+stack[i].getTitle()!,
+                                            "#${index+1}. "+" "+stack[i].getTitle()!,
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontFamily: "GmarketSansTTF",
