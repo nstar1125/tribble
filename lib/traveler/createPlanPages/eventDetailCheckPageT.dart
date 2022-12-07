@@ -6,6 +6,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:tribble_guide/guide/createEventPages/event.dart';
 import 'package:tribble_guide/traveler/createPlanPages/langTranslate.dart';
 import 'package:tribble_guide/traveler/homePageT.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EventDetailCheckPageT extends StatefulWidget {
   const EventDetailCheckPageT({Key? key}) : super(key: key);
@@ -19,6 +21,8 @@ class EventDetailCheckPageT extends StatefulWidget {
 class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
   late GoogleMapController _controller;
   final Set<Marker> markers = {};
+  final db = FirebaseFirestore.instance;
+  final currentUser = FirebaseAuth.instance;
   LangTranslate lt = new LangTranslate();
 
   void addMarker(coordinate) {
@@ -51,7 +55,6 @@ class _EventDetailCheckPageTState extends State<EventDetailCheckPageT> {
             Padding(
               padding: const EdgeInsets.only(right:10),
               child: LikeButton(
-
               ),
             )
           ],

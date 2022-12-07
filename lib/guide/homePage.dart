@@ -61,15 +61,13 @@ class _HomePageState extends State<HomePage> {
     // getting the list of snapshots in our stream
   }
   getTopEvents() async{
-    QuerySnapshot querySnapshot = await db.collection("events").orderBy("count").get();
+    QuerySnapshot querySnapshot = await db.collection("events").orderBy("count", descending:false).get();
     List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
     if(allData.isNotEmpty && stack.length==0) {
       int i = 0;
       double max = 0;
-      for(int i = 0; i < allData.length; i++) {
-        double count = allData[i]['count'];
-        if(count>=max){
-          max = count;
+      for(int i = 0; i < 3; i++) {
+        if(i<allData.length) {
           Event selectedEvent = Event.fromJson(initEvent);
           selectedEvent.setGuideId(allData[i]['guideId']);
           selectedEvent.setGuideName(allData[i]['guideName']);
@@ -86,13 +84,8 @@ class _HomePageState extends State<HomePage> {
           selectedEvent.setEventId(allData[i]['eventId']);
           selectedEvent.setState(allData[i]['state']);
           selectedEvent.setLike(allData[i]['like']);
-          selectedEvent.setCount(allData[i]['count']);
-          if(stack.length<3){
-            stack.add(selectedEvent);
-          }else{
-            stack.add(selectedEvent);
-            stack.removeAt(0);
-          }
+          selectedEvent.setCount(allData[i]['count'].toDouble());
+          stack.add(selectedEvent);
         }
       }
     }
