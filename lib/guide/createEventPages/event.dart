@@ -22,6 +22,50 @@ Map<String, dynamic> initEvent = {
   'count': 0.0
 };
 
+Map<String, dynamic> firstEvent = {
+  'guideId': "Una2GVicvvfrKpwNlj1chFWxw5p2",
+  'guideName': "smkk",
+  'title': "Fish and sushi",
+  'location': "6-12, Yanghwa-ro 7-gil, Mapo-gu, Seoul",
+  'lat': 37.5516159646,
+  'lng': 126.9156105083,
+  'date1': "2022 - 12 - 26",
+  'time1': "18 : 0 ~",
+  'date2': "2022 - 12 - 26",
+  'time2': "20 : 0",
+  'selFoodChoices': ["🍽 식사"],
+  'selPlaceChoices': <String>[],
+  'selPrefChoices': <String>[],
+  'imageList': <Asset>[],
+  'tagList': <String>[],
+  'eventId': "cuYe6Vd3wYKEq4QZpFw5",
+  'state': "available",
+  'like': 5.0,
+  'count': 6.0
+};
+
+Map<String, dynamic> secondEvent = {
+  'guideId': "Una2GVicvvfrKpwNlj1chFWxw5p2",
+  'guideName': "smkk",
+  'title': "Lunch for Dongasue",
+  'location': "39-13, Wausanro-gil, Mapo-gu, Seoul",
+  'lat': 37.5480526094,
+  'lng': 126.9222655578,
+  'date1': "2022 - 12 - 26",
+  'time1': "14 : 0 ~",
+  'date2': "2022 - 12 - 26",
+  'time2': "16 : 0",
+  'selFoodChoices': ["🍽 식사"],
+  'selPlaceChoices': <String>[],
+  'selPrefChoices': <String>[],
+  'imageList': <Asset>[],
+  'tagList': <String>[],
+  'eventId': "9GgUPROgP3GfUPmHSdJi",
+  'state': "available",
+  'like': 5.0,
+  'count': 6.0
+};
+
 class Event{
   String _guideId = "";
   String _guideName = "";
