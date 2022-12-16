@@ -45,7 +45,7 @@
 <img src="https://user-images.githubusercontent.com/66731007/208099265-d69a6e02-6e27-4962-8921-be5bc091ff0b.jpg" width="160" height="400"/>
    
 ---
-## 4. Team (Contributor)
+## 4. Team (Contributors)
 Team Tribbler, 중앙대학교 소프트웨어학부 3학년
 
 |                            [김상민](https://github.com/nstar1125)                             |                          [이동화](https://github.com/tjdrhr02)                           |                          [한동민](https://github.com/han-0315)                           |
