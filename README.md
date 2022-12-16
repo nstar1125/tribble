@@ -51,3 +51,5 @@ Team Tribbler, 중앙대학교 소프트웨어학부 3학년
 |                            [김상민](https://github.com/nstar1125)                             |                          [이동화](https://github.com/tjdrhr02)                           |                          [한동민](https://github.com/han-0315)                           |
 | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
 |                                     Backend(Recommendation Algorithm) + Frontend                                     |                                       Backend(Event Management, Map) + Frontend                                        |                                     Backend(Chat) + Frontend                                     |
+
+###### 2022-2 Capstone Design(1)
