@@ -158,31 +158,39 @@ class AutoPath{
       distance = 0;
       timeDiff = 0;
     }
-    var bias  = getDupList(e_node.getFoodChoices(), foodList).length
-                    +getDupList(e_node.getPlaceChoices(), placeList).length
-                      +getDupList(e_node.getPrefChoices(), prefList).length;
+    var fBias  = getDupList(e_node.getFoodChoices(), foodList).length;
+    var plBias  = getDupList(e_node.getPlaceChoices(), placeList).length;
+    var prBias  = getDupList(e_node.getPrefChoices(), prefList).length;
+    var bias;
     double total = 0;
+    print("distance : "+((1000-distance)/100).toString());
     switch(type){
       case "like":
-        total = (1000-distance)/100 + liked*10 + bias.toDouble()*10 + (24/(timeDiff+1));
+        bias = fBias + plBias + prBias;
+        print("liked : "+(liked*10).toString());
+        print("bias : "+(bias).toString());
+        total = (1000-distance)/100 + liked*10 + bias.toDouble() + (240/(timeDiff+1));
         break;
       case "food":
-        bias += getDupList(e_node.getFoodChoices(), foodList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (24/(timeDiff+1));
+        bias = fBias*10 + plBias*2 + prBias*2;
+        print("liked : "+(liked).toString());
+        print("bias : "+(bias*5).toString());
+        total = (1000-distance)/100 + liked + bias.toDouble()*5 + (240/(timeDiff+1));
         break;
       case "place":
-        bias += getDupList(e_node.getPlaceChoices(), placeList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (24/(timeDiff+1));
+        bias = fBias*2 + plBias*10 + prBias*2;
+        print("liked : "+(liked).toString());
+        print("bias : "+(bias*5).toString());
+        total = (1000-distance)/100 + liked + bias.toDouble()*5 + (240/(timeDiff+1));
         break;
       case "pref":
-        bias += bias += getDupList(e_node.getPrefChoices(), prefList).length*10;
-        total = (1000-distance)/100 + liked + bias.toDouble()*10 + (24/(timeDiff+1));
+        bias = fBias*2 + plBias*2 + prBias*10;
+        print("liked : "+(liked).toString());
+        print("bias : "+(bias*5).toString());
+        total = (1000-distance)/100 + liked + bias.toDouble()*5 + (240/(timeDiff+1));
         break;
     }
-    print("distance : "+((1000-distance)/100).toString());
-    print("liked : "+(liked*10).toString());
-    print("bias : "+(bias*10).toString());
-    print("time : "+(24/(timeDiff+1)).toString());
+    print("time : "+(240/(timeDiff+1)).toString());
     print("TOTAL : "+total.toString());
     print("");
     return total;

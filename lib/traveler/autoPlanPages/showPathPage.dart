@@ -172,38 +172,40 @@ class _ShowPathPageState extends State<ShowPathPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(events.length.toString()),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+
+              Center(
+                child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      backgroundColor: Colors.lightBlueAccent,
+                      elevation: 0,
                     ),
-                    backgroundColor: Colors.lightBlueAccent,
-                    elevation: 0,
-                  ),
-                  onPressed: () async{
+                    onPressed: () async{
 
-                    final db = FirebaseFirestore.instance;
-                    DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
+                      final db = FirebaseFirestore.instance;
+                      DocumentSnapshot<Map<String, dynamic>> docIdSnapshot = await db.collection("users").doc(currentUser.currentUser!.uid!).get();
 
-                    var eventsAndPeanutsObject = EventsAndPeanuts();
-                    eventsAndPeanutsObject.events = events;
-                    eventsAndPeanutsObject.peanuts = await docIdSnapshot.data()!["peanuts"];
-                    if(!events.isEmpty){
-                      Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: eventsAndPeanutsObject);
-                    }
+                      var eventsAndPeanutsObject = EventsAndPeanuts();
+                      eventsAndPeanutsObject.events = events;
+                      eventsAndPeanutsObject.peanuts = await docIdSnapshot.data()!["peanuts"];
+                      if(!events.isEmpty){
+                        Navigator.of(context).pushNamed('/toPlanConfirmPage', arguments: eventsAndPeanutsObject);
+                      }
 
-                  },
-                  icon: Icon(Icons.arrow_forward,
-                    color: Colors.black87,
-                    size: 14,
-                  ),
-                  label: Text("Complete plan",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: "GmarketSansTTF",
-                        fontSize: 12,
-                      ))
+                    },
+                    icon: Icon(Icons.arrow_forward,
+                      color: Colors.black87,
+                      size: 14,
+                    ),
+                    label: Text("Complete plan",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: "GmarketSansTTF",
+                          fontSize: 12,
+                        ))
+                ),
               ),
             ]
           )

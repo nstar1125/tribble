@@ -20,7 +20,10 @@ class HomePageT extends StatefulWidget {
 class _HomePageTState extends State<HomePageT> {
   String userName = "";
   String email = "";
-  List<Event> stack = [];
+  List<Event> stack = [
+    Event.fromJson(firstEvent),
+    Event.fromJson(secondEvent)
+  ];
 
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
   final db = FirebaseFirestore.instance;
@@ -105,7 +108,7 @@ class _HomePageTState extends State<HomePageT> {
 
   @override
   Widget build(BuildContext context) {
-    getTopEvents();
+    // getTopEvents();
     if(stack.length>0){
       if(firstBuild){
         for (int i = 0; i < stack.length; i++) {
