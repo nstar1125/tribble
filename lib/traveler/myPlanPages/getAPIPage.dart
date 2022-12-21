@@ -85,7 +85,7 @@ class _GetAPIPageState extends State<GetAPIPage> {
         'selPrefChoices': myprefs,
         'imageList': <Asset>[],
         'tagList': tagLists[rand(tagLists.length)],
-        'state': states[rand(states.length)],
+        'state': "available",
         'like': rand(6).toDouble(),
         'count': rand(6).toDouble(),
       }).then((documentSnapshot) async => await db.collection('events').doc(documentSnapshot.id).update({"eventId": documentSnapshot.id}));

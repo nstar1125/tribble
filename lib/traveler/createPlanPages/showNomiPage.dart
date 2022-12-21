@@ -28,6 +28,7 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
   getEventPool(TravPref travPref) async{
     //// event pool 생성 시작
 
+
     QuerySnapshot querySnapshot = await db.collection("events").orderBy("date1").get();
     List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
 
@@ -56,19 +57,21 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
           selectedEvent.setState(allData[i]['state']);
           selectedEvent.setLike(allData[i]['like']);
           selectedEvent.setCount(allData[i]['count']);
-          if(selectedEvent.getDate1()==travPref.date){
-            bool avail = false;
-            if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
-              avail = true;
-            }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
-              if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
+          if(selectedEvent.getState()=="available"){
+            if(selectedEvent.getDate1()==travPref.date){
+              bool avail = false;
+              if(getHour(selectedEvent.getTime1())>getHour(travPref.time)){
                 avail = true;
-              }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
-                avail = true;
+              }else if(getHour(selectedEvent.getTime1())==getHour(travPref.time)){
+                if(getMinute(selectedEvent.getTime1())>getMinute(travPref.time)) {
+                  avail = true;
+                }else if(getMinute(selectedEvent.getTime1())==getMinute(travPref.time)){
+                  avail = true;
+                }
               }
-            }
-            if(avail){
-              eventPool.add(selectedEvent);
+              if(avail){
+                eventPool.add(selectedEvent);
+              }
             }
           }
         }
@@ -117,10 +120,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "like");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
@@ -177,10 +183,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "food");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
@@ -223,10 +232,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "place");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{
@@ -268,10 +280,13 @@ class _ShowNomiPageState extends State<ShowNomiPage> {
             GestureDetector(
               onTap: () async {
                 if(eventPool.length>0){
+                  print("Pool : "+(eventPool.length).toString());
                   AutoPath auto = new AutoPath(eventPool, travPref.bias, "pref");
                   events = auto.makePath(travPref.count);
                   await Navigator.of(context).pushNamed('/toShowPathPage', arguments: events).then((e){
+                    eventPool= [];
                     getEventPool(travPref);
+                    print("Pool end : "+(eventPool.length).toString());
                     events.clear();
                   });
                 }else{

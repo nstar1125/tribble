@@ -25,7 +25,7 @@ class ShowPathPage extends StatefulWidget {
 
 class _ShowPathPageState extends State<ShowPathPage> {
   // related google map
-  static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.5052, 126.9571), zoom: 14.0);
+  static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.5558499, 126.9241498), zoom: 14.0);
   Set<Marker> markers = {};
   static int markerId = 1;
   late GoogleMapController _controller;

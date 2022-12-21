@@ -67,15 +67,13 @@ class _HomePageTState extends State<HomePageT> {
     // getting the list of snapshots in our stream
   }
   getTopEvents() async{
-    QuerySnapshot querySnapshot = await db.collection("events").orderBy("count").get();
+    QuerySnapshot querySnapshot = await db.collection("events").orderBy("count", descending:false).get();
     List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
     if(allData.isNotEmpty && stack.length==0) {
       int i = 0;
       double max = 0;
-      for(int i = 0; i < allData.length; i++) {
-        double count = allData[i]['count'];
-        if(count>=max){
-          max = count;
+      for(int i = 0; i < 3; i++) {
+        if(i<allData.length) {
           Event selectedEvent = Event.fromJson(initEvent);
           selectedEvent.setGuideId(allData[i]['guideId']);
           selectedEvent.setGuideName(allData[i]['guideName']);
@@ -93,12 +91,7 @@ class _HomePageTState extends State<HomePageT> {
           selectedEvent.setState(allData[i]['state']);
           selectedEvent.setLike(allData[i]['like']);
           selectedEvent.setCount(allData[i]['count']);
-          if(stack.length<3){
-            stack.add(selectedEvent);
-          }else{
-            stack.add(selectedEvent);
-            stack.removeAt(0);
-          }
+          stack.add(selectedEvent);
         }
       }
     }
@@ -112,7 +105,7 @@ class _HomePageTState extends State<HomePageT> {
 
   @override
   Widget build(BuildContext context) {
-    //getTopEvents();
+    getTopEvents();
     if(stack.length>0){
       if(firstBuild){
         for (int i = 0; i < stack.length; i++) {
@@ -256,7 +249,8 @@ class _HomePageTState extends State<HomePageT> {
                       )),
                   const SizedBox(height: 20),
                   Column(
-                      children: List.generate(stack.length, (i){
+                      children: List.generate(stack.length, (index){
+                        int i = stack.length-index-1;
                         return GestureDetector(
                           onTap: (){
                             var btnnEvent = BtnnEvent();
@@ -311,8 +305,8 @@ class _HomePageTState extends State<HomePageT> {
                                         padding: const EdgeInsets.only(
                                             left: 10, right: 10, top: 10),
                                         child: Text(
-                                            "#${i+1}. "+" "+stack[i].getTitle()!,
-                                            style: const TextStyle(
+                                            "#${index+1}. "+" "+stack[i].getTitle()!,
+                                            style: TextStyle(
                                               color: Colors.black87,
                                               fontFamily: "GmarketSansTTF",
                                               fontSize: 16,
