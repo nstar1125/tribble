@@ -104,6 +104,24 @@ class _MyPlanPageState extends State<MyPlanPage> {
                             fontSize: 12,
                           )
                       ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          // available로 바꾸기
+                          for (int i = 0; i < documentSnapshot['eventList'].length; i++){
+                            String eventId = documentSnapshot['eventList'][i];
+                            final docEvent = db.collection("events").doc(eventId);
+
+                            await docEvent.update({
+                              'state': 'available',
+                            });
+                          }
+
+                          // 삭제
+                          DocumentReference docIdRef = collectionRef.doc(documentSnapshot.id);
+                          docIdRef.delete();
+                        },
+                      ),
                     ),
                   ),
                 );

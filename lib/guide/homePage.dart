@@ -17,7 +17,10 @@ class _HomePageState extends State<HomePage> {
   int _peanut_count = 0;
   String userName = "";
   String email = "";
-  List<Event> stack = [];
+  List<Event> stack = [
+    Event.fromJson(firstEvent),
+    Event.fromJson(secondEvent)
+  ];
 
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('events');
   final db = FirebaseFirestore.instance;
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
       if(firstBuild){
         for (int i = 0; i < stack.length; i++) {
           addMarker(LatLng(stack[i].getLat(), stack[i].getLng()));
-        firstBuild = false;
+          firstBuild = false;
         }
       }
     }
@@ -124,67 +127,67 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: Container(
                     child: Row(
-                  children: [
-                    Image(
-                      image: AssetImage("assets/images/peanut.png"),
-                      width: 20,
-                    ),
-                    SizedBox(width: 3),
-                    Text("${_peanut_count}",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontFamily: "GmarketSansTTF",
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(width: 20)
-                  ],
-                )),
+                      children: [
+                        Image(
+                          image: AssetImage("assets/images/peanut.png"),
+                          width: 20,
+                        ),
+                        SizedBox(width: 3),
+                        Text("${_peanut_count}",
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontFamily: "GmarketSansTTF",
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold)),
+                        SizedBox(width: 20)
+                      ],
+                    )),
               )
             ],
             backgroundColor: Colors.white,
           ),
           drawer: Drawer(
               child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 50),
-            children: <Widget>[
-              Icon(
-                Icons.account_circle,
-                size: 150,
-                color: Colors.grey[700],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                userName,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              const Divider(
-                height: 2,
-              ),
-              ListTile(
-                onTap: () {
-                  nextScreen(
-                      context,
-                      ProfilePage(
-                        userName: userName,
-                        email: email,
-                      ));
-                },
-                contentPadding:
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                children: <Widget>[
+                  Icon(
+                    Icons.account_circle,
+                    size: 150,
+                    color: Colors.grey[700],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    userName,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Divider(
+                    height: 2,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      nextScreen(
+                          context,
+                          ProfilePage(
+                            userName: userName,
+                            email: email,
+                          ));
+                    },
+                    contentPadding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                leading: const Icon(Icons.group),
-                title: const Text(
-                  "Profile",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ],
-          )),
+                    leading: const Icon(Icons.group),
+                    title: const Text(
+                      "Profile",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              )),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -239,88 +242,88 @@ class _HomePageState extends State<HomePage> {
                       )),
                   SizedBox(height: 20),
                   Column(
-                    children: List.generate(stack.length, (index){
-                      int i = stack.length-index-1;
-                      return GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: stack[i]); // 클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:20, right:20,bottom:20),
-                          child: Container(
-                            height: 200,
-                            width: MediaQuery.of(context).size.width,
-                            color: Color.fromARGB(155, 190, 215, 238),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: 10, right: 10, top: 10),
-                                  height: 120,
-                                  child: Stack(
-                                    children: [
-                                      GoogleMap(
-                                        zoomGesturesEnabled: false,
-                                        zoomControlsEnabled: false,
-                                        initialCameraPosition:
-                                        CameraPosition(
-                                          target: LatLng(
-                                              stack[i].getLat(),
-                                              stack[i].getLng()),
-                                          zoom: 15.0,
+                      children: List.generate(stack.length, (index){
+                        int i = stack.length-index-1;
+                        return GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).pushNamed('/toEventDetailCheckPage', arguments: stack[i]); // 클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감, WritingPage에서
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left:20, right:20,bottom:20),
+                            child: Container(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width,
+                              color: Color.fromARGB(155, 190, 215, 238),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        left: 10, right: 10, top: 10),
+                                    height: 120,
+                                    child: Stack(
+                                      children: [
+                                        GoogleMap(
+                                          zoomGesturesEnabled: false,
+                                          zoomControlsEnabled: false,
+                                          initialCameraPosition:
+                                          CameraPosition(
+                                            target: LatLng(
+                                                stack[i].getLat(),
+                                                stack[i].getLng()),
+                                            zoom: 15.0,
+                                          ),
+                                          markers: markersList[i],
+                                          onMapCreated: (GoogleMapController
+                                          controller) {
+                                            setState(() {
+                                              _controller = controller;
+                                            });
+                                          },
                                         ),
-                                        markers: markersList[i],
-                                        onMapCreated: (GoogleMapController
-                                        controller) {
-                                          setState(() {
-                                            _controller = controller;
-                                          });
-                                        },
-                                      ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          height: 120,
+                                          color: Colors.transparent,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
                                       Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        height: 120,
-                                        color: Colors.transparent,
-                                      ),
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10, top: 10),
+                                        child: Text(
+                                            "#${index+1}. "+" "+stack[i].getTitle()!,
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontFamily: "GmarketSansTTF",
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                      )
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
+                                  Center(
+                                    child: Container(
                                       padding: EdgeInsets.only(
                                           left: 10, right: 10, top: 10),
                                       child: Text(
-                                          "#${index+1}. "+" "+stack[i].getTitle()!,
+                                          stack[i].getLocation()!,
                                           style: TextStyle(
                                             color: Colors.black87,
                                             fontFamily: "GmarketSansTTF",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
                                           )),
-                                    )
-                                  ],
-                                ),
-                                Center(
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        left: 10, right: 10, top: 10),
-                                    child: Text(
-                                        stack[i].getLocation()!,
-                                        style: TextStyle(
-                                          color: Colors.black87,
-                                          fontFamily: "GmarketSansTTF",
-                                          fontSize: 12,
-                                        )),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    })
+                        );
+                      })
                   ),
                 ],
               ),
